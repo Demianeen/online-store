@@ -8,7 +8,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
 
   declare email: string
   declare password: string
-  declare role: string
+  declare role: CreationOptional<string>
 
   declare createdAt: CreationOptional<Date>
   declare updatedAt: CreationOptional<Date>

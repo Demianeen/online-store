@@ -5,7 +5,8 @@ import dotenv from 'dotenv'
 import { userRequestLogin, userRequestRegistration } from './../../types/controllers/userController.js'
 import { userRequestCheck } from '../../types/controllers/userController.js'
 import ApiError from '../error/ApiError.js'
-import { Basket, User } from '../models/models.js'
+import { Basket } from '../models/Basket.js'
+import { User } from '../models/User.js'
 
 dotenv.config()
 

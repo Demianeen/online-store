@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { brandRequest } from '../../types/controllers/brandController.js'
 import ApiError from '../error/ApiError.js'
-import { Brand } from '../models/models.js'
+import { Brand } from '../models/Brand.js'
 
 class DeviceController {
   async create (req: brandRequest, res: Response, next: NextFunction): Promise<void> {

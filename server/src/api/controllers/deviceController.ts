@@ -3,7 +3,8 @@ import { deviceRequestCreate, deviceRequestGetMany, IDeviceInfo, IRequestParamsG
 import { v4 as uuidv4 } from 'uuid'
 import ApiError from '../error/ApiError.js'
 import path from 'path'
-import { DeviceInfo, Device } from '../models/models.js'
+import { Device } from '../models/Device.js'
+import { DeviceInfo } from '../models/DeviceInfo.js'
 
 class TypeController {
   async create (req: deviceRequestCreate, res: Response, next: NextFunction): Promise<void> {

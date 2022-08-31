@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { NextFunction, Response, Request } from 'express'
-import { User } from '../models/models.js'
+import { User } from '../models/User.js'
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction): void | Response => {
   if (req.method === 'OPTIONS') {

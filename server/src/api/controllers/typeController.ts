@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { typeRequest } from '../../types/controllers/typeController.js'
 import ApiError from '../error/ApiError.js'
-import { Type } from '../models/models.js'
+import { Type } from '../models/Type.js'
 
 class TypeController {
   async create (req: typeRequest, res: Response, next: NextFunction): Promise<void> {
