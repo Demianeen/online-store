@@ -16,19 +16,19 @@ const deviceSlice = createSlice({
   name: 'device',
   initialState,
   reducers: {
-    setTypes(
+    setTypes (
       state: IDeviceState,
       action: PayloadAction<IType[]>
     ) {
       state.types = action.payload
     },
-    setBrands(
+    setBrands (
       state: IDeviceState,
       action: PayloadAction<IBrand[]>
     ) {
       state.brands = action.payload
     },
-    setDevices(
+    setDevices (
       state: IDeviceState,
       action: PayloadAction<IDevice[]>
     ) {

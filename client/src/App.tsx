@@ -1,13 +1,11 @@
 import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
 import AppRouter from './components/AppRouter/AppRouter'
+import withLayout from './layout/Layout'
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <AppRouter></AppRouter>
-    </BrowserRouter>
+    <AppRouter></AppRouter>
   )
 }
 
-export default App
+export default withLayout(App)
