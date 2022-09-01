@@ -1,10 +1,11 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
+import { useAppSelector } from '../../hooks/redux'
 import ErrorPage from '../../pages/404'
 import { authRoutes, publicRoutes } from '../../routes'
 
-const AppRouter = (): JSX.Element => {
-  const isAuth = false
+const AppRouter = () => {
+  const { isAuth } = useAppSelector(store => store.user)
   return (
     <Routes>
       {isAuth && authRoutes.map(({ path, Component }) =>
