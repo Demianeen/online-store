@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Auth = (): JSX.Element => {
+const Auth = () => {
   return (
     <div>Auth</div>
   )

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Shop = (): JSX.Element => {
+const Shop = () => {
   return (
     <div>Shop</div>
   )

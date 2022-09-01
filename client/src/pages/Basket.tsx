@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Basket = (): JSX.Element => {
+const Basket = () => {
   return (
     <div>Basket</div>
   )

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ErrorPage = (): JSX.Element => {
+const ErrorPage = () => {
   return (
     <div>Page not found</div>
   )

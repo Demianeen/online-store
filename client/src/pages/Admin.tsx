@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Admin = (): JSX.Element => {
+export const Admin = () => {
   return (
     <div>Admin</div>
   )

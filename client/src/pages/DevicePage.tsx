@@ -1,6 +1,6 @@
 import React from 'react'
 
-const DevicePage = (): JSX.Element => {
+const DevicePage = () => {
   return (
     <div>Device Page</div>
   )
