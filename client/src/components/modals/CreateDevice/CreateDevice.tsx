@@ -4,7 +4,7 @@ import { IInfo } from '../../../store/reducers/DeviceSlice/types'
 // import { IInfo } from '../../../store/reducers/DeviceSlice/types'
 import FormSelect from '../../FormSelect/FormSelect'
 import Modal from '../Modal/Modal'
-import ModalItem from '../ModalItem/ModalItem'
+import FormInput from '../../FormInput/FormInput'
 import { ICreateDevice } from './CreateDevice.types'
 
 const CreateDevice = ({ ...props }: ICreateDevice) => {
@@ -25,9 +25,9 @@ const CreateDevice = ({ ...props }: ICreateDevice) => {
 
   return (
     <Modal {...props}>
-      <ModalItem name={'name'} />
-      <ModalItem name={'price'} />
-      <ModalItem name={'rating'} />
+      <FormInput name={'name'} />
+      <FormInput name={'price'} />
+      <FormInput name={'rating'} />
       <FormSelect name={'type'}>
         {types.map(({ name, id }) =>
           <option value={name} key={id}>{name}</option>
@@ -38,7 +38,7 @@ const CreateDevice = ({ ...props }: ICreateDevice) => {
           <option value={name} key={id}>{name}</option>
         )}
       </FormSelect>
-      <ModalItem name={'img'} type={'file'} />
+      <FormInput name={'img'} type={'file'} />
       <button type={'button'} onClick={() => addInfo()}>{'Add info'}</button>
       <ul>
         {info.map(({ title, text, id }) =>
