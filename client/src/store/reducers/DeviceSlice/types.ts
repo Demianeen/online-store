@@ -8,6 +8,12 @@ export interface IBrand {
   name: string
 }
 
+export interface IInfo {
+  id: number
+  title: string
+  text: string
+}
+
 export interface IDevice {
   id: number
   name: string
@@ -18,10 +24,13 @@ export interface IDevice {
   BrandId: number
   createdAt: Date
   updatedAt: Date
+  info?: IInfo[]
 }
 
 export interface IDeviceState {
   types: IType[]
   brands: IBrand[]
   devices: IDevice[]
+  selectedType: string | null
+  selectedBrand: string | null
 }

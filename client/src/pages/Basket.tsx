@@ -2,7 +2,7 @@ import React from 'react'
 
 const Basket = () => {
   return (
-    <div>Basket</div>
+    <div>{'Basket'}</div>
   )
 }
 

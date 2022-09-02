@@ -1,13 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import userSlice from '../../store/reducers/UserSlice/slice'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAppSelector } from '../../hooks/redux'
 import { Routes } from '../../utils/consts'
 import { HeaderProps } from './Header.props'
 
 const Header = ({ ...props }: HeaderProps) => {
-  const dispatch = useAppDispatch()
-  const { setIsAuth } = userSlice.actions
+  const navigate = useNavigate()
   const { isAuth } = useAppSelector(store => store.user)
   return (
     <header
@@ -17,11 +15,10 @@ const Header = ({ ...props }: HeaderProps) => {
         justifyContent: 'space-between',
         padding: '15px',
         background: 'gray'
-      }
-      }
+      }}
       {...props}
     >
-      <Link to={Routes.SHOP_ROUTE}>ShopName</Link>
+      <Link to={Routes.SHOP_ROUTE}>{'ShopName'}</Link>
       {isAuth
         ? <div style={{
           display: 'flex',
@@ -29,8 +26,8 @@ const Header = ({ ...props }: HeaderProps) => {
           justifyContent: 'space-between',
           width: '15%'
         }}>
-          <button>Admin Panel</button>
-          <button>Logout</button>
+          <button onClick={() => navigate(Routes.ADMIN_ROUTE)}>{'Admin Panel'}</button>
+          <button onClick={() => navigate(Routes.LOGIN_ROUTE)}>{'Logout'}</button>
         </div>
 
         : <div style={{
@@ -39,7 +36,7 @@ const Header = ({ ...props }: HeaderProps) => {
           justifyContent: 'space-between',
           width: '15%'
         }}>
-          <button>Login</button>
+          <button onClick={() => navigate(Routes.LOGIN_ROUTE)}>{'Login'}</button>
         </div>
       }
     </header >
