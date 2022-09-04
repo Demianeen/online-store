@@ -6,7 +6,7 @@ import path from 'path'
 import { Device } from '../models/Device.js'
 import { DeviceInfo } from '../models/DeviceInfo.js'
 
-class TypeController {
+class DeviceController {
   async create (req: deviceRequestCreate, res: Response, next: NextFunction): Promise<void> {
     try {
       const { BrandId, TypeId, info, name, price } = req.body
@@ -80,4 +80,4 @@ class TypeController {
   }
 }
 
-export default new TypeController()
+export default new DeviceController()
