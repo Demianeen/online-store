@@ -24,7 +24,7 @@ export class Device extends Model<InferAttributes<Device>, InferCreationAttribut
 Device.init(
   {
     id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },

@@ -1,4 +1,4 @@
-import { User } from '../api/models/models.js'
+import { User } from '../api/models/User.js'
 
 // declare namespace Express {
 //   export interface Request {

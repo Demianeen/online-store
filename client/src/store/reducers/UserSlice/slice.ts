@@ -2,7 +2,7 @@ import { IUserState } from './types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: IUserState = {
-  isAuth: true,
+  isAuth: false,
   user: {}
 }
 

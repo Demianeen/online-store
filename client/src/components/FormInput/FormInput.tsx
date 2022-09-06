@@ -10,7 +10,7 @@ const FormInput = ({ name, ...props }: IFormInput) => {
     <>
       <label>
         {capitalizeFirstLetter(name)}
-        <input placeholder={'Your ' + name} {...props} />
+        <input placeholder={name} {...props} />
       </label>
     </>
   )

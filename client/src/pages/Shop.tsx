@@ -1,14 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
+import { fetchBrands, fetchDevices, fetchTypes } from '../http/deviceApi'
 import deviceSlice from '../store/reducers/DeviceSlice/slice'
 import { Routes } from '../utils/consts'
 
 const Shop = () => {
   const navigate = useNavigate()
+
   const dispatch = useAppDispatch()
-  const { selectType, selectBrand } = deviceSlice.actions
-  const { devices, types, selectedType, brands, selectedBrand } = useAppSelector(store => store.device)
+  const { setTypes, setBrands, setDevices, selectType, selectBrand } = deviceSlice.actions
+  const { devices, types, selectedType, brands, selectedBrand } =
+    useAppSelector(store => store.device)
+
+  useEffect(() => {
+    const getInitialProps = async () => {
+      // eslint-disable-next-line
+      const types = await fetchTypes()
+      const brands = await fetchBrands()
+      const devicesAndCount = await fetchDevices()
+      dispatch(setTypes(types))
+      dispatch(setBrands(brands))
+      dispatch(setDevices(devicesAndCount.rows))
+    }
+    getInitialProps()
+  }, [])
+
   return (
     <div style={{
       display: 'grid',
@@ -79,7 +96,7 @@ const Shop = () => {
                 boxSizing: 'border-box'
               }}
             >
-              <img src={img} alt={name} style={{ width: '100%' }} />
+              <img src={process.env.REACT_APP_API_URL + img} alt={name} style={{ width: '100%' }} />
               <p>{name}</p>
               <p>{price}{'$'}</p>
             </div>

@@ -1,26 +1,23 @@
 import React, { useState } from 'react'
+import CreateBrand from '../components/modals/CreateBrand/CreateBrand'
 import CreateDevice from '../components/modals/CreateDevice/CreateDevice'
-import Modal from '../components/modals/Modal/Modal'
-import FormInput from '../components/FormInput/FormInput'
+import CreateType from '../components/modals/CreateType/CreateType'
 
 export const Admin = () => {
   const [isTypeVisible, setIsTypeVisible] = useState(false)
   const [isBrandVisible, setIsBrandVisible] = useState(false)
   const [isDeviceVisible, setIsDeviceVisible] = useState(false)
+
   return (
     <div>
       <button onClick={() => setIsTypeVisible(true)}>{'Add type'}</button>
-      <Modal isVisible={isTypeVisible} hide={() => setIsTypeVisible(false)}>
-        <FormInput name={'name'} />
-      </Modal>
+      <CreateType hide={() => setIsTypeVisible(false)} isVisible={isTypeVisible} />
 
       <button onClick={() => setIsBrandVisible(true)}>{'Add brand'}</button>
-      <Modal isVisible={isBrandVisible} hide={() => setIsBrandVisible(false)}>
-        <FormInput name={'name'} />
-      </Modal>
+      <CreateBrand hide={() => setIsTypeVisible(false)} isVisible={isBrandVisible} />
 
       <button onClick={() => setIsDeviceVisible(true)}>{'Add device'}</button>
-      <CreateDevice isVisible={isDeviceVisible} hide={() => setIsDeviceVisible(false)} />
+      <CreateDevice hide={() => setIsDeviceVisible(false)} isVisible={isDeviceVisible} />
     </div>
   )
 }

@@ -1,31 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { fetchOneDevice } from '../http/deviceApi'
 import { IDevice } from '../store/reducers/DeviceSlice/types'
 
 const DevicePage = () => {
-  const { img, price, rating, name }: IDevice = { id: 1, BrandId: 1, TypeId: 1, img: 'https://media.currys.biz/i/currysprod/10236204?$l-large$&fmt=auto', name: 'iphone 13', price: 799, rating: 4, createdAt: new Date(), updatedAt: new Date() }
-  const desc = [
-    { id: 1, title: 'RAM', text: '5GB' },
-    { id: 2, title: 'Memory', text: '128GB' },
-    { id: 3, title: 'Camera', text: '12Mp' },
-    { id: 4, title: 'Processor', text: 'A13 Bionic' }
-  ]
+  const [device, setDevice] = useState<IDevice | undefined>(undefined)
+  // const desc = []
+  const { id } = useParams<'id'>()
+
+  useEffect(() => {
+    const getInitialProps = async () => {
+      if (id !== undefined) {
+        const fetchedDevice = await fetchOneDevice(parseInt(id))
+        setDevice(fetchedDevice)
+      }
+    }
+    getInitialProps()
+  }, [])
+
+  if (device === undefined) {
+    return <p>{'Loading...'}</p>
+  }
+
   return (
     <div>
       <div style={{
         display: 'grid',
         gridTemplateColumns: '3fr 6fr'
       }}>
-        <img src={img} alt={name} />
+        <img src={process.env.REACT_APP_API_URL + device.img} alt={device.name} />
         <div>
-          <h2>{name}</h2>
-          <p>{'Rating: '}{rating}</p>
-          <p>{price}{'$'}</p>
+          <h2>{device.name}</h2>
+          <p>{'Rating: '}{device.rating}</p>
+          <p>{device.price}{'$'}</p>
           <button>{'Add to Basket'}</button>
         </div>
       </div>
       <div>
         <ul style={{ listStyle: 'none' }}>
-          {desc.map(({ id, title, text }) =>
+          {device.info?.map(({ id, title, desc: text }) =>
             <li key={id}>{title}{': '}{text}</li>
           )}
         </ul>

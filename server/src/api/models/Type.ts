@@ -16,7 +16,7 @@ export class Type extends Model<InferAttributes<Type>, InferCreationAttributes<T
 Type.init(
   {
     id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
