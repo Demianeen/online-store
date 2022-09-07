@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
-import { User } from '../models/models.js'
+import { User } from '../models/User.js
 
 const checkRoleMiddleware = (role: User['role']) => {
   return (req: Request, res: Response, next: NextFunction) => {

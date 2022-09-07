@@ -1,10 +1,4 @@
-import { User } from '../api/models/models.js'
-
-// declare namespace Express {
-//   export interface Request {
-//     user?: string | JwtPayload
-//   }
-// }
+import { User } from '../api/models/User.js'
 
 declare global {
   namespace Express {

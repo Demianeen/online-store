@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
 import { brandRequest } from '../../types/controllers/brandController.js'
 import ApiError from '../error/ApiError.js'
-import { Brand } from '../models/models.js'
+import { Brand } from '../models/Brand.js'
 
-class DeviceController {
+class BrandController {
+
   async create (req: brandRequest, res: Response, next: NextFunction): Promise<void> {
     const { name } = req.body
     if (!name) {
@@ -19,4 +20,5 @@ class DeviceController {
   }
 }
 
-export default new DeviceController()
+
+export default new BrandController()
