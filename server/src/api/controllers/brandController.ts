@@ -4,6 +4,7 @@ import ApiError from '../error/ApiError.js'
 import { Brand } from '../models/Brand.js'
 
 class BrandController {
+
   async create (req: brandRequest, res: Response, next: NextFunction): Promise<void> {
     const { name } = req.body
     if (!name) {
@@ -18,5 +19,6 @@ class BrandController {
     res.json(brands)
   }
 }
+
 
 export default new BrandController()

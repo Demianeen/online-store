@@ -80,4 +80,5 @@ class DeviceController {
   }
 }
 
+
 export default new DeviceController()
