@@ -38,7 +38,7 @@ export interface IDevice {
   name: string
   price: number
   rating: number
-  img: File
+  img: string
   TypeId: number
   BrandId: number
   createdAt: Date
@@ -59,6 +59,9 @@ export interface IDeviceState {
   types: IType[]
   brands: IBrand[]
   devices: IDevice[]
-  selectedType: string | null
-  selectedBrand: string | null
+  limit: number
+  page: number
+  amountOfDevices: number
+  selectedTypeId: number | undefined
+  selectedBrandId: number | undefined
 }

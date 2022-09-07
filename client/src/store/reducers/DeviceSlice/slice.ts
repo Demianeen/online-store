@@ -5,8 +5,11 @@ const initialState: IDeviceState = {
   types: [],
   brands: [],
   devices: [],
-  selectedType: null,
-  selectedBrand: null
+  amountOfDevices: 0,
+  limit: 2,
+  page: 1,
+  selectedTypeId: undefined,
+  selectedBrandId: undefined
 }
 
 const deviceSlice = createSlice({
@@ -33,15 +36,35 @@ const deviceSlice = createSlice({
     },
     selectType (
       state: IDeviceState,
-      action: PayloadAction<string>
+      action: PayloadAction<number>
     ) {
-      state.selectedType = action.payload
+      state.page = 1
+      state.selectedTypeId = action.payload
     },
     selectBrand (
       state: IDeviceState,
-      action: PayloadAction<string>
+      action: PayloadAction<number>
     ) {
-      state.selectedBrand = action.payload
+      state.page = 1
+      state.selectedBrandId = action.payload
+    },
+    setAmountOfDevices (
+      state: IDeviceState,
+      action: PayloadAction<number>
+    ) {
+      state.amountOfDevices = action.payload
+    },
+    setLimit (
+      state: IDeviceState,
+      action: PayloadAction<number>
+    ) {
+      state.limit = action.payload
+    },
+    setPage (
+      state: IDeviceState,
+      action: PayloadAction<number>
+    ) {
+      state.page = action.payload
     }
   }
 })

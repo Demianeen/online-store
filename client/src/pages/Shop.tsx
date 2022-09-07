@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Pagination from '../components/Pagination/Pagination'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import { fetchBrands, fetchDevices, fetchTypes } from '../http/deviceApi'
 import deviceSlice from '../store/reducers/DeviceSlice/slice'
@@ -9,25 +10,35 @@ const Shop = () => {
   const navigate = useNavigate()
 
   const dispatch = useAppDispatch()
-  const { setTypes, setBrands, setDevices, selectType, selectBrand } = deviceSlice.actions
-  const { devices, types, selectedType, brands, selectedBrand } =
+  const { setTypes, setBrands, setDevices, setAmountOfDevices, selectType, selectBrand } = deviceSlice.actions
+  const { devices, types, brands, selectedTypeId, selectedBrandId, limit, page } =
     useAppSelector(store => store.device)
 
   useEffect(() => {
     const getInitialProps = async () => {
-      // eslint-disable-next-line
       const types = await fetchTypes()
       const brands = await fetchBrands()
-      const devicesAndCount = await fetchDevices()
+      const devicesAndCount = await fetchDevices(limit, page)
+
       dispatch(setTypes(types))
       dispatch(setBrands(brands))
       dispatch(setDevices(devicesAndCount.rows))
+      dispatch(setAmountOfDevices(devicesAndCount.count))
     }
     getInitialProps()
   }, [])
 
+  useEffect(() => {
+    const getDevices = async () => {
+      const devicesAndCount = await fetchDevices(limit, page, selectedTypeId, selectedBrandId)
+      dispatch(setDevices(devicesAndCount.rows))
+      dispatch(setAmountOfDevices(devicesAndCount.count))
+    }
+    getDevices()
+  }, [page, selectedBrandId, selectedTypeId])
+
   return (
-    <div style={{
+    <section style={{
       display: 'grid',
       gridTemplateColumns: 'auto 1fr',
       width: '100%'
@@ -36,9 +47,9 @@ const Shop = () => {
       <ul>
         {types.map(({ id, name }) =>
           <li
-            onClick={() => dispatch(selectType(name))}
+            onClick={() => dispatch(selectType(id))}
             key={id}
-            style={selectedType === name
+            style={selectedTypeId === id
               ? {
                   background: 'black',
                   color: 'white',
@@ -61,11 +72,11 @@ const Shop = () => {
           }}>
             {brands.map(({ id, name }) =>
               <li
-                onClick={() => dispatch(selectBrand(name))}
+                onClick={() => dispatch(selectBrand(id))}
                 key={id}
                 style={{
-                  background: selectedBrand === name ? 'black' : 'white',
-                  color: selectedBrand === name ? 'white' : 'black',
+                  background: selectedBrandId === id ? 'black' : 'white',
+                  color: selectedBrandId === id ? 'white' : 'black',
                   cursor: 'pointer',
                   padding: 15
                 }}
@@ -96,14 +107,15 @@ const Shop = () => {
                 boxSizing: 'border-box'
               }}
             >
-              <img src={process.env.REACT_APP_API_URL + img} alt={name} style={{ width: '100%' }} />
+              <img src={process.env.REACT_APP_API_URL.toString() + img} alt={name} style={{ width: '100%' }} />
               <p>{name}</p>
               <p>{price}{'$'}</p>
             </div>
           )}
         </div>
       </div>
-    </div>
+      <Pagination />
+    </section>
   )
 }
 
