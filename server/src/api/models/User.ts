@@ -1,14 +1,14 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize'
 import sequelize from '../../db.js'
-import { Basket } from './Basket.js'
-import { Rating } from './Rating.js'
+import bcrypt from 'bcrypt'
 
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>
 
   declare email: string
   declare password: string
-  declare role: CreationOptional<string>
+  declare role: CreationOptional<'USER' | 'ADMIN'>
+
   declare createdAt: CreationOptional<Date>
   declare updatedAt: CreationOptional<Date>
 }
@@ -26,7 +26,10 @@ User.init(
       allowNull: false
     },
     password: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      async set (val: string) {
+        return await bcrypt.hash(val, 5)
+      }
     },
     role: {
       type: DataTypes.STRING,
@@ -40,9 +43,3 @@ User.init(
     tableName: 'users'
   }
 )
-
-User.hasOne(Basket)
-Basket.belongsTo(User)
-
-User.hasMany(Rating)
-Rating.belongsTo(User)

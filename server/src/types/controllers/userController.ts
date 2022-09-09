@@ -6,14 +6,14 @@ interface IRequestQueryCheck {
 }
 
 interface IRequestQueryLogin {
-  email: string
-  password: string
+  email?: string
+  password?: string
 }
 
 interface IRequestQueryRegistration extends Partial<IRequestQueryLogin> {
   role?: string
 }
 
-export type userRequestCheck = Request<{}, {}, {}, IRequestQueryCheck>
-export type userRequestLogin = Request<{}, {}, IRequestQueryLogin, {}>
-export type userRequestRegistration = Request<{}, {}, IRequestQueryRegistration, {}>
+export type userCheckRequest = Request<{}, {}, {}, IRequestQueryCheck>
+export type userLoginRequest = Request<{}, {}, IRequestQueryLogin, {}>
+export type userRegistrationRequest = Request<{}, {}, IRequestQueryRegistration, {}>

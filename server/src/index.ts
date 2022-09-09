@@ -1,7 +1,6 @@
 import express from 'express'
 import { Error } from 'sequelize'
 import sequelize from './db.js'
-// import * as models from './models/models.js'
 import router from './api/routes/index.js'
 import errorHandlerMiddleware from './api/middlewares/ErrorHandlingMiddleware.js'
 import * as dotenv from 'dotenv'
@@ -23,10 +22,6 @@ app.use(
 app.use('/api', router)
 // error handler always is in the end
 app.use(errorHandlerMiddleware)
-
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Working!!!!!' })
-})
 
 const start = async (): Promise<void> => {
   try {
