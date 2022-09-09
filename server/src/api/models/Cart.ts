@@ -4,7 +4,6 @@ import sequelize from '../../db.js'
 import { User } from './User.js'
 
 export class Cart extends Model<InferAttributes<Cart>, InferCreationAttributes<Cart>> {
-  // TODO: add cart logic
   declare id: CreationOptional<number>
 
   declare UserId: ForeignKey<User['id']>

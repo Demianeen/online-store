@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { productCreateRequest, productGetManyRequest, IRequestParamsGetOne, Options } from '../../types/controllers/productController.js'
+import { productCreateRequest, productGetManyRequest, Options } from '../../types/controllers/productController.js'
 import { v4 as uuidv4 } from 'uuid'
 import ApiError from '../error/ApiError.js'
 import path from 'path'
@@ -37,11 +37,11 @@ class ProductController {
       const fileNames: string[] = []
       if (Array.isArray(images)) {
         images.forEach((el, index) => {
-          fileNames[index] = uuidv4() + '.jpg'
+          fileNames[index] = uuidv4() + '.png'
           el.mv(path.resolve('src/static/' + fileNames[index]))
         })
       } else {
-        fileNames[0] = uuidv4() + '.jpg'
+        fileNames[0] = uuidv4() + '.png'
         images.mv(path.resolve('src/static/' + fileNames[0]))
       }
 
@@ -72,9 +72,10 @@ class ProductController {
     }
   }
 
-  async getOne (req: Request, res: Response): Promise<void> {
-    // TODO: Remove hardcode typing
-    const { id } = req.params as IRequestParamsGetOne
+  async getOne (req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { id } = req.params
+    if (!id) return next(ApiError.badRequest('Id is required'))
+
     const device = await Product.findOne({
       where: { id },
       include: [{ model: Color, as: 'Colors' }, { model: Category, as: 'Category' }, { model: Brand, as: 'Brand' }]

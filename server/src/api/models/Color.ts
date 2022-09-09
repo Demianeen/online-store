@@ -7,9 +7,11 @@ export class Color extends Model<InferAttributes<Color>, InferCreationAttributes
 
   declare hex: string
 
-  declare devices: NonAttribute<Product[]>
+  // because we can get this attribute only if we explicitly include it in get
+  declare Devices: NonAttribute<Product[]>
 
-  declare getProducts: HasManyGetAssociationsMixin<Product> // Note the null assertions!
+  // These functions automatically created with many to many associations
+  declare getProducts: HasManyGetAssociationsMixin<Product>
   declare addProduct: HasManyAddAssociationMixin<Product, number>
   declare addProducts: HasManyAddAssociationsMixin<Product, number>
   declare setProducts: HasManySetAssociationsMixin<Product, number>

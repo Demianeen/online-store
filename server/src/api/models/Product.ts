@@ -14,9 +14,11 @@ export class Product extends Model<InferAttributes<Product>, InferCreationAttrib
 
   declare images: string
 
+  // because we can get this attribute only if we explicitly include it in get
   declare Colors: NonAttribute<Color[]>
 
-  declare getColors: HasManyGetAssociationsMixin<Color> // Note the null assertions!
+  // These functions automatically created with many to many associations
+  declare getColors: HasManyGetAssociationsMixin<Color>
   declare addColor: HasManyAddAssociationMixin<Color, number>
   declare addColors: HasManyAddAssociationsMixin<Color, number>
   declare setColors: HasManySetAssociationsMixin<Color, number>

@@ -24,7 +24,6 @@ class UserController {
   (req: userRegistrationRequest, res: Response, next: NextFunction): Promise<void | Response> {
     const { email, password, role } = req.body
     if (!email || !password) return next(ApiError.badRequest('Email and password is required'))
-    // TODO: Add typing
     if ((role !== 'ADMIN' && role !== 'USER') && typeof role === 'string') return next(ApiError.badRequest('Invalid role value'))
 
     const candidate = await User.findOne({ where: { email } })
