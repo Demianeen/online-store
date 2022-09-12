@@ -1,7 +1,7 @@
 import { Admin } from './pages/Admin'
 import Auth from './pages/Auth'
-import Basket from './pages/Basket'
-import DevicePage from './pages/DevicePage'
+import Cart from './pages/Cart'
+import DevicePage from './pages/ProductPage'
 import Shop from './pages/Shop'
 import { Routes } from './utils/consts'
 
@@ -16,8 +16,8 @@ export const authRoutes: IRoutes[] = [
     Component: Admin
   },
   {
-    path: Routes.BASKET_ROUTE,
-    Component: Basket
+    path: Routes.CART_ROUTE,
+    Component: Cart
   }
 ]
 

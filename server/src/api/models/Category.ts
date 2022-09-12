@@ -2,6 +2,7 @@ import { Model, InferAttributes, InferCreationAttributes, CreationOptional, Data
 import sequelize from '../../db.js'
 
 export class Category extends Model<InferAttributes<Category>, InferCreationAttributes<Category>> {
+  // TODO: add getters and setters
   declare id: CreationOptional<number>
 
   declare name: string

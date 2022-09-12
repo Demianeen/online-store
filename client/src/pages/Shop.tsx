@@ -2,40 +2,53 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Pagination from '../components/Pagination/Pagination'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { fetchBrands, fetchDevices, fetchTypes } from '../http/deviceApi'
-import deviceSlice from '../store/reducers/DeviceSlice/slice'
+import { fetchBrands, fetchProducts, fetchCategories } from '../http/productApi'
+import productSlice from '../store/reducers/ProductSlice/slice'
 import { Routes } from '../utils/consts'
 
 const Shop = () => {
   const navigate = useNavigate()
 
   const dispatch = useAppDispatch()
-  const { setTypes, setBrands, setDevices, setAmountOfDevices, selectType, selectBrand } = deviceSlice.actions
-  const { devices, types, brands, selectedTypeId, selectedBrandId, limit, page } =
-    useAppSelector(store => store.device)
+  const { setTypes, setBrands, setDevices, setAmountOfDevices, selectCategory, selectBrand } = productSlice.actions
+  const { products, categories, brands, selectedCategoryId, selectedBrandId, limit, page } =
+    useAppSelector(store => store.product)
 
   useEffect(() => {
     const getInitialProps = async () => {
-      const types = await fetchTypes()
+      const types = await fetchCategories()
       const brands = await fetchBrands()
-      const devicesAndCount = await fetchDevices(limit, page)
+      const productsAndCount = await fetchProducts(limit, page)
 
       dispatch(setTypes(types))
       dispatch(setBrands(brands))
-      dispatch(setDevices(devicesAndCount.rows))
-      dispatch(setAmountOfDevices(devicesAndCount.count))
+      dispatch(setDevices(productsAndCount.rows))
+      dispatch(setAmountOfDevices(productsAndCount.count))
     }
     getInitialProps()
   }, [])
 
   useEffect(() => {
     const getDevices = async () => {
-      const devicesAndCount = await fetchDevices(limit, page, selectedTypeId, selectedBrandId)
+      const devicesAndCount = await fetchProducts(limit, page, selectedCategoryId, selectedBrandId)
       dispatch(setDevices(devicesAndCount.rows))
       dispatch(setAmountOfDevices(devicesAndCount.count))
     }
     getDevices()
-  }, [page, selectedBrandId, selectedTypeId])
+  }, [page, selectedBrandId, selectedCategoryId])
+
+  const chooseCategory = (id: number) => {
+    if (selectedCategoryId === id) {
+      return dispatch(selectCategory(undefined))
+    }
+    dispatch(selectCategory(id))
+  }
+  const chooseBrand = (id: number) => {
+    if (selectedBrandId === id) {
+      return dispatch(selectBrand(undefined))
+    }
+    dispatch(selectBrand(id))
+  }
 
   return (
     <section style={{
@@ -43,13 +56,13 @@ const Shop = () => {
       gridTemplateColumns: 'auto 1fr',
       width: '100%'
     }}>
-      {/* Types bar */}
+      {/* Categories bar */}
       <ul>
-        {types.map(({ id, name }) =>
+        {categories.map(({ id, name }) =>
           <li
-            onClick={() => dispatch(selectType(id))}
+            onClick={() => chooseCategory(id)}
             key={id}
-            style={selectedTypeId === id
+            style={selectedCategoryId === id
               ? {
                   background: 'black',
                   color: 'white',
@@ -72,7 +85,7 @@ const Shop = () => {
           }}>
             {brands.map(({ id, name }) =>
               <li
-                onClick={() => dispatch(selectBrand(id))}
+                onClick={() => chooseBrand(id)}
                 key={id}
                 style={{
                   background: selectedBrandId === id ? 'black' : 'white',
@@ -85,7 +98,7 @@ const Shop = () => {
           </ul>
         </div>
 
-        {/* Devices bar */}
+        {/* Products bar */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 1fr 1fr',
@@ -94,8 +107,9 @@ const Shop = () => {
           width: '100%',
           boxSizing: 'border-box'
         }}>
-          {devices.map(({ id, name, img, price }) =>
-            <div
+          {products.map(({ id, price, Brand, Category, images }) => {
+            const parsedImages: string[] = JSON.parse(images)
+            return <div
               onClick={() => navigate(`${Routes.DEVICE_ROUTE}/${id}`)}
               key={id}
               style={{
@@ -107,11 +121,15 @@ const Shop = () => {
                 boxSizing: 'border-box'
               }}
             >
-              <img src={process.env.REACT_APP_API_URL.toString() + img} alt={name} style={{ width: '100%' }} />
-              <p>{name}</p>
+              <img
+                src={process.env.REACT_APP_API_URL + parsedImages[0]}
+                alt={Brand.name + ' ' + Category.name }
+                style={{ width: '100%' }}
+              />
+              <p>{Brand.name + ' ' + Category.name}</p>
               <p>{price}{'$'}</p>
             </div>
-          )}
+          })}
         </div>
       </div>
       <Pagination />

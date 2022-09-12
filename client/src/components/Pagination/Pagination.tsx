@@ -1,12 +1,12 @@
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import deviceSlice from '../../store/reducers/DeviceSlice/slice'
+import productSlice from '../../store/reducers/ProductSlice/slice'
 import { IPagination } from './Pagination.types'
 
 const Pagination = ({ ...props }: IPagination) => {
-  const { amountOfDevices, limit, page } = useAppSelector(store => store.device)
+  const { amountOfProducts: amountOfDevices, limit, page } = useAppSelector(store => store.product)
   const dispatch = useAppDispatch()
-  const { setPage } = deviceSlice.actions
+  const { setPage } = productSlice.actions
   const amountOfPages = Math.ceil(amountOfDevices / limit)
 
   const pages: number[] = []

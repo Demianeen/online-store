@@ -2,22 +2,22 @@ import React, { FormEvent, useState } from 'react'
 import Modal from '../Modal/Modal'
 import FormInput from '../../FormInput/FormInput'
 import { ICreateDevice } from './CreateBrand.types'
-import { createType } from '../../../http/deviceApi'
+import { createBrand } from '../../../http/productApi'
 
 const CreateBrand = ({ hide, ...props }: ICreateDevice) => {
   const [name, setName] = useState<string>('')
 
-  const addType = async (e: FormEvent<HTMLFormElement>) => {
+  const addBrand = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    await createType({ name })
+    await createBrand({ name })
     setName('')
 
     hide()
   }
 
   return (
-    <Modal onSubmit={addType} hide={hide} {...props}>
+    <Modal onSubmit={addBrand} hide={hide} {...props}>
       <FormInput
         name={'Name'}
         value={name}

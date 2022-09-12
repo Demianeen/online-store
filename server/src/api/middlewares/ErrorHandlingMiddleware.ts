@@ -9,7 +9,7 @@ const errorHandlerMiddleware =
     if (err instanceof Error) {
       return res.status(500).json({ message: err.message })
     }
-    return res.status(500).json({ message: (err as any).message })
+    return res.status(500).json({ message: 'Uncaught error' })
   }
 
 export default errorHandlerMiddleware
