@@ -1,6 +1,5 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize'
 import sequelize from '../../db.js'
-import bcrypt from 'bcrypt'
 
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>
@@ -16,7 +15,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
 User.init(
   {
     id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
@@ -26,10 +25,7 @@ User.init(
       allowNull: false
     },
     password: {
-      type: DataTypes.STRING,
-      async set (val: string) {
-        return await bcrypt.hash(val, 5)
-      }
+      type: DataTypes.STRING
     },
     role: {
       type: DataTypes.STRING,

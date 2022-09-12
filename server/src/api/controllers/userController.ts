@@ -29,7 +29,8 @@ class UserController {
     const candidate = await User.findOne({ where: { email } })
     if (candidate) return next(ApiError.badRequest('This email address already belongs to a user'))
 
-    const user = await User.create({ email, role, password })
+    const hashedPassword = await bcrypt.hash(password, 5)
+    const user = await User.create({ email, role, password: hashedPassword })
     Cart.create({ UserId: user.id })
 
     const token = generateJwt(user.id, user.email, user.role)

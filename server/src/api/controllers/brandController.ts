@@ -8,6 +8,9 @@ class BrandController {
     const { name } = req.body
     if (!name) return next(ApiError.badRequest('Name is required'))
 
+    const candidate = await Brand.findOne({ where: { name } })
+    if (candidate) return next(ApiError.badRequest('Brand already exists'))
+
     const brand = await Brand.create({ name })
     res.json(brand)
   }

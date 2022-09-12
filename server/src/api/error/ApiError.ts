@@ -11,8 +11,8 @@ class ApiError extends Error {
     return new ApiError(404, message)
   }
 
-  static internal (message: string): ApiError {
-    return new ApiError(500, message)
+  static internal (message?: string): ApiError {
+    return new ApiError(500, message ?? 'Uncaught error')
   }
 }
 

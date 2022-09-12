@@ -54,13 +54,12 @@ class ProductController {
         images: JSON.stringify(fileNames)
       })
 
-      if (Colors) {
-        const parsedColors: IColor[] = JSON.parse(Colors)
-        parsedColors.forEach(async ({ hex }) => {
-          const [color] = await Color.findOrCreate({ where: { hex } })
-          product.addColor(color)
-        })
-      }
+      if (!Colors) return next(ApiError.badRequest('Minimum one color required.'))
+      const parsedColors: IColor[] = JSON.parse(Colors)
+      parsedColors.forEach(async ({ hex }) => {
+        const [color] = await Color.findOrCreate({ where: { hex } })
+        product.addColor(color)
+      })
 
       res.json(product)
     } catch (error) {

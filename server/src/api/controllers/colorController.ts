@@ -8,6 +8,9 @@ class ColorController {
     const { hex } = req.body
     if (!hex) return next(ApiError.badRequest('Hex is required'))
 
+    const candidate = await Color.findOne({ where: { hex } })
+    if (candidate) return next(ApiError.badRequest('Color already exists'))
+
     const color = await Color.create({ hex })
     res.json(color)
   }
