@@ -7,6 +7,7 @@ import * as dotenv from 'dotenv'
 import cors from 'cors'
 import fileUpload from 'express-fileupload'
 import path from 'path'
+import setAssociations from './associations.js'
 
 dotenv.config()
 
@@ -28,6 +29,7 @@ const start = async (): Promise<void> => {
     await sequelize.authenticate()
     await sequelize.sync()
     app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
+    setAssociations()
   } catch (error) {
     if (error instanceof Error) {
       console.log(error.message)

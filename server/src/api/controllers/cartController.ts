@@ -1,10 +1,12 @@
-import { getCartRequest } from './../../types/controllers/cartController.js'
+import { changeQuantityCartItemRequest, getCartRequest } from './../../types/controllers/cartController.js'
 import { CartItem } from './../models/CartItem.js'
 import { NextFunction, Response } from 'express'
 import { addCartItemRequest, createCartRequest } from '../../types/controllers/cartController.js'
 import ApiError from '../error/ApiError.js'
 import { Cart } from '../models/Cart.js'
 import { Product } from '../models/Product.js'
+import { Brand } from '../models/Brand.js'
+import { Category } from '../models/Category.js'
 
 class CartController {
   async create (req: createCartRequest, res: Response, next: NextFunction): Promise<void> {
@@ -15,12 +17,22 @@ class CartController {
   }
 
   async get (req: getCartRequest, res: Response, next: NextFunction): Promise<void> {
-    const { UserId } = req.body
+    const { UserId } = req.query
     if (!UserId) return next(ApiError.badRequest('UserId is required'))
 
     const cart = await Cart.findOne({
       where: { UserId },
-      include: { model: CartItem, as: 'Items' }
+      include: {
+        model: CartItem,
+        as: 'Items',
+        include: [{
+          model: Product,
+          include: [
+            { model: Category, as: 'Category' },
+            { model: Brand, as: 'Brand' }
+          ]
+        }]
+      }
     })
 
     res.json(cart)
@@ -37,6 +49,26 @@ class CartController {
 
     const cartItem = await CartItem.create({ CartId, ProductId })
     res.json(cartItem)
+  }
+
+  async changeItemQuantity (req: changeQuantityCartItemRequest, res: Response, next: NextFunction): Promise<void> {
+    const { id, quantity } = req.body
+    if (!id) return next(ApiError.badRequest('Id is required'))
+    if (quantity === undefined) return next(ApiError.badRequest('Quantity is required'))
+
+    if (!await CartItem.findByPk(id)) return next(ApiError.badRequest("The cartItem with this id isn't created."))
+
+    if (quantity < 1) {
+      CartItem.destroy({ where: { id } })
+      res.json(0)
+      return
+    }
+
+    const changedQuantity = await CartItem.update({ quantity }, {
+      where: { id },
+      returning: true
+    })
+    res.json(changedQuantity[1][0].quantity)
   }
 }
 

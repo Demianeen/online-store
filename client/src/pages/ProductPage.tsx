@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useAppSelector } from '../hooks/redux'
+import { addItem } from '../http/cartApi'
 import { fetchOneProduct } from '../http/productApi'
 import { IProduct } from '../store/reducers/ProductSlice/types'
+import { Routes } from '../utils/consts'
 import ErrorPage from './404'
 
 const DevicePage = () => {
@@ -10,8 +13,10 @@ const DevicePage = () => {
   const [mainImage, setMainImage] = useState<string>('')
   const [isError, setIsError] = useState(false)
 
-  // const desc = []
   const { id } = useParams()
+  const navigate = useNavigate()
+
+  const { user } = useAppSelector(store => store.user)
 
   useEffect(() => {
     const getInitialProps = async () => {
@@ -34,6 +39,18 @@ const DevicePage = () => {
 
   if (product === undefined) {
     return <p>{'Loading...'}</p>
+  }
+
+  const addCartItem = async () => {
+    try {
+      if (user !== undefined) {
+        await addItem({ ProductId: product.id, CartId: user.CartId })
+      } else {
+        navigate(Routes.LOGIN_ROUTE)
+      }
+    } catch (error) {
+      alert('You have already added this product to your cart.')
+    }
   }
 
   return (
@@ -74,7 +91,8 @@ const DevicePage = () => {
           <h2>{product.Brand.name}</h2>
           <p>{product.Category.name}</p>
           <p>{product.price}{'$'}</p>
-          <button>{'Add to Cart'}</button>
+          <p style={{ whiteSpace: 'pre-line' }}>{product.description}</p>
+          <button onClick={async () => await addCartItem()}>{'Add to Cart'}</button>
         </div>
       </div>
     </div>

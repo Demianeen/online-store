@@ -5,6 +5,7 @@ declare global {
         id: number
         email: string
         role: 'USER' | 'ADMIN'
+        CartId: number
       }
     }
   }

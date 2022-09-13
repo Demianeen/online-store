@@ -88,7 +88,6 @@ const CreateProduct = ({ hide, ...props }: ICreateDevice) => {
     setImages(images)
   }
 
-  console.log(gender)
   return (
     <Modal onSubmit={addProduct} hide={hide} {...props}>
       <FormTextarea

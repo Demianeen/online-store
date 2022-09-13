@@ -3,7 +3,6 @@ import { Model, InferAttributes, InferCreationAttributes, CreationOptional, Fore
 import sequelize from '../../db.js'
 import { Category } from './Category.js'
 import { Color } from './Color.js'
-import { ProductsColors } from './ProductsColors.js'
 
 export class Product extends Model<InferAttributes<Product>, InferCreationAttributes<Product>> {
   declare id: CreationOptional<number>
@@ -67,12 +66,3 @@ Product.init(
     tableName: 'products'
   }
 )
-
-Color.belongsToMany(Product, { through: ProductsColors, as: 'Products' })
-Product.belongsToMany(Color, { through: ProductsColors, as: 'Colors' })
-
-Category.hasMany(Product)
-Product.belongsTo(Category)
-
-Brand.hasMany(Product)
-Product.belongsTo(Brand)

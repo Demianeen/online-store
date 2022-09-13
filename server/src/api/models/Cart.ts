@@ -28,6 +28,3 @@ Cart.init(
     tableName: 'carts'
   }
 )
-
-User.hasOne(Cart)
-Cart.belongsTo(User)

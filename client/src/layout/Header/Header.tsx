@@ -11,10 +11,9 @@ const Header = ({ ...props }: HeaderProps) => {
   const { user } = useAppSelector(store => store.user)
 
   const navigate = useNavigate()
-  const { isAuth } = useAppSelector(store => store.user)
 
   const logOut = () => {
-    dispatch(setUser({}))
+    dispatch(setUser(undefined))
     dispatch(setIsAuth(false))
   }
 
@@ -30,7 +29,7 @@ const Header = ({ ...props }: HeaderProps) => {
       {...props}
     >
       <Link to={Routes.SHOP_ROUTE}>{'ShopName'}</Link>
-      {isAuth
+      {user !== undefined
         ? <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -41,6 +40,7 @@ const Header = ({ ...props }: HeaderProps) => {
             ? <button onClick={() => navigate(Routes.ADMIN_ROUTE)}>{'Admin Panel'}</button>
             : <></>}
           <button onClick={() => logOut()}>{'Logout'}</button>
+          <button onClick={() => navigate(Routes.CART_ROUTE)}>{'Cart'}</button>
         </div>
 
         : <div style={{

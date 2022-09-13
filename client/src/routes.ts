@@ -35,7 +35,7 @@ export const publicRoutes: IRoutes[] = [
     Component: Shop
   },
   {
-    path: Routes.DEVICE_ROUTE + '/:id',
+    path: Routes.PRODUCT_ROUTE + '/:id',
     Component: DevicePage
   }
 ]

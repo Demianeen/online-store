@@ -3,6 +3,6 @@ export const enum Routes {
   LOGIN_ROUTE = '/login',
   REGISTRATION_ROUTE = '/registration',
   SHOP_ROUTE = '/',
-  CART_ROUTE = '/basket',
-  DEVICE_ROUTE = '/device'
+  CART_ROUTE = '/cart',
+  PRODUCT_ROUTE = '/product'
 }

@@ -1,9 +1,9 @@
-import { IUserState } from './types'
+import { IUserJWT, IUserState } from './types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: IUserState = {
   isAuth: false,
-  user: {}
+  user: undefined
 }
 
 const userSlice = createSlice({
@@ -18,7 +18,7 @@ const userSlice = createSlice({
     },
     setUser (
       state: IUserState,
-      action: PayloadAction<Record<string, any>>
+      action: PayloadAction<IUserJWT | undefined>
     ) {
       state.user = action.payload
     }

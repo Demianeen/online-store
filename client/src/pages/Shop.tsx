@@ -10,7 +10,7 @@ const Shop = () => {
   const navigate = useNavigate()
 
   const dispatch = useAppDispatch()
-  const { setTypes, setBrands, setDevices, setAmountOfDevices, selectCategory, selectBrand } = productSlice.actions
+  const { setTypes, setBrands, setProducts, setAmountOfProducts, selectCategory, selectBrand } = productSlice.actions
   const { products, categories, brands, selectedCategoryId, selectedBrandId, limit, page } =
     useAppSelector(store => store.product)
 
@@ -22,19 +22,19 @@ const Shop = () => {
 
       dispatch(setTypes(types))
       dispatch(setBrands(brands))
-      dispatch(setDevices(productsAndCount.rows))
-      dispatch(setAmountOfDevices(productsAndCount.count))
+      dispatch(setProducts(productsAndCount.rows))
+      dispatch(setAmountOfProducts(productsAndCount.count))
     }
     getInitialProps()
   }, [])
 
   useEffect(() => {
-    const getDevices = async () => {
-      const devicesAndCount = await fetchProducts(limit, page, selectedCategoryId, selectedBrandId)
-      dispatch(setDevices(devicesAndCount.rows))
-      dispatch(setAmountOfDevices(devicesAndCount.count))
+    const getProducts = async () => {
+      const productsAndCount = await fetchProducts(limit, page, selectedCategoryId, selectedBrandId)
+      dispatch(setProducts(productsAndCount.rows))
+      dispatch(setAmountOfProducts(productsAndCount.count))
     }
-    getDevices()
+    getProducts()
   }, [page, selectedBrandId, selectedCategoryId])
 
   const chooseCategory = (id: number) => {
@@ -110,7 +110,7 @@ const Shop = () => {
           {products.map(({ id, price, Brand, Category, images }) => {
             const parsedImages: string[] = JSON.parse(images)
             return <div
-              onClick={() => navigate(`${Routes.DEVICE_ROUTE}/${id}`)}
+              onClick={() => navigate(`${Routes.PRODUCT_ROUTE}/${id}`)}
               key={id}
               style={{
                 cursor: 'pointer',

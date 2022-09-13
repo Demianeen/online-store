@@ -10,9 +10,9 @@ import { User } from '../models/User.js'
 
 dotenv.config()
 
-const generateJwt = (id: number, email: string, role: string): string => {
+const generateJwt = (id: number, email: string, role: string, CartId: number): string => {
   return jwt.sign(
-    { id, email, role },
+    { id, email, role, CartId },
     process.env.SECRET_KEY,
     { expiresIn: '48h' }
   )
@@ -31,9 +31,9 @@ class UserController {
 
     const hashedPassword = await bcrypt.hash(password, 5)
     const user = await User.create({ email, role, password: hashedPassword })
-    Cart.create({ UserId: user.id })
+    const cart = await Cart.create({ UserId: user.id })
 
-    const token = generateJwt(user.id, user.email, user.role)
+    const token = generateJwt(user.id, user.email, user.role, cart.id)
 
     return res.json(token)
   }
@@ -50,7 +50,10 @@ class UserController {
       return next(ApiError.badRequest('Email or password is incorrect'))
     }
 
-    const token = generateJwt(user.id, user.email, user.role)
+    const cart = await Cart.findOne({ where: { id: user.id } })
+    if (!cart) return next(ApiError.internal())
+
+    const token = generateJwt(user.id, user.email, user.role, cart.id)
     res.json(token)
   }
 
@@ -59,7 +62,7 @@ class UserController {
       return next(ApiError.internal("User isn't authorized"))
     }
 
-    const token = generateJwt(req.user.id, req.user.email, req.user.role)
+    const token = generateJwt(req.user.id, req.user.email, req.user.role, req.user.CartId)
     res.json(token)
   }
 }

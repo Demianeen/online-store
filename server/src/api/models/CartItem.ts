@@ -34,9 +34,3 @@ CartItem.init(
     tableName: 'cart_items'
   }
 )
-
-Cart.hasMany(CartItem, { as: 'Items' })
-CartItem.belongsTo(Cart)
-
-Product.hasMany(CartItem)
-CartItem.belongsTo(Product)

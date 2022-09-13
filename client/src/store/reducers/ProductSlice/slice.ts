@@ -28,7 +28,7 @@ const productSlice = createSlice({
     ) {
       state.brands = action.payload
     },
-    setDevices (
+    setProducts (
       state: IProductState,
       action: PayloadAction<IProduct[]>
     ) {
@@ -48,7 +48,7 @@ const productSlice = createSlice({
       state.page = 1
       state.selectedBrandId = action.payload
     },
-    setAmountOfDevices (
+    setAmountOfProducts (
       state: IProductState,
       action: PayloadAction<number>
     ) {
