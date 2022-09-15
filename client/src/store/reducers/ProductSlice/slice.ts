@@ -6,10 +6,9 @@ const initialState: IProductState = {
   brands: [],
   products: [],
   amountOfProducts: 0,
-  limit: 2,
+  limit: 6,
   page: 1,
-  selectedCategoryId: undefined,
-  selectedBrandId: undefined,
+  selectedCategory: undefined,
   selectedGender: undefined
 }
 
@@ -37,17 +36,10 @@ const productSlice = createSlice({
     },
     selectCategory (
       state: IProductState,
-      action: PayloadAction<number | undefined>
+      action: PayloadAction<ICategory>
     ) {
       state.page = 1
-      state.selectedCategoryId = action.payload
-    },
-    selectBrand (
-      state: IProductState,
-      action: PayloadAction<number | undefined>
-    ) {
-      state.page = 1
-      state.selectedBrandId = action.payload
+      state.selectedCategory = action.payload
     },
     selectGender (
       state: IProductState,

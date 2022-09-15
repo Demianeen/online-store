@@ -31,10 +31,10 @@ export const createProduct = async (product: FormData) => {
 }
 
 export const fetchProducts =
-  async (limit?: number, page?: number, CategoryId?: number, BrandId?: number, gender?: string) => {
+  async (limit?: number, page?: number, CategoryId?: number, gender?: string) => {
     const { data } = await $host.get<IProductsWithCount>('api/product', {
       params: {
-        limit, page, CategoryId, BrandId, gender
+        limit, page, CategoryId, gender
       }
     })
     return data

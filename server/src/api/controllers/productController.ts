@@ -10,7 +10,7 @@ import { Category } from '../models/Category.js'
 import { Brand } from '../models/Brand.js'
 
 const isGenderCorrect = (gender: string): gender is 'WOMEN' | 'MEN' | 'KIDS' => {
-  return gender !== 'WOMEN' && gender !== 'MEN' && gender !== 'KIDS'
+  return gender === 'WOMEN' || gender === 'MEN' || gender === 'KIDS'
 }
 
 class ProductController {
@@ -23,13 +23,7 @@ class ProductController {
       if (!BrandId) return next(ApiError.internal('BrandId is required'))
       if (!gender) return next(ApiError.internal('Gender is required'))
 
-      const parsedGender: string | string[] = JSON.parse(gender)
-      if (!Array.isArray(parsedGender)) {
-        return next(ApiError.badRequest('Gender must be an array'))
-      }
-      parsedGender.forEach((el) => {
-        if (isGenderCorrect(el)) return next(ApiError.badRequest('Invalid gender value'))
-      })
+      if (!isGenderCorrect(gender)) return next(ApiError.badRequest('Invalid gender value'))
 
       if (!req.files) return next(ApiError.internal('Images are not uploaded'))
       const { images } = req.files
@@ -50,7 +44,7 @@ class ProductController {
         BrandId,
         price,
         description,
-        gender: JSON.stringify(parsedGender),
+        gender,
         images: JSON.stringify(fileNames)
       })
 

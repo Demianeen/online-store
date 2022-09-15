@@ -1,0 +1,104 @@
+.successCheckmark {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+}
+
+.checkIcon {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  border-radius: 50%;
+  box-sizing: content-box;
+}
+
+.iconLine {
+  height: 5px;
+  background-color: white;
+  display: block;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+}
+
+.lineTip {
+  width: 12px;
+  left: 7px;
+  top: 22px;
+  transform: rotate(45deg);
+  animation: icon-line-tip 0.75s;
+}
+
+.lineLong {
+  width: 23px;
+  right: 4px;
+  top: 19px;
+  transform: rotate(-45deg);
+  animation: icon-line-long 0.75s;
+}
+
+@keyframes rotate-circle {
+  0% {
+      transform: rotate(-45deg);
+  }
+  5% {
+      transform: rotate(-45deg);
+  }
+  12% {
+      transform: rotate(-405deg);
+  }
+  100% {
+      transform: rotate(-405deg);
+  }
+}
+
+@keyframes icon-line-tip {
+  0% {
+    width: 0;
+    left: 1px;
+    top: 9px;
+  }
+  54% {
+    width: 0;
+    left: 1px;
+    top: 9px;
+  }
+  70% { 
+    width: 30px;
+    left: -8px;
+    top: 20px;
+  }
+  84% {
+    width: 8px;
+    left: 10px;
+    top: 24px;
+  }
+  100% {
+    width: 12px;
+    left: 7px;
+    top: 22px;
+  }
+}
+
+@keyframes icon-line-long {
+  0% {
+    width: 0;
+    right: 23px;
+    top: 27px;
+  }
+  65% {
+    width: 0;
+    right: 23px;
+    top: 27px;
+  }
+  84% {
+    width: 27px;
+    right: 0px;
+    top: 17px;
+  }
+  100% {
+    width: 23px;
+    right: 4px;
+    top: 19px;
+  }
+}

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
+import { UserIDJwtPayload } from '../../types/middlewares/AuthMiddleware.js'
 import { User } from '../models/User.js'
 
 const checkRoleMiddleware = (role: User['role']) => {
@@ -18,7 +19,7 @@ const checkRoleMiddleware = (role: User['role']) => {
         return res.status(403).json({ message: "You don't have enough access" })
       }
 
-      req.user = decoded as User
+      req.user = decoded as UserIDJwtPayload
       next()
     } catch (error) {
       res.status(401).json({ message: 'User is not authorized' })

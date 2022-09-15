@@ -15,7 +15,7 @@ const CreateProduct = ({ hide, ...props }: ICreateDevice) => {
   const { categories, brands } = useAppSelector(store => store.product)
 
   const [description, setDescription] = useState('')
-  const [gender, setGender] = useState<string[]>([])
+  const [gender, setGender] = useState<string>('')
   const [price, setPrice] = useState(0)
   const [images, setImages] = useState<File[]>([])
   const [CategoryId, setTypeId] = useState(0)
@@ -51,20 +51,18 @@ const CreateProduct = ({ hide, ...props }: ICreateDevice) => {
     await createProduct(formData)
 
     setDescription('')
+    setGender('')
     setPrice(0)
-    setImages([])
     setBrandId(0)
     setTypeId(0)
     setColor([])
+    setImages([])
 
     hide()
   }
 
   const chooseGender = (e: ChangeEvent<HTMLSelectElement>) => {
-    setGender(Array.from(
-      e.target.selectedOptions,
-      ({ value }) => value
-    ))
+    setGender(e.target.value)
   }
 
   const addColor = () => {

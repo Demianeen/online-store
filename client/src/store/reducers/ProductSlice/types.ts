@@ -83,7 +83,6 @@ export interface IProductState {
   page: number
 
   amountOfProducts: number
-  selectedCategoryId: number | undefined
+  selectedCategory: ICategory | undefined
   selectedGender: string | undefined
-  selectedBrandId: number | undefined
 }
