@@ -20,6 +20,7 @@ interface IProductWhere {
 interface IRequestQueryGetMany {
   CategoryId?: Category['id']
   BrandId?: Brand['id']
+  gender?: string
   limit?: number
   page?: number
 }

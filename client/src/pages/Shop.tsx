@@ -11,7 +11,10 @@ const Shop = () => {
 
   const dispatch = useAppDispatch()
   const { setTypes, setBrands, setProducts, setAmountOfProducts, selectCategory, selectBrand } = productSlice.actions
-  const { products, categories, brands, selectedCategoryId, selectedBrandId, limit, page } =
+  const {
+    products, categories, brands,
+    selectedCategoryId, selectedBrandId, selectedGender, limit, page
+  } =
     useAppSelector(store => store.product)
 
   useEffect(() => {
@@ -30,12 +33,12 @@ const Shop = () => {
 
   useEffect(() => {
     const getProducts = async () => {
-      const productsAndCount = await fetchProducts(limit, page, selectedCategoryId, selectedBrandId)
+      const productsAndCount = await fetchProducts(limit, page, selectedCategoryId, selectedBrandId, selectedGender)
       dispatch(setProducts(productsAndCount.rows))
       dispatch(setAmountOfProducts(productsAndCount.count))
     }
     getProducts()
-  }, [page, selectedBrandId, selectedCategoryId])
+  }, [page, selectedBrandId, selectedCategoryId, selectedGender])
 
   const chooseCategory = (id: number) => {
     if (selectedCategoryId === id) {

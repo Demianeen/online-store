@@ -1,0 +1,76 @@
+.select { 
+  position: relative;
+}
+
+.selectButton {
+  all: unset;
+  cursor: pointer;
+  height: 4vh;
+  width: 4.5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.downArrow {
+  padding-left: 10px;
+}
+
+.upArrow {
+  transform: rotate(180deg);
+  padding-right: 10px;
+  padding-left: 0;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+}
+
+.dropListContainer {
+  position: absolute;
+
+  top: 4.5vh;
+  left: -1.2vw;
+  right: 0;
+  background: white;
+  box-shadow: 0px 4px 35px 0px #A8ACB030;
+
+  border-radius: 2px;
+
+  transition: all 10s ease-in-out;
+  width: 15vh;
+
+  animation-duration: 0.5s;
+  animation-name: animate-fade;
+  animation-fill-mode: backwards;
+}
+
+.ul {
+  padding: 7px 0;
+  margin: 0;
+
+  list-style: none;
+}
+
+.li {
+  all: unset;
+  cursor: pointer;
+  width: calc(100% - 40px);
+  margin: 0;
+  padding: 13px 20px;
+  white-space: nowrap;
+  border-radius: 2px;
+}
+
+.selectedLi {
+  background: #EEEEEE;
+}
+
+@keyframes animate-fade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}

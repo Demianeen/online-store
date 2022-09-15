@@ -9,7 +9,8 @@ const initialState: IProductState = {
   limit: 2,
   page: 1,
   selectedCategoryId: undefined,
-  selectedBrandId: undefined
+  selectedBrandId: undefined,
+  selectedGender: undefined
 }
 
 const productSlice = createSlice({
@@ -47,6 +48,13 @@ const productSlice = createSlice({
     ) {
       state.page = 1
       state.selectedBrandId = action.payload
+    },
+    selectGender (
+      state: IProductState,
+      action: PayloadAction<string | undefined>
+    ) {
+      state.page = 1
+      state.selectedGender = action.payload
     },
     setAmountOfProducts (
       state: IProductState,

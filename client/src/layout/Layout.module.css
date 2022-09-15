@@ -1,0 +1,9 @@
+:root {
+  --c-primary: #5ECE7B
+}
+
+.wrapper {
+  font-family: 'Raleway';
+  font-style: normal;
+  line-height: 160%;
+}

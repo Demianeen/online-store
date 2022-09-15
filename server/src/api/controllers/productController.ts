@@ -83,7 +83,7 @@ class ProductController {
   }
 
   async getAll (req: productGetManyRequest, res: Response): Promise<void> {
-    const { CategoryId, BrandId, limit = 9, page = 1 } = req.query
+    const { CategoryId, BrandId, gender, limit = 9, page = 1 } = req.query
     const offset = page * limit - limit
 
     const options: Options = {
@@ -98,6 +98,9 @@ class ProductController {
     }
     if (BrandId) {
       options.where.BrandId = BrandId
+    }
+    if (gender) {
+      options.where.gender = gender
     }
 
     const productsAndQuantity = await Product.findAndCountAll(options)

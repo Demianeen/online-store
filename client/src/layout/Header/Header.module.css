@@ -1,0 +1,68 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 117px;
+  background: white;
+}
+
+.container {
+  display: flex;
+  width: 15%;
+}
+
+.genderButton, .cartIconButton, .userIconButton {
+  all: unset;
+  cursor: pointer;
+}
+
+.genderButton {
+  position: relative;
+  margin-right: 32px;
+
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 120%;
+}
+
+.selectedGenderButton {
+  color: var(--c-primary);
+  font-weight: 600;
+}
+
+.selectedGenderButton::after {
+  position: absolute;
+  height: 2px;
+  width: calc(100% + 32px);
+  margin-top: 30px;
+  left: -16px;
+  display: block;
+  background: var(--c-primary);
+  content: '';
+}
+
+.shopIconContainer {
+  position: absolute;
+  left: calc(50% - 30px);
+}
+
+.currencySelect, .cartIconButton, .userIconButton {
+  margin-right: 22px;
+}
+
+.cartIconButton, .userIconButton {
+  font-weight: 500;
+  font-size: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cartIconButton { 
+  fill: #43464E
+}
+
+.userIconButton {
+  stroke: #43464E
+} 

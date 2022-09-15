@@ -1,12 +1,13 @@
 import React, { FunctionComponent } from 'react'
 import Header from './Header/Header'
 import { ILayoutProps } from './Layout.props'
+import styles from './Layout.module.css'
 
 const Layout = ({ children }: ILayoutProps) => {
   return (
-    <div>
+    <div className={styles.wrapper}>
       <Header />
-      <main style={{ width: '100%' }}>{ children }</main>
+      <main className={styles.main} style={{ width: '100%' }}>{ children }</main>
     </div>
   )
 }
