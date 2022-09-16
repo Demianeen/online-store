@@ -1,4 +1,4 @@
-.button {
+.smallButton {
   /* remove default styles. 
   'All: unset' does not work here because
   we pass another class name as props, 
@@ -20,7 +20,7 @@
   border-radius: 50%;
 }
 
-.button * {
+.smallButton * {
   padding: 0;
   margin: auto;
   vertical-align: middle;
@@ -28,6 +28,32 @@
   height: 45%;
 }
 
-.button svg {
+.smallButton svg {
   fill: white;
+}
+
+.largeButton {
+  all: unset;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 19vw;
+  height: 7vh;
+
+  background: var(--c-primary);
+}
+
+.largeButtonText {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 120%;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: white;
 }

@@ -30,7 +30,7 @@ const ProductsFeed = ({ className, ...props }: ProductFeed) => {
           />
           <span className={styles.name}>{Brand.name + ' ' + Category.name}</span>
           <span className={styles.price}>{'$'}{price}</span>
-          <AddToCart className={styles.addToCartButton} productId={id} />
+          <AddToCart className={styles.addToCartButton} productId={id} size={ 'small' } />
         </div>
         )
       })}

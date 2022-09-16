@@ -1,7 +1,7 @@
 import { Admin } from './pages/Admin'
 import Auth from './pages/Auth'
 import Cart from './pages/Cart'
-import DevicePage from './pages/ProductPage'
+import ProductPage from './pages/ProductPage'
 import Shop from './pages/Shop'
 import { Routes } from './utils/consts'
 
@@ -36,6 +36,6 @@ export const publicRoutes: IRoutes[] = [
   },
   {
     path: Routes.PRODUCT_ROUTE + '/:id',
-    Component: DevicePage
+    Component: ProductPage
   }
 ]
