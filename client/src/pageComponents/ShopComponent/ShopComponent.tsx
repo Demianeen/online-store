@@ -39,7 +39,7 @@ const ShopComponent = ({ className, ...props }: ICurrencySelect) => {
   }, [page, selectedCategory, selectedGender])
 
   return (
-    <section className={styles.container}>
+    <section>
       <h1 className={styles.heading}>
         {selectedCategory?.name ?? 'Popular'}
       </h1>

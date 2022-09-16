@@ -8,3 +8,8 @@
   font-style: normal;
   line-height: 160%;
 }
+
+.main {
+  padding: 0 100px;
+  box-sizing: border-box;
+}
