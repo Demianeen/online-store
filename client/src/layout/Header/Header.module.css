@@ -1,9 +1,23 @@
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: rgba(57, 55, 72, 0.22);
+}
+
+.showedOverlay {
+  display: block;
+}
+
 .header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 28px 117px;
   background: white;
+  z-index: 2;
 }
 
 .container {
@@ -34,7 +48,7 @@
   position: absolute;
   height: 2px;
   width: calc(100% + 32px);
-  margin-top: 30px;
+  margin-top: 34px;
   left: -16px;
   display: block;
   background: var(--c-primary);
@@ -43,7 +57,7 @@
 
 .shopIconContainer {
   position: absolute;
-  left: calc(50% - 30px);
+  left: 50%;
 }
 
 .currencySelect, .cartIconButton, .userIconButton {
@@ -61,6 +75,13 @@
 
 .cartIconButton { 
   fill: #43464E
+}
+
+.userIconContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .userIconButton {

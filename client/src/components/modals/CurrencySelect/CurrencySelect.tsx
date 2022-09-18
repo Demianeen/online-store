@@ -4,14 +4,13 @@ import { ReactComponent as DownArrow } from './DownArrow.svg'
 import styles from './CurrencySelect.module.css'
 import cn from 'classnames'
 
-const CurrencySelect = ({ className, ...props }: ICurrencySelect) => {
+const CurrencySelect = ({ isOpen, setIsOpen, className, ...props }: ICurrencySelect) => {
   const [selectedOption, setSelectedOption] = useState<string>('$')
-  const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false)
 
   const currencyNames = useRef(['USD', 'EUR', 'JPY'])
 
   const selectCurrency = (currencySymbol: string) => {
-    setIsSelectOpen(false)
+    setIsOpen(false)
     setSelectedOption(currencySymbol)
   }
 
@@ -24,20 +23,20 @@ const CurrencySelect = ({ className, ...props }: ICurrencySelect) => {
       {...props}
     >
       <button
-        onClick={() => setIsSelectOpen(isSelectOpen => !isSelectOpen)}
+        onClick={() => setIsOpen(isOpen => !isOpen)}
         className={styles.selectButton}
       >
         {selectedOption}
         <DownArrow className={cn(styles.downArrow, {
-          [styles.upArrow]: isSelectOpen
+          [styles.upArrow]: isOpen
         })} />
       </button>
 
-      {isSelectOpen &&
+      {isOpen &&
         <>
         <div
           className={styles.overlay}
-          onClick={() => setIsSelectOpen(false)}
+          onClick={() => setIsOpen(false)}
         ></div>
         <div className={styles.dropListContainer}>
           <ul className={styles.ul}>

@@ -1,0 +1,7 @@
+.modal {
+  cursor: default;
+  position: absolute;
+  top: 4.5vh;
+  left: -7vh;
+  background: white;
+}

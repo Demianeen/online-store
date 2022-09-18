@@ -1,4 +1,4 @@
-import { Admin } from './pages/Admin'
+import Admin from './pages/Admin'
 import Auth from './pages/Auth'
 import Cart from './pages/Cart'
 import ProductPage from './pages/ProductPage'

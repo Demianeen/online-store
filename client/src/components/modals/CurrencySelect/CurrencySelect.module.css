@@ -65,6 +65,10 @@
   border-radius: 2px;
 }
 
+.li:hover {
+  background: #EEEEEE;
+}
+
 .selectedLi {
   background: #EEEEEE;
 }
