@@ -8,6 +8,7 @@ import CheckIcon from '../CheckIcon/CheckIcon'
 import { ReactComponent as CartIcon } from './Cart.svg'
 import { useAppSelector } from '../../hooks/redux'
 import { addItem } from '../../http/cartApi'
+import Button from '../Button/Button'
 
 const AddToCart = ({ productId, size, className, ...props }: IAddToCart) => {
   const [isButtonPressed, setIsButtonPressed] = useState(false)
@@ -47,12 +48,11 @@ const AddToCart = ({ productId, size, className, ...props }: IAddToCart) => {
 
   if (size === 'large') {
     return (
-      <button
+      <Button
         onClick={async (e) => await addToCart(e, productId)}
-        className={styles.largeButton}
       >
-        <span className={styles.largeButtonText}>{isButtonPressed ? <CheckIcon /> : 'ADD TO CART'}</span>
-      </button>
+        {isButtonPressed ? <CheckIcon /> : 'ADD TO CART'}
+      </Button>
     )
   }
 

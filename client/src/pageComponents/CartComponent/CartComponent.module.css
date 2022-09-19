@@ -1,0 +1,167 @@
+.heading {
+  margin: 80px 0 55px 0;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 125%;
+  text-transform: uppercase;
+}
+
+.product {
+  display: grid;
+  grid-template-columns: 1fr auto 28vh;
+  grid-template-rows: 40vh;
+  gap: 24px;
+
+  margin: 24px 0;
+}
+
+.brandName {
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 90%;
+
+  margin-bottom: 16px;
+}
+
+.categoryName {
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 90%;
+  color: #1D1F22;
+  
+  margin-bottom: 20px;
+}
+
+.price {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 24px;
+}
+
+.productDescriptionName {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 18px;
+  text-transform: uppercase;
+}
+
+.sizesContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.sizeButton {
+  all: unset;
+  cursor: pointer;
+  border: 1px solid #1D1F22;
+  text-align: center;
+  width: 8vh;
+  height: 6vh;
+  margin-right: 12px;
+}
+
+.selectedSizeButton {
+  background: #1D1F22;
+  color: white;
+}
+
+.quantityContainer {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto 1fr auto;
+}
+
+.quantityButton {
+  all: unset;
+  cursor: pointer;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 4vh;
+  height: 4vh;
+  border: 1px solid #1D1F22;
+}
+
+.verticalLine {
+  position: absolute;
+  top: 33.33%;
+  bottom: 33.33%;
+
+  border-left: 1px solid #1D1F22;
+}
+
+.horizontalLine {
+  position: absolute;
+  left: 33.33%;
+  right: 33.33%;
+
+  border-top: 1px solid #1D1F22;
+}
+
+.quantity {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 160%;
+
+  color: #1D1F22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageContainer {
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+}
+
+.hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #E5E5E5;
+  padding: 0;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+
+  width: 20vh;
+
+  padding: 32px 0 20px 0;
+}
+
+.totalCategoryName {
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 117%;
+}
+
+.totalValue {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 117%;
+  color: #1D1F22;
+}
+
+.total {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 117%;
+}
+
+.order {
+  margin-bottom: 40vh;
+}
