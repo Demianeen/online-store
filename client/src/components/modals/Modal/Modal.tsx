@@ -1,7 +1,11 @@
 import axios, { AxiosError } from 'axios'
 import React, { FormEvent } from 'react'
-import { IApiError } from '../../../pages/Auth'
 import { IModal } from './Modal.types'
+
+export interface IApiError {
+  message: string
+  status: number
+}
 
 const Modal = ({ isVisible, hide, children, onSubmit }: IModal) => {
   const onSubmitWithErrorHandler = async (e: FormEvent<HTMLFormElement>) => {
