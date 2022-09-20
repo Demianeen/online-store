@@ -59,7 +59,7 @@ class CartController {
     if (!await CartItem.findByPk(id)) return next(ApiError.badRequest("The cartItem with this id isn't created."))
 
     if (quantity < 1) {
-      CartItem.destroy({ where: { id } })
+      await CartItem.destroy({ where: { id } })
       res.json(0)
       return
     }
