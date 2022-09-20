@@ -7,7 +7,7 @@ import { Routes } from '../../../utils/consts'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import userSlice from '../../../store/reducers/UserSlice/slice'
 
-const UserControl = ({ setIsOverlayVisible, ...props }: IUserModal) => {
+const UserControl = ({ setIsVisible, ...props }: IUserModal) => {
   const dispatch = useAppDispatch()
   const { setIsAuth, setUser } = userSlice.actions
 
@@ -18,7 +18,7 @@ const UserControl = ({ setIsOverlayVisible, ...props }: IUserModal) => {
   const signOut = () => {
     dispatch(setUser(undefined))
     dispatch(setIsAuth(false))
-    setIsOverlayVisible(false)
+    setIsVisible(false)
     navigate(Routes.SHOP_ROUTE)
     localStorage.removeItem('token')
   }
@@ -30,7 +30,7 @@ const UserControl = ({ setIsOverlayVisible, ...props }: IUserModal) => {
           ? <li className={styles.li}>
           <button
             className={styles.button}
-              onClick={() => { navigate(Routes.ADMIN_ROUTE); setIsOverlayVisible(false) }}
+              onClick={() => { navigate(Routes.ADMIN_ROUTE); setIsVisible(false) }}
           >
             {'Admin'}
           </button>

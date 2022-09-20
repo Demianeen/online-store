@@ -11,15 +11,18 @@ import cn from 'classnames'
 import CurrencySelect from '../../components/modals/CurrencySelect/CurrencySelect'
 import productSlice from '../../store/reducers/ProductSlice/slice'
 import UserControl from '../../components/modals/UserControl/UserControl'
+import CartControl from '../../components/modals/CartControl/CartControl'
 
 const Header = ({ className, ...props }: HeaderProps) => {
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
+  const [isCartOpen, setIsCartOpen] = useState(false)
   const [isUserOpen, setIsUserOpen] = useState(false)
 
   const dispatch = useAppDispatch()
   const { selectGender } = productSlice.actions
   const { user } = useAppSelector(store => store.user)
   const { selectedGender } = useAppSelector(store => store.product)
+  const { overallQuantity } = useAppSelector(store => store.cart)
 
   const navigate = useNavigate()
 
@@ -37,12 +40,17 @@ const Header = ({ className, ...props }: HeaderProps) => {
     }
   }, [isUserOpen])
 
+  const closeAll = () => {
+    setIsUserOpen(false)
+    setIsCartOpen(false)
+  }
+
   return (
     <>
       <div
-        onClick={() => setIsUserOpen(isUserOpen => !isUserOpen)}
+        onClick={() => closeAll()}
         className={cn(styles.overlay, {
-          [styles.showedOverlay]: isUserOpen
+          [styles.showedOverlay]: isUserOpen || isCartOpen
         })}
       >
       </div>
@@ -91,20 +99,24 @@ const Header = ({ className, ...props }: HeaderProps) => {
               className={styles.currencySelect}
             />
 
-            <button
-              onClick={() => navigate(Routes.CART_ROUTE)}
-              className={styles.cartIconButton}
-            >
-              <CartIcon />
-            </button>
-            <div className={styles.userIconContainer} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalContainer}>
+              <button
+                onClick={() => setIsCartOpen(isCartOpen => !isCartOpen)}
+                className={styles.cartIconButton}
+              >
+                <CartIcon />
+                {isCartOpen ? <span className={styles.notificationBadge}>{overallQuantity}</span> : <></>}
+              </button>
+              {isCartOpen ? <CartControl setIsVisible={setIsCartOpen} /> : <></>}
+            </div>
+            <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={() => setIsUserOpen(isUserOpen => !isUserOpen)}
                 className={styles.userIconButton}
               >
                 <UserIcon />
               </button>
-              <UserControl setIsOverlayVisible={setIsUserOpen} isVisible={isUserOpen} />
+              {isUserOpen ? <UserControl setIsVisible={setIsUserOpen} /> : <></>}
             </div>
           </div>
 

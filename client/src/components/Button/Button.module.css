@@ -18,7 +18,15 @@
   height: 7vh;
 
   cursor: pointer;
+}
+
+.primaryButton {
   background: var(--c-primary);
+}
+
+.ghostButton {
+  background: #FFFFFF;
+  border: 1px solid #1D1F22;
 }
 
 .buttonText {
@@ -31,6 +39,12 @@
   text-align: center;
 
   text-transform: uppercase;
+}
 
+.primaryButton .buttonText {
   color: white;
+}
+
+.ghostButton .buttonText{
+  color: #1D1F22;
 }

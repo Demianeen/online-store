@@ -77,7 +77,22 @@
   fill: #43464E
 }
 
-.userIconContainer {
+.notificationBadge {
+  position: absolute;
+  top: -6px;
+  right: 9px;
+  font-size: 15px;
+  width: 20px;
+  height: 20px;
+  background: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.modalContainer {
   position: relative;
   display: flex;
   align-items: center;
