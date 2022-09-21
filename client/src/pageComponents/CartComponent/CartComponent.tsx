@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { IUserComponent } from './CartComponent.types'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useNavigate } from 'react-router-dom'
-import { fetchCart, changeItemQuantity } from '../../http/cartApi'
-import cartSlice from '../../store/reducers/CartSlice/slice'
+import { changeItemQuantity } from '../../http/cartApi'
+import cartSlice, { fetchCart } from '../../store/reducers/CartSlice/slice'
 import { Routes } from '../../utils/consts'
 import styles from './CartComponent.module.css'
 import cn from 'classnames'
@@ -11,7 +11,7 @@ import Order from '../../components/Order/Order'
 
 const CartComponent = ({ className, ...props }: IUserComponent) => {
   const dispatch = useAppDispatch()
-  const { setItemQuantity, setItems } = cartSlice.actions
+  const { setItemQuantity } = cartSlice.actions
   const { Items, itemsPrice: totalPrice, overallQuantity, taxPercentage, tax } = useAppSelector(store => store.cart)
 
   const { user } = useAppSelector(store => store.user)
@@ -21,8 +21,7 @@ const CartComponent = ({ className, ...props }: IUserComponent) => {
   useEffect(() => {
     const getInitialProps = async () => {
       if (user !== undefined) {
-        const cart = await fetchCart(user.id)
-        dispatch(setItems(cart.Items))
+        dispatch(fetchCart(user.id))
       } else {
         navigate(Routes.LOGIN_ROUTE)
       }
@@ -51,8 +50,7 @@ const CartComponent = ({ className, ...props }: IUserComponent) => {
       if (isDeleteConfirmed) {
         changeItemQuantity(id, decreasedQuantity)
         if (user !== undefined) {
-          const cart = await fetchCart(user.id)
-          dispatch(setItems(cart.Items))
+          dispatch(fetchCart(user.id))
         }
       }
       return

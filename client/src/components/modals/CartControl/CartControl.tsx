@@ -6,13 +6,14 @@ import cn from 'classnames'
 import { useNavigate } from 'react-router-dom'
 import { Routes } from '../../../utils/consts'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { fetchCart, changeItemQuantity } from '../../../http/cartApi'
-import cartSlice from '../../../store/reducers/CartSlice/slice'
+import { changeItemQuantity } from '../../../http/cartApi'
+import cartSlice, { fetchCart } from '../../../store/reducers/CartSlice/slice'
 import Button from '../../Button/Button'
+import Order from '../../Order/Order'
 
-const CartControl = ({ setIsVisible, ...props }: ICartControl) => {
+const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
   const dispatch = useAppDispatch()
-  const { setItemQuantity, setItems } = cartSlice.actions
+  const { setItemQuantity } = cartSlice.actions
   const { Items, itemsPrice, overallQuantity, tax } = useAppSelector(store => store.cart)
 
   const { user } = useAppSelector(store => store.user)
@@ -22,8 +23,7 @@ const CartControl = ({ setIsVisible, ...props }: ICartControl) => {
   useEffect(() => {
     const getInitialProps = async () => {
       if (user !== undefined) {
-        const cart = await fetchCart(user.id)
-        dispatch(setItems(cart.Items))
+        dispatch(fetchCart(user.id))
       } else {
         navigate(Routes.LOGIN_ROUTE)
       }
@@ -52,8 +52,7 @@ const CartControl = ({ setIsVisible, ...props }: ICartControl) => {
       if (isDeleteConfirmed) {
         changeItemQuantity(id, decreasedQuantity)
         if (user !== undefined) {
-          const cart = await fetchCart(user.id)
-          dispatch(setItems(cart.Items))
+          dispatch(fetchCart(user.id))
         }
       }
       return
@@ -68,14 +67,16 @@ const CartControl = ({ setIsVisible, ...props }: ICartControl) => {
     }
   }
 
-  if (Items[0] === undefined) {
-    alert('Add items to the cart first.')
+  if (Items[0] === undefined && isVisible) {
     setIsVisible(false)
+    setTimeout(() => {
+      alert('Add items to the cart first.')
+    }, 50)
     return <></>
   }
 
   return (
-    <SideModal className={styles.sideModal} {...props}>
+    <SideModal isVisible={isVisible} className={styles.sideModal} {...props}>
       <p className={styles.heading}><b className={styles.bold}>{'My bag'}</b>{', '}{overallQuantity}{' items'}</p>
       <div className={styles.scrollContainer}>
         {Items.map(({ id, Product, quantity }) => {

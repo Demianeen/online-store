@@ -6,13 +6,15 @@ import { useNavigate } from 'react-router-dom'
 import { Routes } from '../../utils/consts'
 import CheckIcon from '../CheckIcon/CheckIcon'
 import { ReactComponent as CartIcon } from './Cart.svg'
-import { useAppSelector } from '../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { addItem } from '../../http/cartApi'
 import Button from '../Button/Button'
+import { fetchCart } from '../../store/reducers/CartSlice/slice'
 
 const AddToCart = ({ productId, size, className, ...props }: IAddToCart) => {
   const [isButtonPressed, setIsButtonPressed] = useState(false)
 
+  const dispatch = useAppDispatch()
   const { user } = useAppSelector(store => store.user)
 
   const navigate = useNavigate()
@@ -23,6 +25,7 @@ const AddToCart = ({ productId, size, className, ...props }: IAddToCart) => {
         e.stopPropagation()
         if (user !== undefined) {
           await addItem({ ProductId, CartId: user.CartId })
+          dispatch(fetchCart(user.id))
 
           setIsButtonPressed(true)
           setTimeout(() => setIsButtonPressed(false), 3000)

@@ -3,17 +3,20 @@ import { ISideModal } from './SideModal.types'
 import styles from './SideModal.module.css'
 import cn from 'classnames'
 
-const SideModal = ({ children, className, ...props }: ISideModal) => {
-  return (
-    <>
-      <div
-        className={cn(styles.modal, className)}
-        {...props}
-      >
-        {children}
-      </div>
-    </>
-  )
+const SideModal = ({ isVisible, children, className, ...props }: ISideModal) => {
+  if (isVisible) {
+    return (
+      <>
+        <div
+          className={cn(styles.modal, className)}
+          {...props}
+        >
+          {children}
+        </div>
+      </>
+    )
+  }
+  return <></>
 }
 
 export default SideModal

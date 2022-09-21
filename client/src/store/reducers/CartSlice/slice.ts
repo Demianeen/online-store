@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { getCart } from '../../../http/cartApi'
 import { ICartItem, IProductState } from './types'
 
 const initialState: IProductState = {
@@ -51,7 +52,29 @@ const cartSlice = createSlice({
       state.taxPercentage += action.payload
       state.tax = state.itemsPrice * state.taxPercentage / 100
     }
+  },
+  extraReducers (builder) {
+    builder.addCase(fetchCart.fulfilled, (state, action) => {
+      state.Items = action.payload.Items
+
+      state.itemsPrice = 0
+      state.overallQuantity = 0
+      action.payload.Items.forEach(item => {
+        state.itemsPrice += item.quantity * item.Product.price
+        state.overallQuantity += item.quantity
+
+        state.tax = state.itemsPrice * state.taxPercentage / 100
+      })
+    })
   }
 })
 
 export default cartSlice
+
+export const fetchCart = createAsyncThunk(
+  'cart/fetchCart',
+  async (UserId: number) => {
+    const cart = await getCart(UserId)
+    return cart
+  }
+)

@@ -12,6 +12,7 @@ import CurrencySelect from '../../components/modals/CurrencySelect/CurrencySelec
 import productSlice from '../../store/reducers/ProductSlice/slice'
 import UserControl from '../../components/modals/UserControl/UserControl'
 import CartControl from '../../components/modals/CartControl/CartControl'
+import { fetchCart } from '../../store/reducers/CartSlice/slice'
 
 const Header = ({ className, ...props }: HeaderProps) => {
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
@@ -39,6 +40,16 @@ const Header = ({ className, ...props }: HeaderProps) => {
       setIsCurrencyOpen(false)
     }
   }, [isUserOpen])
+
+  useEffect(() => {
+    const fetch = async () => {
+      if (user === undefined) return
+      dispatch(fetchCart(user.id))
+    }
+    if (isCartOpen && (user !== undefined)) {
+      fetch()
+    }
+  }, [isCartOpen])
 
   const closeAll = () => {
     setIsUserOpen(false)
@@ -107,7 +118,7 @@ const Header = ({ className, ...props }: HeaderProps) => {
                 <CartIcon />
                 {isCartOpen ? <span className={styles.notificationBadge}>{overallQuantity}</span> : <></>}
               </button>
-              {isCartOpen ? <CartControl setIsVisible={setIsCartOpen} /> : <></>}
+              <CartControl isVisible={isCartOpen} setIsVisible={setIsCartOpen} />
             </div>
             <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()}>
               <button
@@ -116,7 +127,7 @@ const Header = ({ className, ...props }: HeaderProps) => {
               >
                 <UserIcon />
               </button>
-              {isUserOpen ? <UserControl setIsVisible={setIsUserOpen} /> : <></>}
+              <UserControl isVisible={isUserOpen} setIsVisible={setIsUserOpen} />
             </div>
           </div>
 
