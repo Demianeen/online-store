@@ -148,12 +148,14 @@ const CartControl = ({ setIsVisible, ...props }: ICartControl) => {
         >
           {'View bag'}
         </Button>
-        <Button
-          onClick={() => { alert('Thanks for purchase'); setIsVisible(false) }}
-          className={styles.button}
-        >
-          {'Check out'}
-        </Button>
+        {/* because onclick already un button */}
+        <div onClick={() => { setIsVisible(false) }}>
+          <Order
+            className={styles.button}
+          >
+            {'Check out'}
+          </Order>
+        </div>
       </div>
     </SideModal>
   )

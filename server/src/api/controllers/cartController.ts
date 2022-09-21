@@ -1,4 +1,4 @@
-import { changeQuantityCartItemRequest, getCartRequest } from './../../types/controllers/cartController.js'
+import { changeQuantityCartItemRequest, getCartRequest, removeCartItemRequest, RemoveCartOptions } from './../../types/controllers/cartController.js'
 import { CartItem } from './../models/CartItem.js'
 import { NextFunction, Response } from 'express'
 import { addCartItemRequest, createCartRequest } from '../../types/controllers/cartController.js'
@@ -51,6 +51,22 @@ class CartController {
     res.json(cartItem)
   }
 
+  async removeItems (req: removeCartItemRequest, res: Response, next: NextFunction): Promise<void> {
+    const { CartId, ProductId } = req.body
+    if (!CartId) return next(ApiError.badRequest('CartId is required'))
+
+    const options: RemoveCartOptions = {
+      where: { CartId }
+    }
+
+    if (ProductId) {
+      options.where.ProductId = ProductId
+    }
+
+    const removedItemsQuantity = await CartItem.destroy(options)
+    res.json(removedItemsQuantity)
+  }
+
   async changeItemQuantity (req: changeQuantityCartItemRequest, res: Response, next: NextFunction): Promise<void> {
     const { id, quantity } = req.body
     if (!id) return next(ApiError.badRequest('Id is required'))
@@ -68,6 +84,9 @@ class CartController {
       where: { id },
       returning: true
     })
+
+    // if returning: true update return array in which
+    // first is amount of rows affected and second the affected row array
     res.json(changedQuantity[1][0].quantity)
   }
 }

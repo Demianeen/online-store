@@ -7,7 +7,7 @@ import cartSlice from '../../store/reducers/CartSlice/slice'
 import { Routes } from '../../utils/consts'
 import styles from './CartComponent.module.css'
 import cn from 'classnames'
-import Button from '../../components/Button/Button'
+import Order from '../../components/Order/Order'
 
 const CartComponent = ({ className, ...props }: IUserComponent) => {
   const dispatch = useAppDispatch()
@@ -141,7 +141,7 @@ const CartComponent = ({ className, ...props }: IUserComponent) => {
         <span className={styles.total}>{'Total: '}</span>
         <span className={styles.totalValue}>{'$' + (totalPrice + tax).toString()}</span>
       </div>
-      <Button className={styles.order}>{'Order'}</Button>
+      <Order className={styles.order}>{'Order'}</Order>
     </>
   )
 }

@@ -16,7 +16,16 @@ export const changeItemQuantity = async (id: number, quantity: number) => {
   return data
 }
 
-export const fetchCart = async (UserId: number) => {
+export const clearCart = async (CartId: number) => {
+  // amount of rows affected
+  const { data } = await $authHost.post<number>(process.env.REACT_APP_API_URL + 'api/cart/item/remove', {
+    CartId
+  })
+
+  return data
+}
+
+export const getCart = async (UserId: number) => {
   const { data } = await $authHost.get<ICart>(process.env.REACT_APP_API_URL + 'api/cart', {
     params: {
       UserId

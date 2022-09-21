@@ -6,6 +6,7 @@ const router = Router()
 
 router.post('/', cartController.create)
 router.post('/item', authMiddleware, cartController.addItem)
+router.post('/item/remove', authMiddleware, cartController.removeItems)
 router.post('/item/quantity', cartController.changeItemQuantity)
 router.get('/', authMiddleware, cartController.get)
 
