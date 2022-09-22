@@ -12,7 +12,8 @@
     "rootDirs": ["./src/"],
     "outDir": "./build/",
     "moduleResolution": "NodeNext",
-    "removeComments": true
+    "removeComments": true,
+    "resolveJsonModule": true
   },
   "ts-node": {
     "esm": true
