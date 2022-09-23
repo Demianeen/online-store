@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { Sequelize } from 'sequelize'
-import configs from './config/config.json'
+import configs from './config/config.js'
 
 const basename = path.basename(__filename)
 
@@ -23,13 +23,12 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
   dialect: config.dialect
 })
 
-// FIXME: Add typing
-const db = {
+// TODO: Add typing
+const db: Record<string, any> = {
   sequelize,
   Sequelize
 }
 
-// export const models: IModels = {}
 const modelsPath = path.resolve('..', 'api', 'models')
 fs
   .readdirSync(modelsPath)
