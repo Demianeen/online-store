@@ -2,7 +2,7 @@ import { Model, InferAttributes, InferCreationAttributes, CreationOptional, Data
 import sequelize from '../../db.js'
 import { Product } from './Product.js'
 
-export class Color extends Model<InferAttributes<Color>, InferCreationAttributes<Color>> {
+export class Color extends Model<InferAttributes<Color, { omit: 'Devices' }>, InferCreationAttributes<Color>> {
   declare id: CreationOptional<number>
 
   declare hex: string

@@ -4,7 +4,7 @@ import sequelize from '../../db.js'
 import { Category } from './Category.js'
 import { Color } from './Color.js'
 
-export class Product extends Model<InferAttributes<Product>, InferCreationAttributes<Product>> {
+export class Product extends Model<InferAttributes<Product, { omit: 'Colors' }>, InferCreationAttributes<Product>> {
   declare id: CreationOptional<number>
 
   declare description: string

@@ -10,7 +10,7 @@ interface IRequestQueryLogin {
   password?: string
 }
 
-interface IRequestQueryRegistration extends Partial<IRequestQueryLogin> {
+interface IRequestQueryRegistration extends IRequestQueryLogin {
   role?: string
 }
 

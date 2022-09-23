@@ -1,26 +1,21 @@
 import { CartItem } from './../../api/models/CartItem.js'
-import { Product } from './../../api/models/Product.js'
 import { Request } from 'express'
-import { Cart } from '../../api/models/Cart.js'
-import { User } from '../../api/models/User.js'
-import { DestroyOptions, InferAttributes } from 'sequelize'
+import { DestroyOptions, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { CreationAttributes } from './index.js'
 
 interface ICartBody {
-  UserId?: User['id']
+  UserId?: number
 }
 
-interface ICartItemBody {
-  CartId?: Cart['id']
-  ProductId?: Product['id']
-}
+type CartItemBody = CreationAttributes<InferCreationAttributes<CartItem>>
 
 interface IChangeQuantityCartItemBody {
-  id?: CartItem['id']
+  id?: number
   quantity?: number
 }
 
 interface ICartItemWhere {
-  where: ICartItemBody
+  where: Partial<CartItemBody>
 }
 
 export type RemoveCartOptions = DestroyOptions<InferAttributes<CartItem, {
@@ -29,6 +24,6 @@ export type RemoveCartOptions = DestroyOptions<InferAttributes<CartItem, {
 
 export type createCartRequest = Request<{}, {}, ICartBody, {}>
 export type getCartRequest = Request<{}, {}, {}, ICartBody>
-export type addCartItemRequest = Request<{}, {}, ICartItemBody, {}>
-export type removeCartItemRequest = Request<{}, {}, ICartItemBody, {}>
+export type addCartItemRequest = Request<{}, {}, CartItemBody, {}>
+export type removeCartItemRequest = Request<{}, {}, CartItemBody, {}>
 export type changeQuantityCartItemRequest = Request<{}, {}, IChangeQuantityCartItemBody, {}>

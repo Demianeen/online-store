@@ -3,7 +3,7 @@ import { Model, InferAttributes, InferCreationAttributes, CreationOptional, Fore
 import sequelize from '../../db.js'
 import { User } from './User.js'
 
-export class Cart extends Model<InferAttributes<Cart>, InferCreationAttributes<Cart>> {
+export class Cart extends Model<InferAttributes<Cart, { omit: 'items' }>, InferCreationAttributes<Cart>> {
   declare id: CreationOptional<number>
 
   declare UserId: ForeignKey<User['id']>

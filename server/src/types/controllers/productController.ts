@@ -1,25 +1,20 @@
+import { CreationAttributes } from './index.js'
 import { Request } from 'express'
-import { FindAndCountOptions, InferAttributes } from 'sequelize'
-import { Brand } from '../../api/models/Brand.js'
-import { Category } from '../../api/models/Category.js'
+import { FindAndCountOptions, InferAttributes, InferCreationAttributes } from 'sequelize'
 import { Product } from '../../api/models/Product.js'
 
-interface IRequestBodyCreate {
-  description?: string
-  price?: number
-  gender?: string
-  BrandId: Brand['id']
-  CategoryId?: Category['id']
-  Colors?: string
-}
+type IRequestBodyCreate =
+  CreationAttributes<InferCreationAttributes<Product>, 'images'> & {
+    Colors?: string
+  }
 
 interface IProductWhere {
   where: Omit<IRequestQueryGetMany, 'limit' | 'page'>
 }
 
 interface IRequestQueryGetMany {
-  CategoryId?: Category['id']
-  BrandId?: Brand['id']
+  CategoryId?: number
+  BrandId?: number
   gender?: string
   limit?: number
   page?: number
