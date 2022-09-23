@@ -1,7 +1,7 @@
-import { ICart, ICartItem, ICartItemCreate } from './../store/reducers/CartSlice/types'
+import { ICart, ICartItem, CartItemCreate } from './../store/reducers/CartSlice/types'
 import { $authHost } from '.'
 
-export const addItem = async (item: ICartItemCreate) => {
+export const addItem = async (item: CartItemCreate) => {
   const { data } = await $authHost.post<ICartItem>(process.env.REACT_APP_API_URL + 'api/cart/item', item)
 
   return data

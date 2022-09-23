@@ -4,12 +4,12 @@ import styles from './ProductPageComponent.module.css'
 import cn from 'classnames'
 import { useParams } from 'react-router-dom'
 import ErrorPage from '../../pages/404'
-import { IProduct } from '../../store/reducers/ProductSlice/types'
+import { IProductWithBrandAndCategory } from '../../store/reducers/ProductSlice/types'
 import { fetchOneProduct } from '../../http/productApi'
 import AddToCart from '../../components/AddToCart/AddToCart'
 
 const ProductPageComponent = ({ className, ...props }: IProductPageComponent) => {
-  const [product, setProduct] = useState<IProduct | undefined>(undefined)
+  const [product, setProduct] = useState<IProductWithBrandAndCategory | undefined>(undefined)
   const [images, setImages] = useState<string[]>([])
   const [mainImage, setMainImage] = useState<string>('')
   const [isError, setIsError] = useState(false)

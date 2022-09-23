@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IBrand, ICategory, IProduct, IProductState } from './types'
+import { IBrand, ICategory, IProductWithBrandAndCategory, IProductState } from './types'
 
 const initialState: IProductState = {
   categories: [],
@@ -30,7 +30,7 @@ const productSlice = createSlice({
     },
     setProducts (
       state: IProductState,
-      action: PayloadAction<IProduct[]>
+      action: PayloadAction<IProductWithBrandAndCategory[]>
     ) {
       state.products = action.payload
     },

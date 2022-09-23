@@ -1,3 +1,5 @@
+import { CreationAttributes } from '../types'
+
 export interface ICategory {
   id: number
   name: string
@@ -7,10 +9,7 @@ export interface ICategory {
   updatedAt: Date
 }
 
-export interface ICategoryCreate {
-  name: string
-  gender: string[]
-}
+export type CategoryCreate = CreationAttributes<ICategory>
 export interface IBrand {
   id: number
   name: string
@@ -19,9 +18,7 @@ export interface IBrand {
   updatedAt: Date
 }
 
-export interface IBrandCreate {
-  name: string
-}
+export type IBrandCreate = CreationAttributes<IBrand>
 
 export interface IColor {
   id: number
@@ -31,9 +28,8 @@ export interface IColor {
   updatedAt: Date
 }
 
-export interface IColorCreate {
+export type IColorCreate = CreationAttributes<IColor> & {
   id: Date
-  hex: string
 }
 
 export interface IProduct {
@@ -47,37 +43,26 @@ export interface IProduct {
 
   createdAt: Date
   updatedAt: Date
+}
 
+export interface IProductWithBrandAndCategory extends IProduct {
   Category: ICategory
   Brand: IBrand
 }
 
-export interface IProductWithColors extends IProduct {
+export interface IProductWithBrandCategoryAndColors extends IProductWithBrandAndCategory {
   Colors: IColor[]
 }
 
 export interface IProductsWithCount {
   count: number
-  rows: IProduct[]
-}
-
-// FIXME: Unused interface
-export interface IProductCreate {
-  description: string
-  price: number
-  images: File[]
-  gender: string
-
-  CategoryId: number
-  BrandId: number
-
-  Colors?: string
+  rows: IProductWithBrandAndCategory[]
 }
 
 export interface IProductState {
   categories: ICategory[]
   brands: IBrand[]
-  products: IProduct[]
+  products: IProductWithBrandAndCategory[]
 
   limit: number
   page: number

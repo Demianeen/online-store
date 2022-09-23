@@ -1,4 +1,5 @@
-import { IProduct } from './../ProductSlice/types'
+import { CreationAttributes } from './../types'
+import { IProductWithBrandAndCategory } from './../ProductSlice/types'
 
 export interface ICartItem {
   id: number
@@ -6,12 +7,15 @@ export interface ICartItem {
 
   CartId: number
   ProductId: number
+  size: string
 
-  Product: IProduct
+  Product: IProductWithBrandAndCategory
 
   createdAt: Date
   updatedAt: Date
 }
+
+export type CartItemCreate = CreationAttributes<ICartItem, 'quantity' | 'Product'>
 
 export interface ICart {
   id: number
@@ -21,11 +25,6 @@ export interface ICart {
 
   createdAt: Date
   updatedAt: Date
-}
-
-export interface ICartItemCreate {
-  CartId: number
-  ProductId: number
 }
 
 export interface IProductState {

@@ -1,7 +1,7 @@
-import { IBrand, IBrandCreate, ICategory, ICategoryCreate, IProductCreate, IProductsWithCount, IProductWithColors } from '../store/reducers/ProductSlice/types'
+import { IBrand, IBrandCreate, ICategory, CategoryCreate, IProductsWithCount, IProductWithBrandCategoryAndColors, IProduct } from '../store/reducers/ProductSlice/types'
 import { $authHost, $host } from '.'
 
-export const createCategory = async (category: ICategoryCreate) => {
+export const createCategory = async (category: CategoryCreate) => {
   const { data } = await $authHost.post<ICategory>('api/category', category)
   return data
 }
@@ -22,7 +22,7 @@ export const fetchBrands = async () => {
 }
 
 export const createProduct = async (product: FormData) => {
-  const { data } = await $authHost.post<IProductCreate>('api/product', product, {
+  const { data } = await $authHost.post<IProduct>('api/product', product, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
@@ -41,6 +41,6 @@ export const fetchProducts =
   }
 
 export const fetchOneProduct = async (id: number) => {
-  const { data } = await $host.get<IProductWithColors>('api/product/' + id.toString())
+  const { data } = await $host.get<IProductWithBrandCategoryAndColors>('api/product/' + id.toString())
   return data
 }
