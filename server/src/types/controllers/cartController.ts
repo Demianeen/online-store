@@ -9,11 +9,6 @@ interface ICartBody {
 
 type CartItemBody = CreationAttributes<InferCreationAttributes<CartItem>>
 
-interface IChangeQuantityCartItemBody {
-  id?: number
-  quantity?: number
-}
-
 interface ICartItemWhere {
   where: Partial<CartItemBody>
 }
@@ -22,8 +17,7 @@ export type RemoveCartOptions = DestroyOptions<InferAttributes<CartItem, {
   omit: never
 }>> & ICartItemWhere
 
-export type createCartRequest = Request<{}, {}, ICartBody, {}>
-export type getCartRequest = Request<{}, {}, {}, ICartBody>
-export type addCartItemRequest = Request<{}, {}, CartItemBody, {}>
-export type removeCartItemRequest = Request<{}, {}, CartItemBody, {}>
-export type changeQuantityCartItemRequest = Request<{}, {}, IChangeQuantityCartItemBody, {}>
+export type CartBodyRequest = Request<{}, {}, ICartBody, {}>
+export type GetCartBodyRequest = Request<{}, {}, {}, ICartBody>
+export type CreateCartBodyRequest = Request<{}, {}, CartItemBody, {}>
+export type CartItemBodyRequest = Request<{}, {}, InferAttributes<CartItem>, {}>

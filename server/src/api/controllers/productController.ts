@@ -16,7 +16,7 @@ const isGenderCorrect = (gender: string): gender is 'WOMEN' | 'MEN' | 'KIDS' => 
 class ProductController {
   async create (req: productCreateRequest, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { CategoryId, BrandId, description, price, gender, Colors } = req.body
+      const { CategoryId, BrandId, description, price, gender, isInStock, Colors } = req.body
       if (!description) return next(ApiError.internal('Description is required'))
       if (!price) return next(ApiError.internal('Price is required'))
       if (!CategoryId) return next(ApiError.internal('CategoryId is required'))
@@ -45,6 +45,7 @@ class ProductController {
         price,
         description,
         gender,
+        isInStock,
         images: JSON.stringify(fileNames)
       })
 

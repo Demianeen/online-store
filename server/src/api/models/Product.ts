@@ -10,6 +10,8 @@ export class Product extends Model<InferAttributes<Product, { omit: 'Colors' }>,
   declare description: string
   declare price: number
   declare gender: string
+  declare isInStock: CreationOptional<boolean>
+  declare sizes: CreationOptional<string>
 
   declare images: string
 
@@ -57,6 +59,14 @@ Product.init(
     images: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    isInStock: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
+    sizes: {
+      type: DataTypes.STRING,
+      defaultValue: JSON.stringify(['XS', 'S', 'M', 'L'])
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
