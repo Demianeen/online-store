@@ -1,6 +1,9 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react'
 
-export interface IAddToCart extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+export interface IAddToCart
+  extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   productId: number
-  size: 'small' | 'large'
+  size: 'XS' | 'S' | 'M' | 'L' | 'XL'
+  isInStock: boolean
+  buttonSize: 'small' | 'large'
 }

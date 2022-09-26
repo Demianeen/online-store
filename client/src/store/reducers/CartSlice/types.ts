@@ -1,4 +1,4 @@
-import { CreationAttributes } from './../types'
+import { CreationAttributes, parsedSize } from './../types'
 import { IProductWithBrandAndCategory } from './../ProductSlice/types'
 
 export interface ICartItem {
@@ -7,7 +7,7 @@ export interface ICartItem {
 
   CartId: number
   ProductId: number
-  size: string
+  size: parsedSize
 
   Product: IProductWithBrandAndCategory
 

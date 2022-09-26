@@ -1,0 +1,51 @@
+/* small size */
+.small.sizesContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.small.sizeButton {
+  all: unset;
+  cursor: pointer;
+  border: 1px solid #1D1F22;
+  text-align: center;
+  margin-right: 8px;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 160%;
+
+  height: 3vh;
+  width: 3vh;
+}
+
+.small.sizeButton * {
+  margin: 0;
+  padding: 0;
+}
+
+.small.selectedSizeButton {
+  background: #1D1F22;
+  color: white;
+}
+
+/* large size */
+.large.sizesContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.large.sizeButton {
+  all: unset;
+  cursor: pointer;
+  border: 1px solid #1D1F22;
+  text-align: center;
+  width: 8vh;
+  height: 6vh;
+  margin-right: 12px;
+}
+
+.large.selectedSizeButton {
+  background: #1D1F22;
+  color: white;
+}

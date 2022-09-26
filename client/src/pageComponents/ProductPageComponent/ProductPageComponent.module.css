@@ -76,6 +76,8 @@
   all: unset;
   cursor: pointer;
   border: 1px solid #1D1F22;
+  position: relative;
+  box-sizing: border-box;
   text-align: center;
   width: 4.3vw;
   height: 6vh;
@@ -85,6 +87,21 @@
 .selectedSizeButton {
   background: #1D1F22;
   color: white;
+}
+
+.outOfStockSize {
+  border: 1px solid #1D1F22;
+  background: white;
+  color: black;
+}
+
+.outOfStockSize::after {
+  content: '';
+  display: block;
+  position: absolute;
+  inset: -2px;
+  background: white;
+  opacity: 0.5;
 }
 
 .price {

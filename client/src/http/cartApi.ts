@@ -1,3 +1,4 @@
+import { parsedSize } from './../store/reducers/types'
 import { ICart, ICartItem, CartItemCreate } from './../store/reducers/CartSlice/types'
 import { $authHost } from '.'
 
@@ -7,10 +8,19 @@ export const addItem = async (item: CartItemCreate) => {
   return data
 }
 
-export const changeItemQuantity = async (id: number, quantity: number) => {
+export const changeItemQuantity = async (CartItemId: number, quantity: number) => {
   const { data } = await $authHost.post<number>(process.env.REACT_APP_API_URL + 'api/cart/item/quantity', {
-    id,
+    id: CartItemId,
     quantity
+  })
+
+  return data
+}
+
+export const changeItemSelectedSize = async (CartItemId: number, size: parsedSize) => {
+  const { data } = await $authHost.post<number>(process.env.REACT_APP_API_URL + 'api/cart/item/size', {
+    id: CartItemId,
+    size
   })
 
   return data

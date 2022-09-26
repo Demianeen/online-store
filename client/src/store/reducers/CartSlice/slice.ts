@@ -75,6 +75,7 @@ export const fetchCart = createAsyncThunk(
   'cart/fetchCart',
   async (UserId: number) => {
     const cart = await getCart(UserId)
+    cart.Items.sort((a, b) => a.id - b.id)
     return cart
   }
 )

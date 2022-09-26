@@ -1,0 +1,70 @@
+.product {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  position: relative;
+  cursor: pointer;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all .5s ease-out .4s;
+}
+
+.product:hover {
+  box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19)
+}
+
+.product:hover .addToCartButton {
+  opacity: 1;
+}
+
+.outOfStockOverlay {
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0.5;
+}
+
+.overlayText {
+  display: inline-block;
+
+  position: absolute;
+  top: 38%;
+  left: 0;
+  right: 0;
+  text-align: center;
+
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 160%;
+
+  color: #8D8F9A;
+}
+
+.name {
+  padding-top: 24px;
+  display: block;
+  font-weight: 300;
+  font-size: 18px;
+}
+
+.price {
+  font: var(--price-regular-font)
+}
+
+.image {
+  width: 25vw;
+  height: 24vw;
+  object-fit: cover;
+  object-position: center;
+  overflow: hidden;
+}
+
+.addToCartButton {
+  opacity: 0;
+  z-index: 2;
+  position: absolute;
+  bottom: 72px;
+  right: 31px;
+  transition: all .6s ease-out .8s;
+}

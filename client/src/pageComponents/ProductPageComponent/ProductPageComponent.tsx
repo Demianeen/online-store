@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IProductPageComponent } from './ProductPageComponent.types'
 import styles from './ProductPageComponent.module.css'
 import cn from 'classnames'
@@ -7,6 +7,7 @@ import ErrorPage from '../../pages/404'
 import { IProductWithBrandAndCategory } from '../../store/reducers/ProductSlice/types'
 import { fetchOneProduct } from '../../http/productApi'
 import AddToCart from '../../components/AddToCart/AddToCart'
+import { parsedSize } from '../../store/reducers/types'
 
 const ProductPageComponent = ({ className, ...props }: IProductPageComponent) => {
   const [product, setProduct] = useState<IProductWithBrandAndCategory | undefined>(undefined)
@@ -14,8 +15,8 @@ const ProductPageComponent = ({ className, ...props }: IProductPageComponent) =>
   const [mainImage, setMainImage] = useState<string>('')
   const [isError, setIsError] = useState(false)
 
-  const sizes = useRef(['XS', 'S', 'M', 'L'])
-  const [selectedSize, setSelectedSize] = useState(sizes.current[0])
+  const sizes: parsedSize[] = (product !== undefined) ? JSON.parse(product.sizes) : ['XS']
+  const [selectedSize, setSelectedSize] = useState(sizes[0])
 
   const { id } = useParams()
 
@@ -86,13 +87,15 @@ const ProductPageComponent = ({ className, ...props }: IProductPageComponent) =>
 
           <p className={styles.productDescriptionName}>{'SIZE:'}</p>
           <div className={styles.sizesContainer}>
-            {sizes.current.map(size =>
+            {sizes.map(size =>
               <button
                 onClick={() => setSelectedSize(size)}
                 className={cn(styles.sizeButton, {
-                  [styles.selectedSizeButton]: selectedSize === size
+                  [styles.selectedSizeButton]: selectedSize === size,
+                  [styles.outOfStockSize]: !product.isInStock
                 })}
                 key={size}
+                disabled={!product.isInStock}
               >
                 {size}
               </button>
@@ -106,7 +109,9 @@ const ProductPageComponent = ({ className, ...props }: IProductPageComponent) =>
           <AddToCart
             className={styles.addToCart}
             productId={parseInt(id as string)}
-            size={'large'}
+            buttonSize={'large'}
+            size={selectedSize}
+            isInStock={product.isInStock}
           />
 
           <p className={styles.description}>{product.description}</p>

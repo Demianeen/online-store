@@ -11,7 +11,7 @@ import { addItem } from '../../http/cartApi'
 import Button from '../Button/Button'
 import { fetchCart } from '../../store/reducers/CartSlice/slice'
 
-const AddToCart = ({ productId, size, className, ...props }: IAddToCart) => {
+const AddToCart = ({ productId, size, isInStock, buttonSize, className, ...props }: IAddToCart) => {
   const [isButtonPressed, setIsButtonPressed] = useState(false)
 
   const dispatch = useAppDispatch()
@@ -24,7 +24,8 @@ const AddToCart = ({ productId, size, className, ...props }: IAddToCart) => {
       try {
         e.stopPropagation()
         if (user !== undefined) {
-          await addItem({ ProductId, CartId: user.CartId })
+          if (!isInStock) return alert('Sorry. This item is unavailable right now. Try again later')
+          await addItem({ size, ProductId, CartId: user.CartId })
           dispatch(fetchCart(user.id))
 
           setIsButtonPressed(true)
@@ -37,7 +38,7 @@ const AddToCart = ({ productId, size, className, ...props }: IAddToCart) => {
       }
     }
 
-  if (size === 'small') {
+  if (buttonSize === 'small') {
     return (
       <button
         className={cn(styles.smallButton, className)}
@@ -49,7 +50,7 @@ const AddToCart = ({ productId, size, className, ...props }: IAddToCart) => {
     )
   }
 
-  if (size === 'large') {
+  if (buttonSize === 'large') {
     return (
       <Button
         onClick={async (e) => await addToCart(e, productId)}

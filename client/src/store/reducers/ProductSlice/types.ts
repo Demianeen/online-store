@@ -9,7 +9,9 @@ export interface ICategory {
   updatedAt: Date
 }
 
-export type CategoryCreate = CreationAttributes<ICategory>
+export type CategoryCreate = CreationAttributes<ICategory, 'gender'> & {
+  gender: string[]
+}
 export interface IBrand {
   id: number
   name: string
@@ -37,6 +39,8 @@ export interface IProduct {
   description: string
   price: number
   images: string
+  isInStock: boolean
+  sizes: string
 
   CategoryId: number
   BrandId: number
