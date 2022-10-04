@@ -6,35 +6,44 @@ import { useNavigate } from 'react-router-dom'
 import { Routes } from '../../utils/consts'
 import CheckIcon from '../CheckIcon/CheckIcon'
 import { ReactComponent as CartIcon } from './Cart.svg'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { addItem } from '../../http/cartApi'
+import { useAppSelector } from '../../hooks/redux'
 import Button from '../Button/Button'
-import { fetchCart } from '../../store/reducers/CartSlice/slice'
+import { useAddItemMutation } from '../../http/cartApi/cartApi'
+import { isErrorWithMessage, isFetchBaseQueryError } from '../../http/error'
 
 const AddToCart = ({ productId, size, isInStock, buttonSize, className, ...props }: IAddToCart) => {
   const [isButtonPressed, setIsButtonPressed] = useState(false)
 
-  const dispatch = useAppDispatch()
   const { user } = useAppSelector(store => store.user)
+  const [addItem, { isLoading }] = useAddItemMutation()
 
   const navigate = useNavigate()
 
   const addToCart =
     async (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>, ProductId: number) => {
-      try {
-        e.stopPropagation()
-        if (user !== undefined) {
-          if (!isInStock) return alert('Sorry. This item is unavailable right now. Try again later')
-          await addItem({ size, ProductId, CartId: user.CartId })
-          dispatch(fetchCart(user.id))
+      e.stopPropagation()
+      if (user === undefined) {
+        navigate(Routes.LOGIN_ROUTE)
+        return
+      }
+      if (!isInStock) return alert('Sorry. This item is unavailable right now. Try again later')
+      if (isLoading) return
 
-          setIsButtonPressed(true)
-          setTimeout(() => setIsButtonPressed(false), 3000)
-        } else {
-          navigate(Routes.LOGIN_ROUTE)
-        }
+      try {
+        await addItem({ CartId: user.id, ProductId, size }).unwrap()
+
+        setIsButtonPressed(true)
+        setTimeout(() => setIsButtonPressed(false), 3000)
       } catch (error) {
-        alert('You have already added this product to your cart.')
+        if (isFetchBaseQueryError(error)) {
+          const errMsg = 'error' in error ? error.error : error.data
+          if (isErrorWithMessage(errMsg)) {
+            return alert(errMsg.message)
+          }
+          alert(JSON.stringify(errMsg))
+        } else if (isErrorWithMessage(error)) {
+          alert(error.message)
+        }
       }
     }
 

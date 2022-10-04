@@ -1,6 +1,6 @@
 import { IUserJWT } from './../store/reducers/UserSlice/types'
 import jwtDecode from 'jwt-decode'
-import { $authHost, $host } from './index'
+import { $authHost, $host } from './index2'
 
 export const registration = async (email: string, password: string) => {
   const { data } = await $host.post<string>(

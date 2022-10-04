@@ -12,7 +12,7 @@ import CurrencySelect from '../../components/modals/CurrencySelect/CurrencySelec
 import productSlice from '../../store/reducers/ProductSlice/slice'
 import UserControl from '../../components/modals/UserControl/UserControl'
 import CartControl from '../../components/modals/CartControl/CartControl'
-import { fetchCart } from '../../store/reducers/CartSlice/slice'
+import { useCartTotal } from '../../hooks/cart'
 
 const Header = ({ className, ...props }: HeaderProps) => {
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
@@ -23,7 +23,7 @@ const Header = ({ className, ...props }: HeaderProps) => {
   const { selectGender } = productSlice.actions
   const { user } = useAppSelector(store => store.user)
   const { selectedGender } = useAppSelector(store => store.product)
-  const { overallQuantity } = useAppSelector(store => store.cart)
+  const { overallQuantity } = useCartTotal()
 
   const navigate = useNavigate()
 
@@ -41,15 +41,15 @@ const Header = ({ className, ...props }: HeaderProps) => {
     }
   }, [isUserOpen])
 
-  useEffect(() => {
-    const fetch = async () => {
-      if (user === undefined) return
-      dispatch(fetchCart(user.id))
-    }
-    if (isCartOpen && (user !== undefined)) {
-      fetch()
-    }
-  }, [isCartOpen])
+  // useEffect(() => {
+  //   const fetch = async () => {
+  //     if (user === undefined) return
+  //     dispatch(fetchCart(user.id))
+  //   }
+  //   if (isCartOpen && (user !== undefined)) {
+  //     fetch()
+  //   }
+  // }, [isCartOpen])
 
   const closeAll = () => {
     setIsUserOpen(false)

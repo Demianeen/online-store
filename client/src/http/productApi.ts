@@ -1,5 +1,5 @@
 import { IBrand, IBrandCreate, ICategory, CategoryCreate, IProductsWithCount, IProductWithBrandCategoryAndColors, IProduct } from '../store/reducers/ProductSlice/types'
-import { $authHost, $host } from '.'
+import { $authHost, $host } from './index2'
 
 export const createCategory = async (category: CategoryCreate) => {
   const { data } = await $authHost.post<ICategory>('api/category', category)

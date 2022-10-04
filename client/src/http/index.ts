@@ -1,19 +1,18 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-export const $host = axios.create({
-  baseURL: process.env.REACT_APP_API_URL
+export const apiSlice = createApi({
+  tagTypes: ['cart'],
+  reducerPath: 'api',
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.REACT_APP_API_URL + 'api',
+    prepareHeaders: (headers, api) => {
+      const authToken = localStorage.getItem('token')
+      if (authToken === null) return headers
+      headers.append('authorization', `Bearer ${authToken}`)
+      return headers
+    }
+  }),
+  endpoints: (build) => ({
+
+  })
 })
-
-export const $authHost = axios.create({
-  baseURL: process.env.REACT_APP_API_URL
-})
-
-export const setAuthInterceptor = (config: AxiosRequestConfig<any>) => {
-  const token = localStorage.getItem('token')
-  if (token !== null && config.headers !== undefined) {
-    config.headers.authorization = `Bearer ${token}`
-    return config
-  }
-}
-
-$authHost.interceptors.request.use(setAuthInterceptor)

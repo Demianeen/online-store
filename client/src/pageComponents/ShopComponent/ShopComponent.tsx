@@ -6,7 +6,6 @@ import Pagination from '../../components/Pagination/Pagination'
 import { fetchCategories, fetchBrands, fetchProducts } from '../../http/productApi'
 import productSlice from '../../store/reducers/ProductSlice/slice'
 import ProductsFeed from '../../components/ProductsFeed/ProductsFeed'
-import { fetchCart } from '../../store/reducers/CartSlice/slice'
 
 const ShopComponent = ({ className, ...props }: ICurrencySelect) => {
   const dispatch = useAppDispatch()
@@ -15,7 +14,6 @@ const ShopComponent = ({ className, ...props }: ICurrencySelect) => {
     selectedCategory, selectedGender, limit, page
   } =
     useAppSelector(store => store.product)
-  const { user } = useAppSelector(store => store.user)
 
   useEffect(() => {
     const getInitialProps = async () => {
@@ -27,10 +25,6 @@ const ShopComponent = ({ className, ...props }: ICurrencySelect) => {
       dispatch(setBrands(brands))
       dispatch(setProducts(productsAndCount.rows))
       dispatch(setAmountOfProducts(productsAndCount.count))
-
-      if (user !== undefined) {
-        dispatch(fetchCart(user.id))
-      }
     }
     getInitialProps()
   }, [])

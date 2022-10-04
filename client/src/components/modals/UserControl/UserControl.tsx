@@ -7,7 +7,7 @@ import { Routes } from '../../../utils/consts'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import userSlice from '../../../store/reducers/UserSlice/slice'
 
-const UserControl = ({ setIsVisible, ...props }: IUserModal) => {
+const UserControl = ({ setIsVisible, isVisible, ...props }: IUserModal) => {
   const dispatch = useAppDispatch()
   const { setIsAuth, setUser } = userSlice.actions
 
@@ -21,6 +21,10 @@ const UserControl = ({ setIsVisible, ...props }: IUserModal) => {
     setIsVisible(false)
     navigate(Routes.SHOP_ROUTE)
     localStorage.removeItem('token')
+  }
+
+  if (!isVisible) {
+    return <></>
   }
 
   return (

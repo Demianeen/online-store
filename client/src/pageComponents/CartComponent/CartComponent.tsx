@@ -1,37 +1,51 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { IUserComponent } from './CartComponent.types'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { useNavigate } from 'react-router-dom'
-import { fetchCart } from '../../store/reducers/CartSlice/slice'
-import { Routes } from '../../utils/consts'
 import styles from './CartComponent.module.css'
 import Order from '../../components/Order/Order'
 import CartItemQuantity from '../../components/CartItemQuantity/CartItemQuantity'
 import FullSizeImage from '../../components/FullSizeImage/FullSizeImage'
 import CartItemSizes from '../../components/CartItemSizes/CartItemSizes'
+import { useGetCartQuery } from '../../http/cartApi/cartApi'
+import { useCartTotal } from '../../hooks/cart'
+import { useAppSelector } from '../../hooks/redux'
+import { useNavigate } from 'react-router-dom'
+import { Routes } from '../../utils/consts'
 
 const CartComponent = ({ className, ...props }: IUserComponent) => {
-  const dispatch = useAppDispatch()
   // FIXME: not refreshing when the state changes on cart control on the cart page
-  const { Items, itemsPrice, overallQuantity, taxPercentage, tax } = useAppSelector(store => store.cart)
-
   const { user } = useAppSelector(store => store.user)
-
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const getInitialProps = async () => {
-      if (user !== undefined) {
-        dispatch(fetchCart(user.id))
-      } else {
-        navigate(Routes.LOGIN_ROUTE)
-      }
-    }
+  if (user === undefined) {
+    navigate(Routes.LOGIN_ROUTE)
+    return <></>
+  }
 
-    getInitialProps()
-  }, [])
+  const { data, isLoading, isSuccess } = useGetCartQuery(user.CartId)
+  const { subTotal, overallQuantity, taxPercentage, tax } = useCartTotal()
 
-  if (Items[0] === undefined) {
+  // useEffect(() => {
+  //   const getInitialProps = async () => {
+  //     if (user !== undefined) {
+  //       dispatch(fetchCart(user.id))
+  //     } else {
+  //       navigate(Routes.LOGIN_ROUTE)
+  //     }
+  //   }
+
+  //   getInitialProps()
+  // }, [])
+
+  if (isLoading) {
+    return <p>{'Loading...'}</p>
+  }
+
+  if (!isSuccess) {
+    alert('Error occurred')
+    return <></>
+  }
+
+  if (data.Items[0] === undefined) {
     return <p>{'Your cart is empty('}</p>
   }
 
@@ -39,7 +53,7 @@ const CartComponent = ({ className, ...props }: IUserComponent) => {
     <>
       <h2 className={styles.heading}>{'Cart'}</h2>
       <hr className={styles.hr} />
-      {Items.map(item =>
+      {data.Items.map(item =>
         <div key={item.id}>
           <div className={styles.product}>
             <div className={styles.productDescription}>
@@ -72,7 +86,7 @@ const CartComponent = ({ className, ...props }: IUserComponent) => {
         <span className={styles.totalValue}>{overallQuantity}</span>
 
         <span className={styles.total}>{'Total: '}</span>
-        <span className={styles.totalValue}>{'$'}{(Math.floor((itemsPrice + tax) * 100)) / 100}</span>
+        <span className={styles.totalValue}>{'$'}{(Math.floor((subTotal + tax) * 100)) / 100}</span>
       </div>
       <Order className={styles.order}>{'Order'}</Order>
     </>
