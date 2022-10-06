@@ -16,9 +16,10 @@ export interface IRowData {
   updatedAt: string
 }
 
+// we can't store class instances like Date in redux
 export interface IParsedData {
-  createdAt: Date
-  updatedAt: Date
+  createdAt: number
+  updatedAt: number
 }
 
 export interface ICartItemWithoutRaw {

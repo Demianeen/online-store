@@ -3,27 +3,20 @@ import styles from './CartItemQuantity.module.css'
 import cn from 'classnames'
 import { ICartItemProps } from './CartItemQuantity.types'
 import { useChangeItemQuantityMutation } from '../../http/cartApi/cartApi'
+import { useAppSelector } from '../../hooks/redux'
+import { selectCartItemById } from '../../http/cartApi/cartApiSelectors'
 
-const CartItemQuantity = ({ cartItem, className, ...props }: ICartItemProps) => {
-  // const dispatch = useAppDispatch()
-  // const { setItemQuantity } = cartSlice.actions
-  // const { user } = useAppSelector(store => store.user)
+const CartItemQuantity = ({ cartItemId, className, ...props }: ICartItemProps) => {
+  // we can assure that item will defined because we pass ids from server
+  // eslint-disable-next-line
+  const { id, quantity } = useAppSelector(state => selectCartItemById(state, cartItemId))!
 
   const [changeItemQuantity] = useChangeItemQuantityMutation()
-
-  const { id, quantity } = cartItem
 
   const increaseByOne = async (id: number, quantity: number) => {
     const increasedQuantity = quantity + 1
 
     changeItemQuantity({ cartItemId: id, quantity: increasedQuantity })
-
-    // const changedQuantity = changeItemQuantity(id, increasedQuantity)
-    // dispatch(setItemQuantity({ id, quantity: increasedQuantity }))
-
-    // if (await changedQuantity === null || await changedQuantity === undefined) {
-    //   dispatch(setItemQuantity({ id, quantity }))
-    // }
   }
 
   const decreaseByOne = async (id: number, quantity: number) => {
@@ -34,14 +27,6 @@ const CartItemQuantity = ({ cartItem, className, ...props }: ICartItemProps) => 
       if (!isDeleteConfirmed) return
     }
     changeItemQuantity({ cartItemId: id, quantity: decreasedQuantity })
-
-    // const changedQuantity = changeItemQuantity(id, decreasedQuantity)
-    // dispatch(setItemQuantity({ id, quantity: decreasedQuantity }))
-
-    // if (await changedQuantity === null || await changedQuantity === undefined) {
-    //   dispatch(setItemQuantity({ id, quantity }))
-    //   alert('Error occurred')
-    // }
   }
 
   return (

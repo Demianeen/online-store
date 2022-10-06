@@ -1,11 +1,21 @@
-import { ICartItem, ICart, CartItemCreate, ChangeCartItemQuantity, ChangeCartItemSize, ICartRaw } from './types'
+import { ICartItem, CartItemCreate, ChangeCartItemQuantity, ChangeCartItemSize, ICartRaw } from './cartApi.types'
 import { apiSlice } from '..'
+// import jwtDecode from 'jwt-decode'
+// import { IUserJWT } from '../../store/reducers/UserSlice/types'
+import { createEntityAdapter, EntityState } from '@reduxjs/toolkit'
 import jwtDecode from 'jwt-decode'
 import { IUserJWT } from '../../store/reducers/UserSlice/types'
 
+export const cartItemsAdapter = createEntityAdapter<ICartItem>({
+  // Keeps the "all IDs" array sorted based on when cart item was created at
+  sortComparer: (a, b) => a.createdAt - b.createdAt
+})
+
+export const cartItemsInitialState = cartItemsAdapter.getInitialState()
+
 export const cartApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getCart: builder.query<ICart, number>({
+    getCartItems: builder.query<EntityState<ICartItem>, number>({
       query: (UserId) => ({
         url: '/cart',
         params: {
@@ -16,20 +26,10 @@ export const cartApiSlice = apiSlice.injectEndpoints({
         // parse stringified properties
         const parsedItems: ICartItem[] = responseData.Items.map((el) => ({
           ...el,
-          createdAt: new Date(el.createdAt),
-          updatedAt: new Date(el.updatedAt)
+          createdAt: new Date(el.createdAt).getTime(),
+          updatedAt: new Date(el.updatedAt).getTime()
         }))
-        const parsedData: ICart = {
-          ...responseData,
-          Items: parsedItems,
-          createdAt: new Date(responseData.createdAt),
-          updatedAt: new Date(responseData.updatedAt)
-        }
-
-        parsedData.Items = parsedData.Items.sort(
-          (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-        )
-        return parsedData
+        return cartItemsAdapter.setAll(cartItemsInitialState, parsedItems)
       },
       providesTags: ['cart']
     }),
@@ -61,7 +61,6 @@ export const cartApiSlice = apiSlice.injectEndpoints({
           quantity
         }
       }),
-      invalidatesTags: ['cart'],
       async onQueryStarted ({ cartItemId, quantity }, { dispatch, queryFulfilled }) {
         const authToken = localStorage.getItem('token')
         if (authToken === null) return
@@ -69,9 +68,17 @@ export const cartApiSlice = apiSlice.injectEndpoints({
 
         const patchedResult = dispatch(
           cartApiSlice.util
-            .updateQueryData('getCart', CartId, draft => {
-              const cartItem = draft.Items.find(el => el.id === cartItemId)
-              if (cartItem !== undefined) cartItem.quantity = quantity
+            .updateQueryData('getCartItems', CartId, draft => {
+              if (quantity > 0) {
+                const entity = draft.entities[cartItemId]
+                if (entity === undefined) return
+                entity.quantity = quantity
+              } else {
+                if (draft === undefined) return
+                let entity = draft.entities[cartItemId]
+                entity = undefined
+                return entity
+              }
             })
         )
 
@@ -98,9 +105,10 @@ export const cartApiSlice = apiSlice.injectEndpoints({
 
         const patchedResult = dispatch(
           cartApiSlice.util
-            .updateQueryData('getCart', CartId, draft => {
-              const cartItem = draft.Items.find(el => el.id === cartItemId)
-              if (cartItem !== undefined) cartItem.size = size
+            .updateQueryData('getCartItems', CartId, draft => {
+              const entity = draft.entities[cartItemId]
+              if (entity === undefined) return
+              entity.size = size
             })
         )
 
@@ -115,11 +123,13 @@ export const cartApiSlice = apiSlice.injectEndpoints({
 })
 
 export const {
-  useGetCartQuery,
+  useGetCartItemsQuery,
   useAddItemMutation,
   useChangeItemQuantityMutation,
   useChangeItemSizeMutation,
   useClearCartMutation,
-  useLazyGetCartQuery,
+  useLazyGetCartItemsQuery,
   usePrefetch
 } = cartApiSlice
+
+export const { endpoints, reducerPath, reducer, middleware } = cartApiSlice

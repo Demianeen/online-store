@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './SizesSelect.module.css'
 import cn from 'classnames'
 import { ISizesSelect } from './SizesSelect.types'
@@ -7,9 +7,11 @@ import { parsedSize } from '../../store/reducers/types'
 const SizesSelect = ({ sizesSize, defaultSize, sizes, className, onSizeSelect, onClick, ...props }: ISizesSelect) => {
   const [selectedSize, setSelectedSize] = useState(defaultSize)
 
-  const sizeSelect = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, newSize: parsedSize) => {
-    setSelectedSize(newSize)
+  useEffect(() => {
+    setSelectedSize(defaultSize)
+  }, [defaultSize])
 
+  const sizeSelect = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, newSize: parsedSize) => {
     if (onSizeSelect !== undefined) onSizeSelect(newSize)
     if (onClick !== undefined) onClick(e)
   }

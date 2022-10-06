@@ -1,26 +1,17 @@
+import { selectAllCartItems } from '../http/cartApi/cartApiSelectors'
 import { useAppSelector } from './redux'
-import { useGetCartQuery } from '../http/cartApi/cartApi'
-import { skipToken } from '@reduxjs/toolkit/dist/query'
 
+// it is not used now because of the selector's usage.
+// It is here to show custom hook usage example
 export const useCartTotal = () => {
-  const { user } = useAppSelector(store => store.user)
-  // TODO: Add better typing
-  const { data, isSuccess } = useGetCartQuery(user?.id ?? skipToken)
+  // const { data, isSuccess } = useGetCartQuery(user?.id ?? skipToken)
+  const Items = useAppSelector(selectAllCartItems)
 
-  if (user === undefined || !isSuccess) {
-    return {
-      overallQuantity: 0,
-      subTotal: 0,
-      tax: 0,
-      taxPercentage: 0
-    }
-  }
-
-  const overallQuantity = data.Items.reduce(
+  const overallQuantity = Items.reduce(
     (sum, el) => sum + el.quantity,
     0
   )
-  const subTotal = data.Items.reduce(
+  const subTotal = Items.reduce(
     (sum, el) => sum + el.Product.price * el.quantity,
     0
   )

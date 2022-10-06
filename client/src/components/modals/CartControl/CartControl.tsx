@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SideModal from '../SideModal/SideModal'
 import { ICartControl } from './CartControl.types'
 import styles from './CartControl.module.css'
@@ -9,48 +9,28 @@ import Order from '../../Order/Order'
 import CartItemQuantity from '../../CartItemQuantity/CartItemQuantity'
 import FullSizeImage from '../../FullSizeImage/FullSizeImage'
 import CartItemSizes from '../../CartItemSizes/CartItemSizes'
-import { useGetCartQuery } from '../../../http/cartApi/cartApi'
-import { useCartTotal } from '../../../hooks/cart'
 import { useAppSelector } from '../../../hooks/redux'
+import { selectAllCartItems, selectCartSubTotal, selectCartOverallQuantity, selectCartTax } from '../../../http/cartApi/cartApiSelectors'
 
 const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
-  const { user } = useAppSelector(store => store.user)
+  const Items = useAppSelector(selectAllCartItems)
+
+  const subTotal = useAppSelector(selectCartSubTotal)
+  const overallQuantity = useAppSelector(selectCartOverallQuantity)
+  const tax = useAppSelector(selectCartTax)
+
   const navigate = useNavigate()
 
-  if (user === undefined) {
-    navigate(Routes.LOGIN_ROUTE)
-    return <></>
-  }
+  useEffect(() => {
+    if (Items[0] === undefined && isVisible) {
+      setIsVisible(false)
+      alert('Add items to the cart first.')
+    }
+  }, [Items[0], isVisible])
 
-  const { data, isLoading, isError, error } = useGetCartQuery(user.CartId)
-  const { subTotal, overallQuantity, tax } = useCartTotal()
+  // TODO: Add loading and error handling
 
   if (!isVisible) {
-    return <></>
-  }
-
-  if (isLoading) {
-    return <SideModal
-      className={styles.informationModal}
-    >
-      {'Loading...'}
-    </SideModal>
-  }
-
-  if (isError) {
-    console.log(JSON.stringify(error))
-    return <SideModal
-      className={styles.informationModal}
-    >
-      {JSON.stringify(error)}
-    </SideModal>
-  }
-
-  if (data?.Items[0] === undefined && isVisible) {
-    setIsVisible(false)
-    setTimeout(() => {
-      alert('Add items to the cart first.')
-    }, 50)
     return <></>
   }
 
@@ -58,7 +38,7 @@ const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
     <SideModal className={styles.sideModal} {...props}>
       <p className={styles.heading}><b className={styles.bold}>{'My bag'}</b>{', '}{overallQuantity}{' items'}</p>
       <div className={styles.scrollContainer}>
-        {data?.Items.map((item) =>
+        {Items.map((item) =>
           <div key={item.id} className={styles.product}>
             <div className={styles.productDescription}>
 
@@ -72,11 +52,11 @@ const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
 
               <p className={styles.productDescriptionName}>{'Size:'}</p>
               <CartItemSizes
-                cartItem={item}
+                cartItemId={item.id}
                 sizesSize={'small'}
               />
             </div >
-            <CartItemQuantity cartItem={item} />
+            <CartItemQuantity cartItemId={item.id} />
             <FullSizeImage src={JSON.parse(item.Product.images)[0]} />
           </div>
         )}
