@@ -1,14 +1,11 @@
-import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react'
-import axios, { AxiosError } from 'axios'
+import React, { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../components/Button/Button'
-import { useAppDispatch } from '../../hooks/redux'
-import { login, registration } from '../../http/userApi'
-import userSlice from '../../store/reducers/UserSlice/slice'
-import { IUserJWT } from '../../store/reducers/UserSlice/types'
 import { Routes } from '../../utils/consts'
 import styles from './AuthComponent.module.css'
 import cn from 'classnames'
+import { useLoginMutation, useRegistrationMutation } from '../../http/userApi/userApi'
+import { isFetchBaseQueryError, isErrorWithMessage } from '../../http/error'
 
 export interface IApiError {
   message: string
@@ -16,8 +13,8 @@ export interface IApiError {
 }
 
 const AuthComponent = () => {
-  const dispatch = useAppDispatch()
-  const { setUser, setIsAuth } = userSlice.actions
+  const [login, { isLoading: isLoginLoading }] = useLoginMutation()
+  const [registration, { isLoading: isRegisterLoading }] = useRegistrationMutation()
 
   const { pathname } = useLocation()
   const navigate = useNavigate()
@@ -25,7 +22,7 @@ const AuthComponent = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [isLoading, setIsLoading] = useState(true)
+  const [isAuthMethodChanging, setIsAuthMethodChanging] = useState(true)
 
   const isEmailEmpty = useRef(true)
   const isPasswordEmpty = useRef(true)
@@ -33,39 +30,37 @@ const AuthComponent = () => {
   const goTo = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, route: Routes) => {
     e.preventDefault()
 
-    // if (pathname !== route) {
-    setIsLoading((isLoading) => false)
-    setTimeout(() => setIsLoading((isLoading) => true), 400)
-    // setIsLoading((isLoading) => true)
-    // }
+    setIsAuthMethodChanging((isLoading) => false)
+    setTimeout(() => setIsAuthMethodChanging((isLoading) => true), 400)
     navigate(route)
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault()
-      let response: IUserJWT
+
+      // let response: IUserJWT
       if (isLogin) {
-        response = await login(email, password)
+        if (isLoginLoading) return
+        await login({ email, password }).unwrap()
       } else {
-        response = await registration(email, password)
+        if (isRegisterLoading) return
+        await registration({ email, password }).unwrap()
       }
 
-      dispatch(setUser(response))
-      dispatch(setIsAuth(true))
+      // dispatch(setUser(response))
+      // dispatch(setIsAuth(true))
 
       navigate(Routes.SHOP_ROUTE)
     } catch (error) {
-      if (axios.isAxiosError(error) && (error.response !== undefined)) {
-        // TODO: Process axios error without new variable
-        const axiosError = error as AxiosError<IApiError>
-        alert(axiosError.response?.data.message)
-
-        return
-      } else if (error instanceof Error) {
+      if (isFetchBaseQueryError(error)) {
+        if (isErrorWithMessage(error.data)) {
+          return alert(error.data.message)
+        }
+        alert('Error occurred. Try again later.')
+      } else if (isErrorWithMessage(error)) {
         alert(error.message)
       }
-      alert('Internal error. Try again later')
     }
   }
 
@@ -89,10 +84,10 @@ const AuthComponent = () => {
     isPasswordEmpty.current = false
   }
 
-  useEffect(() => {
-    // setTimeout(() => setIsLoading(false), 10000)
-    console.log(isLoading)
-  }, [isLoading])
+  // useEffect(() => {
+  //   // setTimeout(() => setIsLoading(false), 10000)
+  //   console.log(isAuthMethodChanging)
+  // }, [isAuthMethodChanging])
 
   return (
     <div className={styles.form}>
@@ -115,44 +110,44 @@ const AuthComponent = () => {
       </ul>
 
       <div className={styles.tabContent}>
-          <h2 className={cn(styles.heading, {
-            [styles.animation]: isLoading
-          })}>{isLogin ? 'Welcome back' : 'Sign up'}</h2>
+        <h2 className={cn(styles.heading, {
+          [styles.animation]: isAuthMethodChanging
+        })}>{isLogin ? 'Welcome back' : 'Sign up'}</h2>
 
-          <form onSubmit={handleSubmit}>
-            <div className={styles.fieldContainer}>
-              <label className={cn(styles.label, {
-                [styles.active]: !isEmailEmpty.current
-              })}>
-                {'Email Address'}<span className={styles.req}>{'*'}</span>
-              </label>
-              <input
-                className={styles.input}
-                type={'email'}
-                onChange={changeEmail}
-                value={email}
-                required
-              />
-            </div>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.fieldContainer}>
+            <label className={cn(styles.label, {
+              [styles.active]: !isEmailEmpty.current
+            })}>
+              {'Email Address'}<span className={styles.req}>{'*'}</span>
+            </label>
+            <input
+              className={styles.input}
+              type={'email'}
+              onChange={changeEmail}
+              value={email}
+              required
+            />
+          </div>
 
-            <div className={styles.fieldContainer}>
-              <label className={cn(styles.label, {
-                [styles.active]: !isPasswordEmpty.current
-              })}>
-                {'Your password'}<span className={styles.req}>{'*'}</span>
-              </label>
-              <input
-                className={styles.input}
-                type={'password'}
-                onFocus={(e) => e.target.select()}
-                onChange={changePassword}
-                value={password}
-                required
-              />
-            </div>
+          <div className={styles.fieldContainer}>
+            <label className={cn(styles.label, {
+              [styles.active]: !isPasswordEmpty.current
+            })}>
+              {'Your password'}<span className={styles.req}>{'*'}</span>
+            </label>
+            <input
+              className={styles.input}
+              type={'password'}
+              onFocus={(e) => e.target.select()}
+              onChange={changePassword}
+              value={password}
+              required
+            />
+          </div>
 
-            <Button type={'submit'} className={styles.submit}>{isLogin ? 'Log in' : 'Get started'}</Button>
-          </form>
+          <Button type={'submit'} className={styles.submit}>{isLogin ? 'Log in' : 'Get started'}</Button>
+        </form>
       </div>
     </div>
   )

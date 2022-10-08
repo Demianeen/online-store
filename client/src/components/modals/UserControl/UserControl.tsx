@@ -4,23 +4,21 @@ import { IUserModal } from './UserControl.types'
 import styles from './UserControl.module.css'
 import { useNavigate } from 'react-router-dom'
 import { Routes } from '../../../utils/consts'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import userSlice from '../../../store/reducers/UserSlice/slice'
+import { useAppDispatch } from '../../../hooks/redux'
+import { useCheckQuery, userApiSlice } from '../../../http/userApi/userApi'
 
 const UserControl = ({ setIsVisible, isVisible, ...props }: IUserModal) => {
   const dispatch = useAppDispatch()
-  const { setIsAuth, setUser } = userSlice.actions
 
-  const { user } = useAppSelector(store => store.user)
-
+  const { data: userData } = useCheckQuery(undefined)
   const navigate = useNavigate()
 
   const signOut = () => {
-    dispatch(setUser(undefined))
-    dispatch(setIsAuth(false))
     setIsVisible(false)
-    navigate(Routes.SHOP_ROUTE)
     localStorage.removeItem('token')
+    dispatch(userApiSlice.util.resetApiState())
+
+    navigate(Routes.SHOP_ROUTE)
   }
 
   if (!isVisible) {
@@ -30,7 +28,7 @@ const UserControl = ({ setIsVisible, isVisible, ...props }: IUserModal) => {
   return (
     <SideModal className={styles.sideModal} {...props}>
       <ul className={styles.container}>
-        {user?.role === 'ADMIN'
+        {userData?.user?.role === 'ADMIN'
           ? <li className={styles.li}>
           <button
             className={styles.button}

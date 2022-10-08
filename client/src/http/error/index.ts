@@ -16,3 +16,5 @@ export function isErrorWithMessage (
     typeof (error as any).message === 'string'
   )
 }
+
+// TODO: Add error handling decorator

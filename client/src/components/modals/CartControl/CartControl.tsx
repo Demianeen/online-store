@@ -22,6 +22,7 @@ const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
   const navigate = useNavigate()
 
   useEffect(() => {
+    console.log('Items', Items)
     if (Items[0] === undefined && isVisible) {
       setIsVisible(false)
       alert('Add items to the cart first.')

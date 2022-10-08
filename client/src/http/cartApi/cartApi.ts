@@ -1,7 +1,5 @@
 import { ICartItem, CartItemCreate, ChangeCartItemQuantity, ChangeCartItemSize, ICartRaw } from './cartApi.types'
 import { apiSlice } from '..'
-// import jwtDecode from 'jwt-decode'
-// import { IUserJWT } from '../../store/reducers/UserSlice/types'
 import { createEntityAdapter, EntityState } from '@reduxjs/toolkit'
 import jwtDecode from 'jwt-decode'
 import { IUserJWT } from '../../store/reducers/UserSlice/types'
@@ -61,6 +59,7 @@ export const cartApiSlice = apiSlice.injectEndpoints({
           quantity
         }
       }),
+      invalidatesTags: ['cart'],
       async onQueryStarted ({ cartItemId, quantity }, { dispatch, queryFulfilled }) {
         const authToken = localStorage.getItem('token')
         if (authToken === null) return
@@ -73,11 +72,6 @@ export const cartApiSlice = apiSlice.injectEndpoints({
                 const entity = draft.entities[cartItemId]
                 if (entity === undefined) return
                 entity.quantity = quantity
-              } else {
-                if (draft === undefined) return
-                let entity = draft.entities[cartItemId]
-                entity = undefined
-                return entity
               }
             })
         )

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES2022",
     "lib": [
       "dom",
       "dom.iterable",
@@ -23,7 +23,7 @@
       "./src/"
     ],
     "outDir": "./build/",
-    "downlevelIteration": true
+    "downlevelIteration": true,
   },
   "include": [
     "src"

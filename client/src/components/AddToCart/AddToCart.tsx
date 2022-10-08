@@ -6,15 +6,15 @@ import { useNavigate } from 'react-router-dom'
 import { Routes } from '../../utils/consts'
 import CheckIcon from '../CheckIcon/CheckIcon'
 import { ReactComponent as CartIcon } from './Cart.svg'
-import { useAppSelector } from '../../hooks/redux'
 import Button from '../Button/Button'
 import { useAddItemMutation } from '../../http/cartApi/cartApi'
 import { isErrorWithMessage, isFetchBaseQueryError } from '../../http/error'
+import { useCheckQuery } from '../../http/userApi/userApi'
 
 const AddToCart = ({ productId, size, isInStock, buttonSize, className, ...props }: IAddToCart) => {
   const [isButtonPressed, setIsButtonPressed] = useState(false)
 
-  const { user } = useAppSelector(store => store.user)
+  const { data: userData, isSuccess: isUserLogged } = useCheckQuery(undefined)
   const [addItem, { isLoading }] = useAddItemMutation()
 
   const navigate = useNavigate()
@@ -22,7 +22,7 @@ const AddToCart = ({ productId, size, isInStock, buttonSize, className, ...props
   const addToCart =
     async (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>, ProductId: number) => {
       e.stopPropagation()
-      if (user === undefined) {
+      if (!isUserLogged) {
         navigate(Routes.LOGIN_ROUTE)
         return
       }
@@ -30,17 +30,16 @@ const AddToCart = ({ productId, size, isInStock, buttonSize, className, ...props
       if (isLoading) return
 
       try {
-        await addItem({ CartId: user.id, ProductId, size }).unwrap()
+        await addItem({ CartId: userData.user.CartId, ProductId, size }).unwrap()
 
         setIsButtonPressed(true)
         setTimeout(() => setIsButtonPressed(false), 3000)
       } catch (error) {
         if (isFetchBaseQueryError(error)) {
-          const errMsg = 'error' in error ? error.error : error.data
-          if (isErrorWithMessage(errMsg)) {
-            return alert(errMsg.message)
+          if (isErrorWithMessage(error.data)) {
+            return alert(error.data.message)
           }
-          alert(JSON.stringify(errMsg))
+          alert('Error occurred. Try again later.')
         } else if (isErrorWithMessage(error)) {
           alert(error.message)
         }

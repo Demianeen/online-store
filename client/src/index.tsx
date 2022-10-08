@@ -4,14 +4,12 @@ import { Provider } from 'react-redux/es/exports'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import { setupStore } from './store/store'
+import { store } from './store/store'
 
 document.getElementsByTagName('body')[0].style.margin = '0'
 
 const container = document.getElementById('root') as HTMLElement
 const root = ReactDOM.createRoot(container)
-
-const store = setupStore()
 
 root.render(
   <Provider store={store}>

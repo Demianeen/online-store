@@ -26,3 +26,8 @@ const userSlice = createSlice({
 })
 
 export default userSlice
+
+export const {
+  setIsAuth,
+  setUser
+} = userSlice.actions

@@ -13,6 +13,7 @@ import productSlice from '../../store/reducers/ProductSlice/slice'
 import UserControl from '../../components/modals/UserControl/UserControl'
 import CartControl from '../../components/modals/CartControl/CartControl'
 import { selectCartOverallQuantity } from '../../http/cartApi/cartApiSelectors'
+import { useCheckQuery } from '../../http/userApi/userApi'
 
 const Header = ({ className, ...props }: HeaderProps) => {
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
@@ -21,7 +22,7 @@ const Header = ({ className, ...props }: HeaderProps) => {
 
   const dispatch = useAppDispatch()
   const { selectGender } = productSlice.actions
-  const { user } = useAppSelector(store => store.user)
+  const { data } = useCheckQuery(undefined)
   const { selectedGender } = useAppSelector(store => store.product)
   // TODO: Add useContext if cartIsOpen
   const overallQuantity = useAppSelector(selectCartOverallQuantity)
@@ -38,9 +39,24 @@ const Header = ({ className, ...props }: HeaderProps) => {
 
   useEffect(() => {
     if (isUserOpen) {
+      setIsCartOpen(false)
       setIsCurrencyOpen(false)
     }
   }, [isUserOpen])
+
+  useEffect(() => {
+    if (isCartOpen) {
+      setIsUserOpen(false)
+      setIsCurrencyOpen(false)
+    }
+  }, [isCartOpen])
+
+  useEffect(() => {
+    if (isCurrencyOpen) {
+      setIsUserOpen(false)
+      setIsCartOpen(false)
+    }
+  }, [isCurrencyOpen])
 
   const closeAll = () => {
     setIsUserOpen(false)
@@ -93,7 +109,7 @@ const Header = ({ className, ...props }: HeaderProps) => {
         >
           <ShopIcon />
         </Link>
-        {user !== undefined
+        {data !== undefined
           ? <div className={styles.container}>
             <CurrencySelect
               isOpen={isCurrencyOpen}
