@@ -4,14 +4,8 @@ import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { cartApiSlice, cartItemsAdapter, cartItemsInitialState } from './cartApi'
 import { userApiSlice } from '../userApi/userApi'
 
-// const authToken = localStorage.getItem('token')
-// const UserId = authToken !== null ? jwtDecode<IUserJWT>(authToken).id : undefined
-
 const data = await store.dispatch(userApiSlice.endpoints.check.initiate(undefined))
   .unwrap().catch(() => undefined)
-
-// const data: IUserApiState | undefined = userApiSlice.endpoints.check
-//   .select(undefined)(store.getState() as any) as any
 
 export const selectCartItemsResult = cartApiSlice.endpoints.getCartItems
   .select(data?.user?.id ?? skipToken)

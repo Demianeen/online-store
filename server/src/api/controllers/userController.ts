@@ -50,7 +50,7 @@ class UserController {
       return next(ApiError.badRequest('Email or password is incorrect'))
     }
 
-    const cart = await Cart.findOne({ where: { id: user.id } })
+    const cart = await Cart.findOne({ where: { UserId: user.id } })
     if (!cart) return next(ApiError.internal())
 
     const token = generateJwt(user.id, user.email, user.role, cart.id)
