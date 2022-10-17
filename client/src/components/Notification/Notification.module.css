@@ -1,0 +1,49 @@
+.notificationContainer {
+  box-sizing: border-box;
+  padding: 0 10px;
+
+  display: flex;
+  flex-direction: column-reverse;
+
+  position: fixed;
+  right: 0;
+  bottom: 0;
+
+  width: 300px;
+  transition: 0.3s;
+  pointer-events: none;
+}
+
+.notification {
+  box-sizing: border-box;
+  position: relative;
+  z-index: 3;
+  padding: 15px 15px;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  pointer-events: all;
+}
+
+.success {
+  background-color: #d1e7dd;
+  border-color: #badbcc;
+}
+
+.error {
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
+}
+
+.close {
+  all: unset;
+
+  position: absolute;
+  line-height: 20px;
+  cursor: pointer;
+
+  right: 10px;
+  top: 5px;
+
+  color: white;
+  font-size: 22px;
+}

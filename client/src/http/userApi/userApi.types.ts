@@ -1,4 +1,10 @@
-import { IUserJWT } from './../../store/reducers/UserSlice/types'
+export interface IUserJWT {
+  id: number
+  email: string
+  role: string
+  CartId: number
+}
+
 export interface IRegisterBody {
   email: string
   password: string

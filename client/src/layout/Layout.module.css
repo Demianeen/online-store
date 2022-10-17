@@ -1,6 +1,7 @@
 :root {
   --c-primary: #5ECE7B;
   --price-regular-font: 500 18px/29px Raleway, sans-serif;
+  --black: #1D1F22;
 }
 
 .wrapper {

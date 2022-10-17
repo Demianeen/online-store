@@ -14,6 +14,7 @@ import UserControl from '../../components/modals/UserControl/UserControl'
 import CartControl from '../../components/modals/CartControl/CartControl'
 import { selectCartOverallQuantity } from '../../http/cartApi/cartApiSelectors'
 import { useCheckQuery } from '../../http/userApi/userApi'
+import Overlay from '../../components/Overlay/Overlay'
 
 const Header = ({ className, ...props }: HeaderProps) => {
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
@@ -65,13 +66,11 @@ const Header = ({ className, ...props }: HeaderProps) => {
 
   return (
     <>
-      <div
+      <Overlay
         onClick={() => closeAll()}
-        className={cn(styles.overlay, {
-          [styles.showedOverlay]: isUserOpen || isCartOpen
-        })}
-      >
-      </div>
+        isVisible={(isCartOpen && overallQuantity > 0) || isUserOpen}
+        className={styles.overlayColor}
+      />
       <header
         className={cn(styles.header, className)}
         onClick={() => setIsUserOpen(false)}
@@ -123,7 +122,10 @@ const Header = ({ className, ...props }: HeaderProps) => {
                 className={styles.cartIconButton}
               >
                 <CartIcon />
-                {isCartOpen ? <span className={styles.notificationBadge}>{overallQuantity}</span> : <></>}
+                {isCartOpen && overallQuantity > 0
+                  ? <span className={styles.notificationBadge}>{overallQuantity}</span>
+                  : <></>
+                }
               </button>
               <CartControl isVisible={isCartOpen} setIsVisible={setIsCartOpen} />
             </div>

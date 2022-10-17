@@ -13,7 +13,7 @@
   font-size: 16px;
   line-height: 160%;
 
-  color: #1D1F22;
+  color: var(--black);
   margin: 0;
 }
 
@@ -42,7 +42,7 @@
 .sizeButton {
   all: unset;
   cursor: pointer;
-  border: 1px solid #1D1F22;
+  border: 1px solid var(--black);
   text-align: center;
   margin-right: 8px;
 
@@ -60,7 +60,7 @@
 }
 
 .selectedSizeButton {
-  background: #1D1F22;
+  background: var(--black);
   color: white;
 }
 
@@ -84,7 +84,7 @@
 
   width: 4vh;
   height: 4vh;
-  border: 1px solid #1D1F22;
+  border: 1px solid var(--black);
   box-sizing: border-box;
 }
 
@@ -93,7 +93,7 @@
   top: 33.33%;
   bottom: 33.33%;
 
-  border-left: 1px solid #1D1F22;
+  border-left: 1px solid var(--black);
 }
 
 .horizontalLine {
@@ -101,7 +101,7 @@
   left: 33.33%;
   right: 33.33%;
 
-  border-top: 1px solid #1D1F22;
+  border-top: 1px solid var(--black);
 }
 
 .quantity {
@@ -109,7 +109,7 @@
   font-size: 24px;
   line-height: 160%;
 
-  color: #1D1F22;
+  color: var(--black);
   display: flex;
   align-items: center;
   justify-content: center;

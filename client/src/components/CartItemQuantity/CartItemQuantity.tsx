@@ -5,12 +5,13 @@ import { ICartItemProps } from './CartItemQuantity.types'
 import { useChangeItemQuantityMutation } from '../../http/cartApi/cartApi'
 import { useAppSelector } from '../../hooks/redux'
 import { selectCartItemById } from '../../http/cartApi/cartApiSelectors'
+import { AlertWithReturn } from '../../store/reducers/notificationSlice/notificationSliceAlert'
+import { IConfirmAlert } from '../../store/reducers/notificationSlice/notificationSlice.types'
 
 const CartItemQuantity = ({ cartItemId, className, ...props }: ICartItemProps) => {
   // we can assure that item will defined because we pass ids from server
   // eslint-disable-next-line
   const { id, quantity } = useAppSelector(state => selectCartItemById(state, cartItemId))!
-
   const [changeItemQuantity] = useChangeItemQuantityMutation()
 
   const increaseByOne = async (id: number, quantity: number) => {
@@ -23,9 +24,15 @@ const CartItemQuantity = ({ cartItemId, className, ...props }: ICartItemProps) =
     const decreasedQuantity = quantity - 1
 
     if (decreasedQuantity < 1) {
-      const isDeleteConfirmed = confirm('Do you want to remove this item from cart?')
+      const isDeleteConfirmed = await AlertWithReturn<IConfirmAlert>({
+        type: 'submit',
+        title: 'Confirm Operation',
+        description: 'Do you want to remove this item from your Cart?',
+        confirmLabel: 'Remove'
+      })
       if (!isDeleteConfirmed) return
     }
+
     changeItemQuantity({ cartItemId: id, quantity: decreasedQuantity })
   }
 

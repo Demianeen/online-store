@@ -7,8 +7,12 @@ import Button from '../Button/Button'
 import { useNavigate } from 'react-router-dom'
 import { Routes } from '../../utils/consts'
 import { useCheckQuery } from '../../http/userApi/userApi'
+import { useAppDispatch } from '../../hooks/redux'
+import { addNotification, unhandledErrorNotification } from '../../store/reducers/notificationSlice/notificationSliceActions'
 
 const Order = ({ children, className, ...props }: IOrder) => {
+  const dispatch = useAppDispatch()
+
   const { data: userData, isSuccess: isUserLogged } = useCheckQuery(undefined)
 
   const [clearCart] = useClearCartMutation()
@@ -16,8 +20,11 @@ const Order = ({ children, className, ...props }: IOrder) => {
   const navigate = useNavigate()
 
   const order = async () => {
-    alert('Thanks for purchase')
-    if (!isUserLogged) return alert('Internal error')
+    dispatch(addNotification({
+      type: 'success',
+      message: 'Thanks for purchase'
+    }))
+    if (!isUserLogged) return dispatch(unhandledErrorNotification())
     clearCart(userData.user.CartId)
     navigate(Routes.SHOP_ROUTE)
   }

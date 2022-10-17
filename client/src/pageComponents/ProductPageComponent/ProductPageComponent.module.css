@@ -75,7 +75,7 @@
 .sizeButton {
   all: unset;
   cursor: pointer;
-  border: 1px solid #1D1F22;
+  border: 1px solid var(--black);
   position: relative;
   box-sizing: border-box;
   text-align: center;
@@ -85,12 +85,12 @@
 }
 
 .selectedSizeButton {
-  background: #1D1F22;
+  background: var(--black);
   color: white;
 }
 
 .outOfStockSize {
-  border: 1px solid #1D1F22;
+  border: 1px solid var(--black);
   background: white;
   color: black;
 }

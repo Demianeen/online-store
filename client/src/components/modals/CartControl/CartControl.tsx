@@ -9,10 +9,13 @@ import Order from '../../Order/Order'
 import CartItemQuantity from '../../CartItemQuantity/CartItemQuantity'
 import FullSizeImage from '../../FullSizeImage/FullSizeImage'
 import CartItemSizes from '../../CartItemSizes/CartItemSizes'
-import { useAppSelector } from '../../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { selectAllCartItems, selectCartSubTotal, selectCartOverallQuantity, selectCartTax } from '../../../http/cartApi/cartApiSelectors'
+import { addNotification } from '../../../store/reducers/notificationSlice/notificationSliceActions'
 
 const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
+  const dispatch = useAppDispatch()
+
   const Items = useAppSelector(selectAllCartItems)
 
   const subTotal = useAppSelector(selectCartSubTotal)
@@ -22,16 +25,15 @@ const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log('Items', Items)
     if (Items[0] === undefined && isVisible) {
       setIsVisible(false)
-      alert('Add items to the cart first.')
+      dispatch(addNotification({ type: 'error', message: 'Add items to the cart first.' }))
     }
   }, [Items[0], isVisible])
 
   // TODO: Add loading and error handling
 
-  if (!isVisible) {
+  if (!isVisible || Items[0] === undefined) {
     return <></>
   }
 

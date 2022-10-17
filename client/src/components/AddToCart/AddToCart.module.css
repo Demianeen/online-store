@@ -10,6 +10,9 @@
 	cursor: pointer;
 	outline: inherit;
 
+  position: relative;
+  z-index: 1;
+
   align-items: center;
   justify-content: center;
   cursor: pointer;

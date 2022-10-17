@@ -1,0 +1,77 @@
+.alert {
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  left: 50%;
+  max-width: 90%;
+  position: absolute;
+  z-index: 2;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  width: 30em;
+  text-align: left;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+
+  animation-duration: 0.2s;
+  animation-name: animate-fade;
+  animation-fill-mode: backwards;
+}
+
+.overlay {
+  background: rgba(57, 55, 72, 0.22);
+  z-index: 2;
+}
+
+.close {
+  all: unset;
+  align-items: center;
+  color: #111827;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.closeIcon {
+  display: block;
+}
+
+.header {
+  color: #111827;
+  padding: 15px 30px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.content {
+  border-top: 1px solid #e0e0e0;
+  padding: 15px 30px;
+  overflow: auto;
+}
+
+.footer {
+  padding: 11.5px;
+  display: flex;
+  justify-content: right;
+} 
+
+ /* details[open].details-modal-overlay {
+  pointer-events: all;
+  opacity: 0.5;
+} */
+ 
+@keyframes animate-fade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}

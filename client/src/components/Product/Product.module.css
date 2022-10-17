@@ -62,8 +62,8 @@
 
 .addToCartButton {
   opacity: 0;
-  z-index: 2;
   position: absolute;
+  z-index: 0;
   bottom: 72px;
   right: 31px;
   transition: all .6s ease-out .8s;

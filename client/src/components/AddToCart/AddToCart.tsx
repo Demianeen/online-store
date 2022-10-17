@@ -10,8 +10,12 @@ import Button from '../Button/Button'
 import { useAddItemMutation } from '../../http/cartApi/cartApi'
 import { isErrorWithMessage, isFetchBaseQueryError } from '../../http/error'
 import { useCheckQuery } from '../../http/userApi/userApi'
+import { addNotification, unhandledErrorNotification } from '../../store/reducers/notificationSlice/notificationSliceActions'
+import { useAppDispatch } from '../../hooks/redux'
 
 const AddToCart = ({ productId, size, isInStock, buttonSize, className, ...props }: IAddToCart) => {
+  const dispatch = useAppDispatch()
+
   const [isButtonPressed, setIsButtonPressed] = useState(false)
 
   const { data: userData, isSuccess: isUserLogged } = useCheckQuery(undefined)
@@ -26,7 +30,13 @@ const AddToCart = ({ productId, size, isInStock, buttonSize, className, ...props
         navigate(Routes.LOGIN_ROUTE)
         return
       }
-      if (!isInStock) return alert('Sorry. This item is unavailable right now. Try again later')
+
+      if (!isInStock) {
+        return dispatch(addNotification({
+          type: 'error',
+          message: 'This item is unavailable right now. Try again later.'
+        }))
+      }
       if (isLoading) return
 
       try {
@@ -37,11 +47,14 @@ const AddToCart = ({ productId, size, isInStock, buttonSize, className, ...props
       } catch (error) {
         if (isFetchBaseQueryError(error)) {
           if (isErrorWithMessage(error.data)) {
-            return alert(error.data.message)
+            return dispatch(addNotification({
+              type: 'error',
+              message: error.data.message
+            }))
           }
-          alert('Error occurred. Try again later.')
+          dispatch(unhandledErrorNotification())
         } else if (isErrorWithMessage(error)) {
-          alert(error.message)
+          dispatch(addNotification({ type: 'error', message: error.message }))
         }
       }
     }

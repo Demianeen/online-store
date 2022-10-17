@@ -35,7 +35,7 @@
   font-weight: 400;
   font-size: 30px;
   line-height: 90%;
-  color: #1D1F22;
+  color: var(--black);
   
   margin-bottom: 20px;
 }
@@ -71,7 +71,7 @@
 
   width: 4vh;
   height: 4vh;
-  border: 1px solid #1D1F22;
+  border: 1px solid var(--black);
 }
 
 .verticalLine {
@@ -79,7 +79,7 @@
   top: 33.33%;
   bottom: 33.33%;
 
-  border-left: 1px solid #1D1F22;
+  border-left: 1px solid var(--black);
 }
 
 .horizontalLine {
@@ -87,7 +87,7 @@
   left: 33.33%;
   right: 33.33%;
 
-  border-top: 1px solid #1D1F22;
+  border-top: 1px solid var(--black);
 }
 
 .quantity {
@@ -95,7 +95,7 @@
   font-size: 24px;
   line-height: 160%;
 
-  color: #1D1F22;
+  color: var(--black);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,7 +133,7 @@
   font-weight: 700;
   font-size: 24px;
   line-height: 117%;
-  color: #1D1F22;
+  color: var(--black);
 }
 
 .total {

@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import styles from './Button.module.css'
 import cn from 'classnames'
 import { IButton } from './Button.types'
 
-const AddToCart = ({ buttonStyle = 'primary', children, className, ...props }: IButton) => {
+const AddToCart = forwardRef<HTMLButtonElement, IButton>(({
+  buttonStyle = 'primary', children, className, ...props
+}, ref) => {
   return (
     <button
       className={cn(styles.button, className, {
@@ -11,10 +13,13 @@ const AddToCart = ({ buttonStyle = 'primary', children, className, ...props }: I
         [styles.ghostButton]: buttonStyle === 'ghost'
       })}
       {...props}
+      ref={ref}
     >
       <span className={styles.buttonText}>{children}</span>
     </button>
   )
-}
+})
+
+AddToCart.displayName = 'AddToCart'
 
 export default AddToCart

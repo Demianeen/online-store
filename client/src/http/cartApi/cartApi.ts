@@ -1,8 +1,8 @@
+import { unhandledErrorNotification } from './../../store/reducers/notificationSlice/notificationSliceActions'
+import { selectUser } from './../userApi/userApi'
 import { ICartItem, CartItemCreate, ChangeCartItemQuantity, ChangeCartItemSize, ICartRaw } from './cartApi.types'
 import { apiSlice } from '..'
 import { createEntityAdapter, EntityState } from '@reduxjs/toolkit'
-import jwtDecode from 'jwt-decode'
-import { IUserJWT } from '../../store/reducers/UserSlice/types'
 
 export const cartItemsAdapter = createEntityAdapter<ICartItem>({
   // Keeps the "all IDs" array sorted based on when cart item was created at
@@ -60,19 +60,19 @@ export const cartApiSlice = apiSlice.injectEndpoints({
         }
       }),
       invalidatesTags: ['cart'],
-      async onQueryStarted ({ cartItemId, quantity }, { dispatch, queryFulfilled }) {
-        const authToken = localStorage.getItem('token')
-        if (authToken === null) return
-        const CartId = jwtDecode<IUserJWT>(authToken).CartId
+      async onQueryStarted ({ cartItemId, quantity }, { dispatch, queryFulfilled, getState }) {
+        const { data } = selectUser(getState())
+        if (data === undefined) {
+          dispatch(unhandledErrorNotification())
+          return
+        }
 
         const patchedResult = dispatch(
           cartApiSlice.util
-            .updateQueryData('getCartItems', CartId, draft => {
-              if (quantity > 0) {
-                const entity = draft.entities[cartItemId]
-                if (entity === undefined) return
-                entity.quantity = quantity
-              }
+            .updateQueryData('getCartItems', data.user.id, draft => {
+              const entity = draft.entities[cartItemId]
+              if (entity === undefined) return
+              entity.quantity = quantity
             })
         )
 
@@ -92,16 +92,21 @@ export const cartApiSlice = apiSlice.injectEndpoints({
           size
         }
       }),
-      async onQueryStarted ({ cartItemId, size }, { dispatch, queryFulfilled }) {
-        const authToken = localStorage.getItem('token')
-        if (authToken === null) return
-        const CartId = jwtDecode<IUserJWT>(authToken).CartId
+      async onQueryStarted ({ cartItemId, size }, { dispatch, queryFulfilled, getState }) {
+        const { data } = selectUser(getState())
+        if (data === undefined) {
+          dispatch(unhandledErrorNotification())
+          return
+        }
 
         const patchedResult = dispatch(
           cartApiSlice.util
-            .updateQueryData('getCartItems', CartId, draft => {
+            .updateQueryData('getCartItems', data.user.id, draft => {
               const entity = draft.entities[cartItemId]
-              if (entity === undefined) return
+              if (entity === undefined) {
+                dispatch(unhandledErrorNotification())
+                return
+              }
               entity.size = size
             })
         )

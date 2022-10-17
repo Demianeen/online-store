@@ -7,6 +7,14 @@ import { userApiSlice } from '../userApi/userApi'
 const data = await store.dispatch(userApiSlice.endpoints.check.initiate(undefined))
   .unwrap().catch(() => undefined)
 
+// let result = userApiSlice.endpoints.check
+//   .select(undefined)(store.getState() as any)
+
+// store.subscribe(() => {
+//   result = userApiSlice.endpoints.check
+//     .select(undefined)(store.getState() as any)
+// })
+
 export const selectCartItemsResult = cartApiSlice.endpoints.getCartItems
   .select(data?.user?.id ?? skipToken)
 

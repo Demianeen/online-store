@@ -59,7 +59,7 @@
   font-size: 16px;
   line-height: 160%;
 
-  color: #1D1F22;
+  color: var(--black);
   margin: 0;
 }
 
@@ -91,7 +91,7 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 112%;
-  color: #1D1F22;
+  color: var(--black);
 
   grid-column: total-name-start/total-name-end;
 }
@@ -100,7 +100,7 @@
   font-weight: 700;
   font-size: 16px;
   line-height: 160%;
-  color: #1D1F22;
+  color: var(--black);
   
   grid-column: total-value-start/total-value-end;
 }

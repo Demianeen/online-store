@@ -6,6 +6,8 @@ import styles from './AuthComponent.module.css'
 import cn from 'classnames'
 import { useLoginMutation, useRegistrationMutation } from '../../http/userApi/userApi'
 import { isFetchBaseQueryError, isErrorWithMessage } from '../../http/error'
+import { useAppDispatch } from '../../hooks/redux'
+import { addNotification, unhandledErrorNotification } from '../../store/reducers/notificationSlice/notificationSliceActions'
 
 export interface IApiError {
   message: string
@@ -13,6 +15,8 @@ export interface IApiError {
 }
 
 const AuthComponent = () => {
+  const dispatch = useAppDispatch()
+
   const [login, { isLoading: isLoginLoading }] = useLoginMutation()
   const [registration, { isLoading: isRegisterLoading }] = useRegistrationMutation()
 
@@ -39,7 +43,6 @@ const AuthComponent = () => {
     try {
       e.preventDefault()
 
-      // let response: IUserJWT
       if (isLogin) {
         if (isLoginLoading) return
         await login({ email, password }).unwrap()
@@ -48,18 +51,18 @@ const AuthComponent = () => {
         await registration({ email, password }).unwrap()
       }
 
-      // dispatch(setUser(response))
-      // dispatch(setIsAuth(true))
-
       navigate(Routes.SHOP_ROUTE)
     } catch (error) {
       if (isFetchBaseQueryError(error)) {
         if (isErrorWithMessage(error.data)) {
-          return alert(error.data.message)
+          return dispatch(addNotification({
+            type: 'error',
+            message: error.data.message
+          }))
         }
-        alert('Error occurred. Try again later.')
+        dispatch(unhandledErrorNotification())
       } else if (isErrorWithMessage(error)) {
-        alert(error.message)
+        dispatch(addNotification({ type: 'error', message: error.message }))
       }
     }
   }

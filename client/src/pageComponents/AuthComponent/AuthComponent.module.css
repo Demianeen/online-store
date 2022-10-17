@@ -114,7 +114,7 @@
   background: none;
   background-image: none;
   border: 2px solid #a0b3b0;
-  color: #1D1F22;
+  color: var(--black);
   border-radius: 0;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }

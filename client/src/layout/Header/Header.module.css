@@ -1,13 +1,5 @@
-.overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1;
+.overlayColor {
   background: rgba(57, 55, 72, 0.22);
-}
-
-.showedOverlay {
-  display: block;
 }
 
 .header {
