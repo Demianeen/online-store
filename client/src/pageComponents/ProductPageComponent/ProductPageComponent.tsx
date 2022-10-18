@@ -90,6 +90,7 @@ const ProductPageComponent = ({ className, ...props }: IProductPageComponent) =>
 
           <p className={styles.productDescriptionName}>{'SIZE:'}</p>
           <div className={styles.sizesContainer}>
+            {/* TODO: Remake as SizesSize component */}
             {sizes.map(size =>
               <button
                 onClick={() => setSelectedSize(size)}

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useRef, useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import { Routes } from '../../utils/consts'
@@ -8,6 +8,7 @@ import { useLoginMutation, useRegistrationMutation } from '../../http/userApi/us
 import { isFetchBaseQueryError, isErrorWithMessage } from '../../http/error'
 import { useAppDispatch } from '../../hooks/redux'
 import { addNotification, unhandledErrorNotification } from '../../store/reducers/notificationSlice/notificationSliceActions'
+import useInput from '../../hooks/useInput'
 
 export interface IApiError {
   message: string
@@ -24,12 +25,10 @@ const AuthComponent = () => {
   const navigate = useNavigate()
   const isLogin = pathname === Routes.LOGIN_ROUTE
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [isAuthMethodChanging, setIsAuthMethodChanging] = useState(true)
 
-  const isEmailEmpty = useRef(true)
-  const isPasswordEmpty = useRef(true)
+  const { isEmpty: isEmailEmpty, ...email } = useInput()
+  const { isEmpty: isPasswordEmpty, ...password } = useInput()
 
   const goTo = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, route: Routes) => {
     e.preventDefault()
@@ -43,12 +42,16 @@ const AuthComponent = () => {
     try {
       e.preventDefault()
 
+      const value = {
+        email: email.value,
+        password: password.value
+      }
       if (isLogin) {
         if (isLoginLoading) return
-        await login({ email, password }).unwrap()
+        await login(value).unwrap()
       } else {
         if (isRegisterLoading) return
-        await registration({ email, password }).unwrap()
+        await registration(value).unwrap()
       }
 
       navigate(Routes.SHOP_ROUTE)
@@ -66,31 +69,6 @@ const AuthComponent = () => {
       }
     }
   }
-
-  const changeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value
-    setEmail(inputValue)
-    if (inputValue === '') {
-      isEmailEmpty.current = true
-      return
-    }
-    isEmailEmpty.current = false
-  }
-
-  const changePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value
-    setPassword(inputValue)
-    if (inputValue === '') {
-      isPasswordEmpty.current = true
-      return
-    }
-    isPasswordEmpty.current = false
-  }
-
-  // useEffect(() => {
-  //   // setTimeout(() => setIsLoading(false), 10000)
-  //   console.log(isAuthMethodChanging)
-  // }, [isAuthMethodChanging])
 
   return (
     <div className={styles.form}>
@@ -120,22 +98,21 @@ const AuthComponent = () => {
         <form onSubmit={handleSubmit}>
           <div className={styles.fieldContainer}>
             <label className={cn(styles.label, {
-              [styles.active]: !isEmailEmpty.current
+              [styles.active]: !isEmailEmpty
             })}>
               {'Email Address'}<span className={styles.req}>{'*'}</span>
             </label>
             <input
               className={styles.input}
               type={'email'}
-              onChange={changeEmail}
-              value={email}
+              {...email}
               required
             />
           </div>
 
           <div className={styles.fieldContainer}>
             <label className={cn(styles.label, {
-              [styles.active]: !isPasswordEmpty.current
+              [styles.active]: !isPasswordEmpty
             })}>
               {'Your password'}<span className={styles.req}>{'*'}</span>
             </label>
@@ -143,8 +120,7 @@ const AuthComponent = () => {
               className={styles.input}
               type={'password'}
               onFocus={(e) => e.target.select()}
-              onChange={changePassword}
-              value={password}
+              {...password}
               required
             />
           </div>

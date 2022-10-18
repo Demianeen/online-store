@@ -67,7 +67,7 @@ const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
                     <p className={styles.descriptionHeading}>{brandName}</p>
                     <p className={styles.descriptionHeading}>{categoryName}</p>
                   </div>
-                  <p className={styles.price}>{symbol}{convertedPrice}</p>
+                  <p className={styles.price}>{symbol}{convertedPrice}{'.00'}</p>
                 </div>
 
                 <p className={styles.productDescriptionName}>{'Size:'}</p>
