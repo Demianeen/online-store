@@ -7,7 +7,7 @@ export const apiSlice = createApi({
     baseUrl: process.env.REACT_APP_API_URL + 'api',
     prepareHeaders: (headers, api) => {
       const authToken = localStorage.getItem('token')
-      if (authToken === null) return headers
+      if (authToken === null || api.endpoint === 'fetchCurrencyRates') return headers
       headers.append('authorization', `Bearer ${authToken}`)
       return headers
     }

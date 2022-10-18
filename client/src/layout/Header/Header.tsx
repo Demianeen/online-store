@@ -140,12 +140,19 @@ const Header = ({ className, ...props }: HeaderProps) => {
             </div>
           </div>
 
-          : <button
-            onClick={() => navigate(Routes.LOGIN_ROUTE)}
-            className={styles.cartIconButton}
-          >
-            {'Login'}
-          </button>
+          : <div className={styles.container}>
+            <CurrencySelect
+              isOpen={isCurrencyOpen}
+              setIsOpen={setIsCurrencyOpen}
+              className={styles.currencySelect}
+            />
+            <button
+              onClick={() => navigate(Routes.LOGIN_ROUTE)}
+              className={styles.cartIconButton}
+            >
+              {'Login'}
+            </button>
+          </div>
         }
       </header >
     </>

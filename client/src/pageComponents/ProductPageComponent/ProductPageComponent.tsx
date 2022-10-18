@@ -8,6 +8,7 @@ import { IProductWithBrandAndCategory } from '../../store/reducers/ProductSlice/
 import { fetchOneProduct } from '../../http/productApi'
 import AddToCart from '../../components/AddToCart/AddToCart'
 import { parsedSize } from '../../store/reducers/types'
+import { useConvert } from '../../hooks/currency'
 
 const ProductPageComponent = ({ className, ...props }: IProductPageComponent) => {
   const [product, setProduct] = useState<IProductWithBrandAndCategory | undefined>(undefined)
@@ -19,6 +20,8 @@ const ProductPageComponent = ({ className, ...props }: IProductPageComponent) =>
   const [selectedSize, setSelectedSize] = useState(sizes[0])
 
   const { id } = useParams()
+
+  const [convert, { symbol }] = useConvert()
 
   useEffect(() => {
     const getInitialProps = async () => {
@@ -103,7 +106,7 @@ const ProductPageComponent = ({ className, ...props }: IProductPageComponent) =>
           </div>
 
           <p className={styles.productDescriptionName}>{'PRICE:'}</p>
-          <p className={styles.price}>{'$'}{product.price}{'.00'}</p>
+          <p className={styles.price}>{symbol}{convert(product.price)}{'.00'}</p>
 
           {/* Id is string if page already loaded */}
           <AddToCart

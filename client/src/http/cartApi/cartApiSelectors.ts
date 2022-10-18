@@ -27,8 +27,8 @@ export const {
   selectAll: selectAllCartItems,
   selectById: selectCartItemById,
   selectIds: selectCartItemIds
-} = cartItemsAdapter.getSelectors(
-  (state: RootState) => selectCartItemsData(state) ?? cartItemsInitialState
+} = cartItemsAdapter.getSelectors<RootState>(
+  (state) => selectCartItemsData(state) ?? cartItemsInitialState
 )
 
 export const selectProductSizesById = createSelector(

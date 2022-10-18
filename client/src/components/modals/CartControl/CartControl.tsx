@@ -12,6 +12,7 @@ import CartItemSizes from '../../CartItemSizes/CartItemSizes'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { selectAllCartItems, selectCartSubTotal, selectCartOverallQuantity, selectCartTax } from '../../../http/cartApi/cartApiSelectors'
 import { addNotification } from '../../../store/reducers/notificationSlice/notificationSliceActions'
+import { useConvert } from '../../../hooks/currency'
 
 const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
   const dispatch = useAppDispatch()
@@ -23,6 +24,10 @@ const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
   const tax = useAppSelector(selectCartTax)
 
   const navigate = useNavigate()
+
+  const [convert, { symbol }] = useConvert()
+  const convertedTax = convert(tax)
+  const convertedSubtotal = convert(subTotal)
 
   useEffect(() => {
     if (Items[0] === undefined && isVisible) {
@@ -41,32 +46,47 @@ const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
     <SideModal className={styles.sideModal} {...props}>
       <p className={styles.heading}><b className={styles.bold}>{'My bag'}</b>{', '}{overallQuantity}{' items'}</p>
       <div className={styles.scrollContainer}>
-        {Items.map((item) =>
-          <div key={item.id} className={styles.product}>
-            <div className={styles.productDescription}>
+        {Items.map(({
+          id,
+          Product: {
+            Brand: { name: brandName },
+            Category: { name: categoryName },
+            price,
+            images
+          }
+        }) => {
+          const convertedPrice = convert(price)
+          const parsedImage = JSON.parse(images)[0]
 
-              <div className={styles.descriptionContainer}>
-                <div className={styles.descriptionHeadingContainer}>
-                  <p className={styles.descriptionHeading}>{item.Product.Brand.name}</p>
-                  <p className={styles.descriptionHeading}>{item.Product.Category.name}</p>
+          return (
+            <div key={id} className={styles.product}>
+              <div className={styles.productDescription}>
+
+                <div className={styles.descriptionContainer}>
+                  <div className={styles.descriptionHeadingContainer}>
+                    <p className={styles.descriptionHeading}>{brandName}</p>
+                    <p className={styles.descriptionHeading}>{categoryName}</p>
+                  </div>
+                  <p className={styles.price}>{symbol}{convertedPrice}</p>
                 </div>
-                <p className={styles.price}>{'$'}{item.Product.price}</p>
-              </div>
 
-              <p className={styles.productDescriptionName}>{'Size:'}</p>
-              <CartItemSizes
-                cartItemId={item.id}
-                sizesSize={'small'}
-              />
-            </div >
-            <CartItemQuantity cartItemId={item.id} />
-            <FullSizeImage src={JSON.parse(item.Product.images)[0]} />
-          </div>
-        )}
+                <p className={styles.productDescriptionName}>{'Size:'}</p>
+                <CartItemSizes
+                  cartItemId={id}
+                  sizesSize={'small'}
+                />
+              </div >
+              <CartItemQuantity cartItemId={id} />
+              <FullSizeImage src={parsedImage} />
+            </div>
+          )
+        })}
       </div>
       <div className={styles.total}>
         <span className={styles.totalName}>{'Total'}</span>
-        <span className={styles.totalValue}>{'$'}{(Math.floor((subTotal + tax) * 100)) / 100}</span>
+        <span className={styles.totalValue}>
+          {symbol}{convertedSubtotal + convertedTax}{'.00'}
+        </span>
       </div>
       <div className={styles.buttonContainer}>
         <Button

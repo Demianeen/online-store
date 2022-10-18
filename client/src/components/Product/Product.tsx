@@ -5,10 +5,14 @@ import cn from 'classnames'
 import { Routes } from '../../utils/consts'
 import AddToCart from '../AddToCart/AddToCart'
 import { useNavigate } from 'react-router-dom'
+import { useConvert } from '../../hooks/currency'
 
 const Product = ({ product, className, ...props }: IProduct) => {
   const { id, Brand, Category, price, images, sizes, isInStock } = product
   const navigate = useNavigate()
+
+  const [convert, { symbol }] = useConvert()
+  const convertedPrice = convert(price)
 
   const parsedImages: string[] = JSON.parse(images)
   return (
@@ -27,7 +31,7 @@ const Product = ({ product, className, ...props }: IProduct) => {
         className={styles.image}
       />
       <span className={styles.name}>{Brand.name + ' ' + Category.name}</span>
-      <span className={styles.price}>{'$'}{price}</span>
+      <span className={styles.price}>{symbol}{convertedPrice}{'.00'}</span>
       {isInStock && <AddToCart
         className={styles.addToCartButton}
         productId={id}

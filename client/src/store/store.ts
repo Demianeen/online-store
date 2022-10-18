@@ -1,3 +1,4 @@
+import { currencySlice } from './reducers/currencySlice/currencySlice'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { cartApiSlice } from '../http/cartApi/cartApi'
 import { userApiSlice } from '../http/userApi/userApi'
@@ -9,8 +10,10 @@ export const rootReducer = combineReducers({
   // here we use different endpoints as different slices to use them with typing
   // because we create them as different entities from indexApiSlice
   // and typing not preserved in indexApiSlice
-  user: userApiSlice.reducer,
-  cart: cartApiSlice.reducer,
+  userApi: userApiSlice.reducer,
+  cartApi: cartApiSlice.reducer,
+  currencyApi: currencySlice.reducer,
+  [currencySlice.name]: currencySlice.reducer,
   [notificationSlice.name]: notificationSlice.reducer,
   [productSlice.name]: productSlice.reducer,
   [cartApiSlice.reducerPath]: cartApiSlice.reducer

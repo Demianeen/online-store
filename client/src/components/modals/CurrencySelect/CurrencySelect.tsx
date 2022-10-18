@@ -1,21 +1,23 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import { ICurrencySelect } from './CurrencySelect.types'
 import { ReactComponent as DownArrow } from './DownArrow.svg'
 import styles from './CurrencySelect.module.css'
 import cn from 'classnames'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { changeCurrency } from '../../../store/reducers/currencySlice/currencySliceActions'
+import { selectCurrency, selectCurrencyOptions, selectCurrencySymbol } from '../../../store/reducers/currencySlice/currencySliceSelectors'
+import { getCurrencySymbol } from '../../../store/reducers/currencySlice/currencySlice'
 
 const CurrencySelect = ({ isOpen, setIsOpen, className, ...props }: ICurrencySelect) => {
-  const [selectedOption, setSelectedOption] = useState<string>('$')
+  const dispatch = useAppDispatch()
+  const symbol = useAppSelector(selectCurrencySymbol)
+  const options = useAppSelector(selectCurrencyOptions)
+  const selectedCurrency = useAppSelector(selectCurrency)
 
-  const currencyNames = useRef(['USD', 'EUR', 'JPY'])
-
-  const selectCurrency = (currencySymbol: string) => {
+  const handleChangeCurrency = (currency: string) => {
     setIsOpen(false)
-    setSelectedOption(currencySymbol)
+    dispatch(changeCurrency(currency))
   }
-
-  const getCurrencySymbol = (locale: string, currency: string) =>
-    (0).toLocaleString(locale, { style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0 }).replace(/\d/g, '').trim()
 
   return (
     <div
@@ -26,7 +28,7 @@ const CurrencySelect = ({ isOpen, setIsOpen, className, ...props }: ICurrencySel
         onClick={() => setIsOpen(isOpen => !isOpen)}
         className={styles.selectButton}
       >
-        {selectedOption}
+        {symbol}
         <DownArrow className={cn(styles.downArrow, {
           [styles.upArrow]: isOpen
         })} />
@@ -34,32 +36,29 @@ const CurrencySelect = ({ isOpen, setIsOpen, className, ...props }: ICurrencySel
 
       {isOpen &&
         <>
-        <div
-          className={styles.overlay}
-          onClick={() => setIsOpen(false)}
-        ></div>
-        <div className={styles.dropListContainer}>
-          <ul className={styles.ul}>
-            {currencyNames.current.map(currencyName => {
-              const symbol = getCurrencySymbol('EN-bg', currencyName)
-
-              return (
-                <li key={currencyName}>
+          <div
+            className={styles.overlay}
+            onClick={() => setIsOpen(false)}
+          ></div>
+          <div className={styles.dropListContainer}>
+            <ul className={styles.ul}>
+              {options.map(currency =>
+                <li key={currency}>
                   <button
-                    onClick={() => selectCurrency(symbol)}
+                    onClick={() => handleChangeCurrency(currency)}
                     className={cn(styles.li, {
-                      [styles.selectedLi]: selectedOption === symbol
+                      [styles.selectedLi]: currency === selectedCurrency
                     })}
                   >
-                    {symbol + ' ' + currencyName}
+                    {getCurrencySymbol(currency) + ' ' + currency}
                   </button>
                 </li>
               )
-            })}
-          </ul>
-        </div>
-      </>
-        }
+              }
+            </ul>
+          </div>
+        </>
+      }
     </div>
   )
 }
