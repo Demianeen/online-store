@@ -6,17 +6,15 @@
 
 .small.sizeButton {
   all: unset;
-  cursor: pointer;
-  border: 1px solid var(--black);
-  text-align: center;
+  width: 3vh;
+  height: 3vh;
   margin-right: 8px;
-
   font-weight: 400;
   font-size: 14px;
   line-height: 160%;
-
-  height: 3vh;
-  width: 3vh;
+  text-align: center;
+  border: 1px solid var(--black);
+  cursor: pointer;
 }
 
 .small.sizeButton * {
@@ -25,8 +23,8 @@
 }
 
 .small.selectedSizeButton {
-  background: var(--black);
   color: white;
+  background: var(--black);
 }
 
 /* large size */
@@ -37,15 +35,15 @@
 
 .large.sizeButton {
   all: unset;
-  cursor: pointer;
-  border: 1px solid var(--black);
-  text-align: center;
   width: 8vh;
   height: 6vh;
   margin-right: 12px;
+  text-align: center;
+  border: 1px solid var(--black);
+  cursor: pointer;
 }
 
 .large.selectedSizeButton {
-  background: var(--black);
   color: white;
+  background: var(--black);
 }

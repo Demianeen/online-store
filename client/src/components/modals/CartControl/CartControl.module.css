@@ -9,9 +9,9 @@
 }
 
 .heading {
+  margin-bottom: 32px;
   font-size: 16px;
   line-height: 160%;
-  margin-bottom: 32px;
 }
 
 .heading .bold {
@@ -20,8 +20,8 @@
 }
 
 .scrollContainer {
-  margin-bottom: 32px;
   max-height: 46vh;
+  margin-bottom: 32px;
   overflow-y: scroll;
   scrollbar-width: none;
 }
@@ -33,10 +33,9 @@
 
 .product {
   display: grid;
-  grid-template-columns: 1fr auto 17vh;
   grid-template-rows: 20vh;
+  grid-template-columns: 1fr auto 17vh;
   gap: 8px;
-
   margin-bottom: 40px;
 }
 
@@ -55,64 +54,58 @@
 }
 
 .descriptionHeading {
+  margin: 0;
+  color: var(--black);
   font-weight: 300;
   font-size: 16px;
   line-height: 160%;
-
-  color: var(--black);
-  margin: 0;
 }
 
 .price {
+  margin: 0;
   font-weight: 500;
   font-size: 16px;
   line-height: 160%;
-
-  margin: 0;
 }
 
 .productDescriptionName {
+  height: auto;
+  margin: 0;
   font-weight: 400;
   font-size: 14px;
   line-height: 114%;
-  margin: 0;
-  height: auto;
   text-transform: uppercase;
 }
 
 .total {
   display: grid;
   grid-template-columns: [total-name-start] auto [total-name-end] 1fr [total-value-start] auto [total-value-start];
-
   margin-bottom: 32px;
 }
 
 .totalName {
+  grid-column: total-name-start/total-name-end;
+  color: var(--black);
   font-weight: 500;
   font-size: 16px;
   line-height: 112%;
-  color: var(--black);
-
-  grid-column: total-name-start/total-name-end;
 }
 
 .totalValue {
+  grid-column: total-value-start/total-value-end;
+  color: var(--black);
   font-weight: 700;
   font-size: 16px;
   line-height: 160%;
-  color: var(--black);
-  
-  grid-column: total-value-start/total-value-end;
 }
 
 .buttonContainer {
-  width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+  width: 100%;
 }
 
 .buttonContainer .button {
   max-width: 20vh;
 }
-

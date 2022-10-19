@@ -1,18 +1,18 @@
-.select { 
+.select {
   position: relative;
 }
 
 .selectButton {
   all: unset;
-  cursor: pointer;
-  height: 4vh;
-  width: 4.5vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  white-space: nowrap;
+  width: 4.5vh;
+  height: 4vh;
   font-weight: 500;
   font-size: 18px;
+  white-space: nowrap;
+  cursor: pointer;
 }
 
 .downArrow {
@@ -20,52 +20,47 @@
 }
 
 .upArrow {
-  transform: rotate(180deg);
   padding-right: 10px;
   padding-left: 0;
+  transform: rotate(180deg);
 }
 
 .dropListContainer {
   position: absolute;
-
   top: 4.5vh;
-  left: -1.2vw;
   right: 0;
-  background: white;
-  box-shadow: 0px 4px 35px 0px #A8ACB030;
-
-  border-radius: 2px;
-
+  left: -1.2vw;
   width: 15vh;
-
-  animation-duration: 0.5s;
+  background: white;
+  border-radius: 2px;
+  box-shadow: 0 4px 35px 0 #A8ACB030;
   animation-name: animate-fade;
+  animation-duration: 0.5s;
   animation-fill-mode: backwards;
 }
 
 .ul {
-  padding: 7px 0;
   margin: 0;
-
+  padding: 7px 0;
   list-style: none;
 }
 
 .li {
   all: unset;
-  cursor: pointer;
   width: calc(100% - 40px);
   margin: 0;
   padding: 13px 20px;
   white-space: nowrap;
   border-radius: 2px;
+  cursor: pointer;
 }
 
 .li:hover {
-  background: #EEEEEE;
+  background: #EEE;
 }
 
 .selectedLi {
-  background: #EEEEEE;
+  background: #EEE;
 }
 
 @keyframes animate-fade {

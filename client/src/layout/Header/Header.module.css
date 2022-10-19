@@ -1,15 +1,15 @@
 .overlayColor {
-  background: rgba(57, 55, 72, 0.22);
+  background: rgb(57 55 72 / 22%);
 }
 
 .header {
   position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 28px 117px;
   background: white;
-  z-index: 2;
 }
 
 .container {
@@ -17,7 +17,9 @@
   width: 15%;
 }
 
-.genderButton, .cartIconButton, .userIconButton {
+.genderButton,
+.cartIconButton,
+.userIconButton {
   all: unset;
   cursor: pointer;
 }
@@ -25,7 +27,6 @@
 .genderButton {
   position: relative;
   margin-right: 32px;
-
   font-weight: 400;
   font-size: 16px;
   line-height: 120%;
@@ -38,13 +39,13 @@
 
 .selectedGenderButton::after {
   position: absolute;
-  height: 2px;
-  width: calc(100% + 32px);
-  margin-top: 34px;
   left: -16px;
   display: block;
+  width: calc(100% + 32px);
+  height: 2px;
+  margin-top: 34px;
   background: var(--c-primary);
-  content: '';
+  content: "";
 }
 
 .shopIconContainer {
@@ -52,35 +53,37 @@
   left: 50%;
 }
 
-.currencySelect, .cartIconButton, .userIconButton {
+.currencySelect,
+.cartIconButton,
+.userIconButton {
   margin-right: 22px;
 }
 
-.cartIconButton, .userIconButton {
-  font-weight: 500;
-  font-size: 18px;
-
+.cartIconButton,
+.userIconButton {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 500;
+  font-size: 18px;
 }
 
-.cartIconButton { 
-  fill: #43464E
+.cartIconButton {
+  fill: #43464E;
 }
 
 .notificationBadge {
   position: absolute;
   top: -6px;
   right: 9px;
-  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 20px;
   height: 20px;
-  background: black;
   color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-size: 15px;
+  background: black;
   border-radius: 50%;
 }
 
@@ -92,5 +95,5 @@
 }
 
 .userIconButton {
-  stroke: #43464E
-} 
+  stroke: #43464E;
+}

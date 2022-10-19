@@ -5,100 +5,110 @@
 }
 
 .checkIcon {
+  position: relative;
+  box-sizing: content-box;
   width: 40px;
   height: 40px;
-  position: relative;
   border-radius: 50%;
-  box-sizing: content-box;
 }
 
 .iconLine {
-  height: 5px;
-  background-color: white;
-  display: block;
-  border-radius: 2px;
   position: absolute;
   z-index: 10;
+  display: block;
+  height: 5px;
+  background-color: white;
+  border-radius: 2px;
 }
 
 .lineTip {
-  width: 12px;
-  left: 7px;
   top: 22px;
+  left: 7px;
+  width: 12px;
   transform: rotate(45deg);
   animation: icon-line-tip 0.75s;
 }
 
 .lineLong {
-  width: 23px;
-  right: 4px;
   top: 19px;
+  right: 4px;
+  width: 23px;
   transform: rotate(-45deg);
   animation: icon-line-long 0.75s;
 }
 
 @keyframes rotate-circle {
   0% {
-      transform: rotate(-45deg);
+    transform: rotate(-45deg);
   }
+
   5% {
-      transform: rotate(-45deg);
+    transform: rotate(-45deg);
   }
+
   12% {
-      transform: rotate(-405deg);
+    transform: rotate(-405deg);
   }
+
   100% {
-      transform: rotate(-405deg);
+    transform: rotate(-405deg);
   }
 }
 
 @keyframes icon-line-tip {
   0% {
-    width: 0;
-    left: 1px;
     top: 9px;
+    left: 1px;
+    width: 0;
   }
+
   54% {
-    width: 0;
-    left: 1px;
     top: 9px;
+    left: 1px;
+    width: 0;
   }
-  70% { 
-    width: 30px;
-    left: -8px;
+
+  70% {
     top: 20px;
+    left: -8px;
+    width: 30px;
   }
+
   84% {
-    width: 8px;
-    left: 10px;
     top: 24px;
+    left: 10px;
+    width: 8px;
   }
+
   100% {
-    width: 12px;
-    left: 7px;
     top: 22px;
+    left: 7px;
+    width: 12px;
   }
 }
 
 @keyframes icon-line-long {
   0% {
-    width: 0;
-    right: 23px;
     top: 27px;
+    right: 23px;
+    width: 0;
   }
+
   65% {
-    width: 0;
-    right: 23px;
     top: 27px;
+    right: 23px;
+    width: 0;
   }
+
   84% {
-    width: 27px;
-    right: 0px;
     top: 17px;
+    right: 0;
+    width: 27px;
   }
+
   100% {
-    width: 23px;
-    right: 4px;
     top: 19px;
+    right: 4px;
+    width: 23px;
   }
 }

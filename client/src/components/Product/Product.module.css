@@ -1,20 +1,16 @@
 .product {
+  position: relative;
   display: grid;
   grid-template-rows: 1fr auto;
-  position: relative;
-  cursor: pointer;
-  padding: 16px;
-  width: 100%;
   box-sizing: border-box;
-  transition: all .5s ease-out .4s;
+  width: 100%;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.5s ease-out 0.4s;
 }
 
 .product:hover {
-  box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19)
-}
-
-.product:hover .addToCartButton {
-  opacity: 1;
+  box-shadow: 0 4px 35px rgb(168 172 176 / 19%);
 }
 
 .outOfStockOverlay {
@@ -25,31 +21,28 @@
 }
 
 .overlayText {
-  display: inline-block;
-
   position: absolute;
   top: 38%;
-  left: 0;
   right: 0;
-  text-align: center;
-
-  text-transform: uppercase;
+  left: 0;
+  display: inline-block;
+  color: #8D8F9A;
   font-weight: 400;
   font-size: 24px;
   line-height: 160%;
-
-  color: #8D8F9A;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .name {
-  padding-top: 24px;
   display: block;
+  padding-top: 24px;
   font-weight: 300;
   font-size: 18px;
 }
 
 .price {
-  font: var(--price-regular-font)
+  font: var(--price-regular-font);
 }
 
 .image {
@@ -61,10 +54,14 @@
 }
 
 .addToCartButton {
-  opacity: 0;
   position: absolute;
-  z-index: 0;
-  bottom: 72px;
   right: 31px;
-  transition: all .6s ease-out .8s;
+  bottom: 72px;
+  z-index: 0;
+  opacity: 0;
+  transition: all 0.6s ease-out 0.8s;
+}
+
+.product:hover .addToCartButton {
+  opacity: 1;
 }

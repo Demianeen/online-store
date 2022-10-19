@@ -1,16 +1,16 @@
 :root {
   --c-primary: #5ECE7B;
-  --price-regular-font: 500 18px/29px Raleway, sans-serif;
+  --price-regular-font: 500 18px/29px raleway, sans-serif;
   --black: #1D1F22;
 }
 
 .wrapper {
-  font-family: 'Raleway', sans-serif;
+  font-family: Raleway, sans-serif;
   font-style: normal;
   line-height: 160%;
 }
 
 .main {
-  padding: 0 100px;
   box-sizing: border-box;
+  padding: 0 100px;
 }

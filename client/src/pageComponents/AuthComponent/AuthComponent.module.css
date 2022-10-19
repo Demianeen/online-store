@@ -1,72 +1,71 @@
 .form {
-  background: white;
-  padding: 40px;
   max-width: 600px;
   margin: 40px auto;
-  box-shadow: 0 4px 10px 4px rgba(27, 49, 66, 0.2);
+  padding: 40px;
+  background: white;
+  box-shadow: 0 4px 10px 4px rgb(27 49 66 / 20%);
 }
 
 .tabGroup {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 40px 0;
   box-sizing: border-box;
+  margin: 0 0 40px;
+  padding: 0;
+  list-style: none;
 }
 
-.tabGroup:after {
-  content: "";
+.tabGroup::after {
   display: table;
   clear: both;
+  content: "";
 }
 
 .link {
-  text-decoration: none;
   color: var(--c-primary);
+  text-decoration: none;
   transition: 0.5s ease;
 }
 
 .link:hover {
-  color: #179b77;
+  color: #179B77;
 }
 
 .tab .link {
   display: block;
-  text-decoration: none;
-  padding: 15px;
-  background: rgba(160, 179, 176, 0.25);
-  color: #a0b3b0;
-  font-size: 20px;
   float: left;
+  box-sizing: border-box;
   width: 50%;
+  padding: 15px;
+  color: #A0B3B0;
+  font-size: 20px;
   text-align: center;
+  text-decoration: none;
+  background: rgb(160 179 176 / 25%);
   cursor: pointer;
   transition: 0.5s ease;
-  box-sizing: border-box;
 }
 
 .tabGroup .link:hover {
-  background: var(--c-primary);
   color: white;
+  background: var(--c-primary);
 }
 
 .tab.active .link {
-  background: var(--c-primary);
   color: white;
+  background: var(--c-primary);
 }
 
 .tabContent {
   display: flex;
-  justify-items: center;
   flex-direction: column;
+  justify-items: center;
 }
 
 .heading {
-  text-align: center;
-  color: rgba(19, 35, 47, 0.9);
-  font-weight: 300;
-  margin: 0 0 40px;
-
   display: inline-block;
+  margin: 0 0 40px;
+  color: rgb(19 35 47 / 90%);
+  font-weight: 300;
+  text-align: center;
   visibility: hidden;
 }
 
@@ -77,21 +76,20 @@
 
 .label {
   position: absolute;
-  transform: translateY(5px);
   left: 13px;
-  color: #a0b3b0;
-  transition: all 0.25s ease;
-  pointer-events: none;
-  font-size: 22px;
-
   display: flex;
   align-items: center;
+  color: #A0B3B0;
+  font-size: 22px;
+  transform: translateY(5px);
+  transition: all 0.25s ease;
+  pointer-events: none;
 }
 
 .label.active {
-  transform: translateY(35px);
   left: 2px;
   font-size: 14px;
+  transform: translateY(35px);
 }
 
 .req {
@@ -105,27 +103,27 @@
 }
 
 .input {
-  font-size: 22px;
   display: block;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
   padding: 5px 10px;
+  color: var(--black);
+  font-size: 22px;
   background: none;
   background-image: none;
-  border: 2px solid #a0b3b0;
-  color: var(--black);
+  border: 2px solid #A0B3B0;
   border-radius: 0;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .input:focus {
-  outline: 0;
   border-color: var(--c-primary);
+  outline: 0;
 }
 
 .input:focus .label {
-  color: rgba(19, 35, 47, 0.9);
+  color: rgb(19 35 47 / 90%);
 }
 
 .fieldContainer {
@@ -138,7 +136,7 @@
 .submit {
   width: 100%;
 }
- 
+
 @keyframes animate-fade {
   0% { opacity: 0; }
   100% { opacity: 1; }

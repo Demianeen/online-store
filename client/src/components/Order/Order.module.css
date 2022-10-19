@@ -1,31 +1,29 @@
 .smallButton {
-  /* remove default styles. 
-  'All: unset' does not work here because
-  we pass another class name as props, 
-  and 'all' remove all these properties too  */
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
-
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   width: 4.5vw;
   height: 4.5vw;
+  padding: 0;
 
+  /* remove default styles.
+  'All: unset' does not work here because
+  we pass another class name as props,
+  and 'all' remove all these properties too  */
+  color: inherit;
+  font: inherit;
   background: var(--c-primary);
+  border: none;
   border-radius: 50%;
+  outline: inherit;
+  cursor: pointer;
 }
 
 .smallButton * {
-  padding: 0;
-  margin: auto;
-  vertical-align: middle;
   width: 45%;
   height: 45%;
+  margin: auto;
+  padding: 0;
+  vertical-align: middle;
 }
 
 .smallButton svg {
@@ -34,26 +32,21 @@
 
 .largeButton {
   all: unset;
-  cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: 19vw;
   height: 7vh;
-
   background: var(--c-primary);
+  cursor: pointer;
 }
 
 .largeButtonText {
+  display: flex;
+  align-items: center;
+  color: white;
   font-weight: 600;
   font-size: 16px;
   line-height: 120%;
-
-  display: flex;
-  align-items: center;
   text-align: center;
-
-  color: white;
 }
