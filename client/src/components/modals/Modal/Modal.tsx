@@ -13,7 +13,6 @@ const Modal = ({ isVisible, hide, children, onSubmit }: IModal) => {
       await onSubmit(e)
     } catch (error) {
       if (axios.isAxiosError(error) && (error.response !== undefined)) {
-        // TODO: Process axios error without new variable
         const axiosError = error as AxiosError<IApiError>
         alert(axiosError.response?.data.message)
         return

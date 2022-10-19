@@ -18,9 +18,7 @@
 
 .price {
   margin: 0;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 160%;
+  font: var(--price-regular-small-font);
 }
 
 .productDescriptionName {

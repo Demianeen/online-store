@@ -71,90 +71,92 @@ const Header = ({ className, ...props }: HeaderProps) => {
         isVisible={(isCartOpen && overallQuantity > 0) || isUserOpen}
         className={styles.overlayColor}
       />
-      <header
-        className={cn(styles.header, className)}
-        onClick={() => setIsUserOpen(false)}
-        {...props}
-      >
-        <div className={styles.genderContainer}>
-          <button
-            className={cn(styles.genderButton, {
-              [styles.selectedGenderButton]: selectedGender === 'WOMEN'
-            })}
-            onClick={() => handleGenderSelect('WOMEN')}
-          >
-            {'WOMEN'}
-          </button>
-          <button
-            className={cn(styles.genderButton, {
-              [styles.selectedGenderButton]: selectedGender === 'MEN'
-            })}
-            onClick={() => handleGenderSelect('MEN')}
-          >
-            {'MEN'}
-          </button>
-          <button
-            className={cn(styles.genderButton, {
-              [styles.selectedGenderButton]: selectedGender === 'KIDS'
-            })}
-            onClick={() => handleGenderSelect('KIDS')}
-          >
-            {'KIDS'}
-          </button>
-        </div>
-        <Link
-          to={Routes.SHOP_ROUTE}
-          className={styles.shopIconContainer}
+      <div className={styles.headerContainer}>
+        <header
+          className={cn(styles.header, className)}
+          onClick={() => setIsUserOpen(false)}
+          {...props}
         >
-          <ShopIcon />
-        </Link>
-        {data !== undefined
-          ? <div className={styles.container}>
-            <CurrencySelect
-              isOpen={isCurrencyOpen}
-              setIsOpen={setIsCurrencyOpen}
-              className={styles.currencySelect}
-            />
-
-            <div className={styles.modalContainer}>
-              <button
-                onClick={() => setIsCartOpen(isCartOpen => !isCartOpen)}
-                className={styles.cartIconButton}
-              >
-                <CartIcon />
-                {isCartOpen && overallQuantity > 0
-                  ? <span className={styles.notificationBadge}>{overallQuantity}</span>
-                  : <></>
-                }
-              </button>
-              <CartControl isVisible={isCartOpen} setIsVisible={setIsCartOpen} />
-            </div>
-            <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()}>
-              <button
-                onClick={() => setIsUserOpen(isUserOpen => !isUserOpen)}
-                className={styles.userIconButton}
-              >
-                <UserIcon />
-              </button>
-              <UserControl isVisible={isUserOpen} setIsVisible={setIsUserOpen} />
-            </div>
-          </div>
-
-          : <div className={styles.container}>
-            <CurrencySelect
-              isOpen={isCurrencyOpen}
-              setIsOpen={setIsCurrencyOpen}
-              className={styles.currencySelect}
-            />
+          <div className={styles.genderContainer}>
             <button
-              onClick={() => navigate(Routes.LOGIN_ROUTE)}
-              className={styles.cartIconButton}
+              className={cn(styles.genderButton, {
+                [styles.selectedGenderButton]: selectedGender === 'WOMEN'
+              })}
+              onClick={() => handleGenderSelect('WOMEN')}
             >
-              {'Login'}
+              {'WOMEN'}
+            </button>
+            <button
+              className={cn(styles.genderButton, {
+                [styles.selectedGenderButton]: selectedGender === 'MEN'
+              })}
+              onClick={() => handleGenderSelect('MEN')}
+            >
+              {'MEN'}
+            </button>
+            <button
+              className={cn(styles.genderButton, {
+                [styles.selectedGenderButton]: selectedGender === 'KIDS'
+              })}
+              onClick={() => handleGenderSelect('KIDS')}
+            >
+              {'KIDS'}
             </button>
           </div>
-        }
-      </header >
+          <Link
+            to={Routes.SHOP_ROUTE}
+            className={styles.shopIconContainer}
+          >
+            <ShopIcon />
+          </Link>
+          {data !== undefined
+            ? <div className={styles.container}>
+              <CurrencySelect
+                isOpen={isCurrencyOpen}
+                setIsOpen={setIsCurrencyOpen}
+                className={styles.currencySelect}
+              />
+
+              <div className={styles.modalContainer}>
+                <button
+                  onClick={() => setIsCartOpen(isCartOpen => !isCartOpen)}
+                  className={styles.cartIconButton}
+                >
+                  <CartIcon />
+                  {isCartOpen && overallQuantity > 0
+                    ? <span className={styles.notificationBadge}>{overallQuantity}</span>
+                    : <></>
+                  }
+                </button>
+                <CartControl isVisible={isCartOpen} setIsVisible={setIsCartOpen} />
+              </div>
+              <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()}>
+                <button
+                  onClick={() => setIsUserOpen(isUserOpen => !isUserOpen)}
+                  className={styles.userIconButton}
+                >
+                  <UserIcon />
+                </button>
+                <UserControl isVisible={isUserOpen} setIsVisible={setIsUserOpen} />
+              </div>
+            </div>
+
+            : <div className={styles.container}>
+              <CurrencySelect
+                isOpen={isCurrencyOpen}
+                setIsOpen={setIsCurrencyOpen}
+                className={styles.currencySelect}
+              />
+              <button
+                onClick={() => navigate(Routes.LOGIN_ROUTE)}
+                className={styles.cartIconButton}
+              >
+                {'Login'}
+              </button>
+            </div>
+          }
+        </header >
+      </div>
     </>
   )
 }

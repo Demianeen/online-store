@@ -2,9 +2,14 @@
   background: rgb(57 55 72 / 22%);
 }
 
+.headerContainer {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
 .header {
   position: relative;
-  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -43,7 +48,7 @@
   display: block;
   width: calc(100% + 32px);
   height: 2px;
-  margin-top: 34px;
+  margin-top: 31px;
   background: var(--c-primary);
   content: "";
 }

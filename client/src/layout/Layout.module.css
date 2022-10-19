@@ -1,13 +1,22 @@
 :root {
+  /* colors */
   --c-primary: #5ECE7B;
-  --price-regular-font: 500 18px/29px raleway, sans-serif;
   --black: #1D1F22;
+
+  /* fonts */
+  --primary-font-family: raleway, sans-serif;
+  --price-regular-small-font: 500 16px/26px var(--primary-font-family);
+  --price-regular-font: 500 18px/29px var(--primary-font-family);
+  --price-bold-font: 700 24px/24px var(--primary-font-family);
 }
 
 .wrapper {
-  font-family: Raleway, sans-serif;
+  font-family: var(--primary-font-family);
   font-style: normal;
   line-height: 160%;
+
+  /* This property makes numbers aligned */
+  font-feature-settings: "lnum";
 }
 
 .main {
