@@ -96,5 +96,16 @@
 }
 
 .order {
+  box-sizing: border-box;
   margin-bottom: 40vh;
+}
+
+@media only screen and (max-width: 500px) {
+  .order {
+    width: 100%;
+  }
+
+  .heading {
+    margin: 50px 16px;
+  }
 }

@@ -62,7 +62,7 @@ const CartComponentItem = ({ cartItemId, className, ...props }: ICartComponentIt
             sizesSize={'large'}
           />
         </div >
-        <CartItemQuantity cartItemId={id} />
+        <CartItemQuantity cartItemId={id} className={styles.quantity} />
         <div className={styles.slider}>
           <FullSizeImage src={parsedImages[imageIndex]} />
           <div className={styles.sliderButtons}>

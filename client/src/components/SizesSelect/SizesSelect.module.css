@@ -1,3 +1,7 @@
+.sizesContainer {
+  max-width: 100%;
+}
+
 /* small size */
 .small.sizesContainer {
   display: flex;
@@ -35,7 +39,7 @@
 
 .large.sizeButton {
   all: unset;
-  width: 8vh;
+  flex-basis: 8vh;
   height: 6vh;
   margin-right: 12px;
   text-align: center;
@@ -46,4 +50,11 @@
 .large.selectedSizeButton {
   color: white;
   background: var(--black);
+}
+
+@media only screen and (max-width: 400px) {
+  .large.sizesContainer {
+    flex: 1 auto;
+    height: 10vw;
+  }
 }

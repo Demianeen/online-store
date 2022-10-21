@@ -57,7 +57,7 @@ const ProductPageComponent = ({ className, ...props }: IProductPageComponent) =>
           <ol className={styles.imageGallery}>
 
             {images.map(imagePath =>
-              <li key={imagePath} >
+              <li key={imagePath} className={styles.imageGalleryItem}>
                 {/* image gallery and gallery image are different names */}
                 <div className={styles.galleryImageContainer}>
                   <button

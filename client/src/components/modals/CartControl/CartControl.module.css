@@ -107,3 +107,9 @@
 .buttonContainer .button {
   max-width: 20vh;
 }
+
+@media only screen and (max-width: 600px) {
+  .sideModal {
+    display: none;
+  }
+}

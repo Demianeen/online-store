@@ -41,3 +41,18 @@
   line-height: 20px;
   cursor: pointer;
 }
+
+@media only screen and (max-width: 600px) {
+  .notificationContainer {
+    left: 0;
+    width: 100vw;
+  }
+
+  .notification {
+    flex: 1;
+  }
+
+  .close {
+    font-size: 32px;
+  }
+}

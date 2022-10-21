@@ -1,0 +1,96 @@
+/* TODO: disable scroll inside menu */
+.burgerMenu {
+  position: fixed;
+  top: 0%;
+  left: 0;
+  z-index: 3;
+  display: none;
+  box-sizing: border-box;
+  width: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: white;
+  animation: both slide-in 0.2s ease-out;
+}
+
+.burgerMenu.visible {
+  display: block;
+  width: 100vw;
+}
+
+.menuHeader {
+  float: right;
+  padding: 30px;
+}
+
+.closeMenu {
+  all: unset;
+  cursor: pointer;
+}
+
+.category,
+.subCategory {
+  list-style-type: none;
+}
+
+.category {
+  padding-bottom: 17px;
+  font-weight: 400;
+  font-size: 42px;
+  line-height: 160%;
+  white-space: nowrap;
+}
+
+.categoryIcon {
+  fill: var(--c-primary);
+}
+
+.categoryIcon,
+.categoryIconNotFilled {
+  width: 32px;
+  height: 32px;
+  padding-right: 10px;
+  color: var(--c-primary);
+}
+
+.signOut {
+  color: red !important;
+}
+
+.signOut .categoryIconNotFilled {
+  color: red;
+}
+
+.subCategory {
+  box-sizing: border-box;
+  height: 0;
+  padding-left: 0;
+  overflow: hidden;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 27px;
+  transition: all 0.2s ease-out;
+}
+
+.subCategory.visible {
+  height: auto;
+}
+
+.subCategoryItem {
+  padding-bottom: 5px;
+}
+
+.categoryButton {
+  all: unset;
+  cursor: pointer;
+}
+
+@keyframes slide-in {
+  0% {
+    width: 20%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}

@@ -5,7 +5,8 @@ import { Routes } from '../../utils/consts'
 import { HeaderProps } from './Header.props'
 import { ReactComponent as CartIcon } from './Cart.svg'
 import { ReactComponent as UserIcon } from './User.svg'
-import { ReactComponent as ShopIcon } from './Shop.svg'
+import { ReactComponent as BrandIcon } from './Brand.svg'
+import { ReactComponent as MenuIcon } from './Menu.svg'
 import styles from './Header.module.css'
 import cn from 'classnames'
 import CurrencySelect from '../../components/modals/CurrencySelect/CurrencySelect'
@@ -15,11 +16,13 @@ import CartControl from '../../components/modals/CartControl/CartControl'
 import { selectCartOverallQuantity } from '../../http/cartApi/cartApiSelectors'
 import { useCheckQuery } from '../../http/userApi/userApi'
 import Overlay from '../../components/Overlay/Overlay'
+import BurgerMenu from '../../components/BurgerMenu/BurgerMenu'
 
 const Header = ({ className, ...props }: HeaderProps) => {
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isUserOpen, setIsUserOpen] = useState(false)
+  const [isBurgerOpen, setIsBurgerOpen] = useState(false)
 
   const dispatch = useAppDispatch()
   const { selectGender } = productSlice.actions
@@ -69,7 +72,7 @@ const Header = ({ className, ...props }: HeaderProps) => {
       <Overlay
         onClick={() => closeAll()}
         isVisible={(isCartOpen && overallQuantity > 0) || isUserOpen}
-        className={styles.overlayColor}
+        className={styles.overlay}
       />
       <div className={styles.headerContainer}>
         <header
@@ -103,11 +106,18 @@ const Header = ({ className, ...props }: HeaderProps) => {
               {'KIDS'}
             </button>
           </div>
+          <button
+            onClick={() => setIsBurgerOpen(true)}
+            className={styles.openMenu}>
+            <MenuIcon />
+          </button>
+          <BurgerMenu isMenuOpen={isBurgerOpen} setIsMenuOpen={setIsBurgerOpen} />
+
           <Link
             to={Routes.SHOP_ROUTE}
             className={styles.shopIconContainer}
           >
-            <ShopIcon />
+            <BrandIcon />
           </Link>
           {data !== undefined
             ? <div className={styles.container}>

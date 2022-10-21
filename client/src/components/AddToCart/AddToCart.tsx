@@ -74,6 +74,7 @@ const AddToCart = ({ productId, size, isInStock, buttonSize, className, ...props
   if (buttonSize === 'large') {
     return (
       <Button
+        className={className}
         onClick={async (e) => await addToCart(e, productId)}
       >
         {isButtonPressed ? <CheckIcon /> : 'ADD TO CART'}

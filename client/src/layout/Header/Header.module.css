@@ -1,4 +1,4 @@
-.overlayColor {
+.overlay {
   background: rgb(57 55 72 / 22%);
 }
 
@@ -19,13 +19,14 @@
 
 .container {
   display: flex;
-  width: 15%;
+  box-sizing: border-box;
 }
 
 .genderButton,
 .cartIconButton,
 .userIconButton {
   all: unset;
+  box-sizing: border-box;
   cursor: pointer;
 }
 
@@ -51,6 +52,12 @@
   margin-top: 31px;
   background: var(--c-primary);
   content: "";
+}
+
+.openMenu {
+  all: unset;
+  display: none;
+  cursor: pointer;
 }
 
 .shopIconContainer {
@@ -101,4 +108,28 @@
 
 .userIconButton {
   stroke: #43464E;
+}
+
+@media only screen and (max-width: 800px) {
+  .header {
+    padding: 28px 67px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .header {
+    padding: 20px 28px;
+  }
+
+  .openMenu {
+    display: block;
+  }
+
+  .genderContainer,
+  .cartIconButton,
+  .userIconButton,
+  .shopIconContainer,
+  .overlay {
+    display: none;
+  }
 }

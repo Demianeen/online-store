@@ -4,21 +4,17 @@ import { IUserModal } from './UserControl.types'
 import styles from './UserControl.module.css'
 import { useNavigate } from 'react-router-dom'
 import { Routes } from '../../../utils/consts'
-import { useAppDispatch } from '../../../hooks/redux'
-import { useCheckQuery, userApiSlice } from '../../../http/userApi/userApi'
+import { useCheckQuery } from '../../../http/userApi/userApi'
+import { useSignOut } from '../../../hooks/useSignOut'
 
 const UserControl = ({ setIsVisible, isVisible, ...props }: IUserModal) => {
-  const dispatch = useAppDispatch()
-
   const { data: userData } = useCheckQuery(undefined)
   const navigate = useNavigate()
+  const signOut = useSignOut()
 
-  const signOut = () => {
+  const handleSignOut = () => {
     setIsVisible(false)
-    localStorage.removeItem('token')
-    dispatch(userApiSlice.util.resetApiState())
-
-    navigate(Routes.SHOP_ROUTE)
+    signOut()
   }
 
   if (!isVisible) {
@@ -41,7 +37,7 @@ const UserControl = ({ setIsVisible, isVisible, ...props }: IUserModal) => {
         <li className={styles.li}>
           <button
             className={styles.button}
-            onClick={() => signOut()}
+            onClick={() => handleSignOut()}
           >
             {'Sign out'}
           </button>
