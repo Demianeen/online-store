@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv'
 
 dotenv.config()
 
-const PORT = parseInt(process.env.DB_PORT)
+const PORT = parseInt(process.env.DB_PORT) || 4000
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
