@@ -22,15 +22,14 @@ class UserController {
   // TODO: Add right jwt token authorization
   async registration
   (req: userRegistrationRequest, res: Response, next: NextFunction): Promise<void | Response> {
-    const { email, password, role } = req.body
+    const { email, password } = req.body
     if (!email || !password) return next(ApiError.badRequest('Email and password is required'))
-    if ((role !== 'ADMIN' && role !== 'USER') && typeof role === 'string') return next(ApiError.badRequest('Invalid role value'))
 
     const candidate = await User.findOne({ where: { email } })
     if (candidate) return next(ApiError.badRequest('This email address already belongs to a user'))
 
     const hashedPassword = await bcrypt.hash(password, 5)
-    const user = await User.create({ email, role, password: hashedPassword })
+    const user = await User.create({ email, password: hashedPassword })
     const cart = await Cart.create({ UserId: user.id })
 
     const token = generateJwt(user.id, user.email, user.role, cart.id)

@@ -14,6 +14,20 @@ dotenv.config()
 const PORT = process.env.PORT || 4000
 
 const app = express()
+
+const allowedOrigins = [
+  'http://localhost',
+  'http://localhost:3000',
+  'http://4ajq.l.time4vps.cloud',
+  'http://mybrandview.co.uk'
+]
+const corsOptions: cors.CorsOptions = {
+  origin: allowedOrigins,
+  credentials: true
+}
+
+app.set("trust proxy", 1)
+app.use(cors(corsOptions))
 app.use(
   cors(),
   express.json(),
@@ -23,13 +37,6 @@ app.use(
 app.use('/api', router)
 // error handler always is in the end
 app.use(errorHandlerMiddleware)
-
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:3050']
-
-const options: cors.CorsOptions = {
-  origin: allowedOrigins
-}
-app.use(cors(options))
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve('../../client/build')))

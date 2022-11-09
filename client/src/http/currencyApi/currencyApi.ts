@@ -8,10 +8,7 @@ export const currencyApiSlice = apiSlice.injectEndpoints({
         url: `${process.env.REACT_APP_CURRENCY_API_URL}/latest`,
         params: {
           base: 'USD',
-          symbols: ['USD', 'EUR', 'UAH']
-        },
-        headers: {
-          apikey: process.env.REACT_APP_CURRENCY_APIKEY
+          symbols: 'USD,EUR,UAH'
         }
       })
     })

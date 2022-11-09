@@ -4,8 +4,9 @@ import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { cartApiSlice, cartItemsAdapter, cartItemsInitialState } from './cartApi'
 import { userApiSlice } from '../userApi/userApi'
 
-const data = await store.dispatch(userApiSlice.endpoints.check.initiate(undefined))
-  .unwrap().catch(() => undefined)
+// const { data } = store.dispatch(userApiSlice.endpoints.check.initiate(undefined)) as any
+// console.log(data)
+const { data } = userApiSlice.endpoints.check.select(undefined)(store.getState() as any)
 
 // let result = userApiSlice.endpoints.check
 //   .select(undefined)(store.getState() as any)
@@ -67,9 +68,7 @@ export const selectCartSubTotal = createSelector(
   )
 )
 
-export const selectCartTaxPercentage = createSelector(
-  () => 23
-)
+export const selectCartTaxPercentage = () => 23
 
 export const selectCartTax = createSelector(
   selectCartSubTotal,

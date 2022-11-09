@@ -1,15 +1,18 @@
 /**
  * full data from api looks like
  * {
-  "base": "USD",
-  "date": "2022-10-18",
-  "rates": {
-    "EUR": 1.014885,
-    "UAH": 36.410965,
-    "USD": 1
-  },
-  "success": true,
-  "timestamp": 1666075023
+	"motd": {
+		"msg": "If you or your company use this project or like what we doing, please consider backing us so we can continue maintaining and evolving this project.",
+		"url": "https://exchangerate.host/#/donate"
+	},
+	"success": true,
+	"base": "USD",
+	"date": "2022-11-14",
+	"rates": {
+		"EUR": 0.969976,
+		"UAH": 36.782646,
+		"USD": 1
+	}
 }
 */
 export interface ICurrencyApiResponse {
