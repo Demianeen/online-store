@@ -1,33 +1,30 @@
 import React, { useState } from 'react'
 import styles from './CartComponentItem.module.css'
 import { ICartComponentItem } from './CartComponentItem.types'
-import { useAppSelector } from '../../hooks/redux'
 import { selectCartItemById } from '../../http/cartApi/cartApiSelectors'
 import CartItemSizes from '../CartItemSizes/CartItemSizes'
 import CartItemQuantity from '../CartItemQuantity/CartItemQuantity'
 import FullSizeImage from '../FullSizeImage/FullSizeImage'
 import { useConvert } from '../../hooks/currency'
 import { ReactComponent as ArrowRightIcon } from './ArrowRight.svg'
+import { useGetCartItemsQuery } from '../../http/cartApi/cartApi'
+import { useCheckQuery } from '../../http/userApi/userApi'
+import { skipToken } from '@reduxjs/toolkit/dist/query'
 
 const CartComponentItem = ({ cartItemId, className, ...props }: ICartComponentItem) => {
-  const {
-    id,
-    Product: {
-      Brand: { name: brandName },
-      Category: { name: categoryName },
-      price,
-      images
-    }
-    // we can assure that item will defined because we pass ids from server
-    // eslint-disable-next-line
-  } = useAppSelector(state => selectCartItemById(state, cartItemId))!
+  const { data: userData } = useCheckQuery(undefined)
+  const { item } = useGetCartItemsQuery(userData?.user.id ?? skipToken, {
+    selectFromResult: ({ data }) => ({
+      item: (data !== undefined) ? selectCartItemById(data, cartItemId) : undefined
+    })
+  })
 
   const [imageIndex, setImageIndex] = useState(0)
 
   const [convert, { symbol }] = useConvert()
-  const convertedPrice = convert(price)
+  const convertedPrice = convert(item?.Product.price ?? 0)
 
-  const parsedImages: string[] = JSON.parse(images)
+  const parsedImages: string[] = JSON.parse(item?.Product.images ?? '')
 
   const previousImage = () => {
     const decreasedIndex = imageIndex - 1
@@ -45,24 +42,28 @@ const CartComponentItem = ({ cartItemId, className, ...props }: ICartComponentIt
     setImageIndex(0)
   }
 
+  if (item === undefined) {
+    return <></>
+  }
+
   return (
     <div className={className} {...props}>
       <div className={styles.product}>
         <div className={styles.productDescription}>
 
           <div className={styles.descriptionContainer}>
-            <h2 className={styles.brandName}>{brandName}</h2>
-            <p className={styles.categoryName}>{categoryName}</p>
+            <h2 className={styles.brandName}>{item.Product.Brand.name}</h2>
+            <p className={styles.categoryName}>{item.Product.Category.name}</p>
             <p className={styles.price}>{symbol}{convertedPrice}{'.00'}</p>
           </div>
 
           <p className={styles.productDescriptionName}>{'Size:'}</p>
           <CartItemSizes
-            cartItemId={id}
+            cartItemId={item.id ?? 0}
             sizesSize={'large'}
           />
         </div >
-        <CartItemQuantity cartItemId={id} className={styles.quantity} />
+        <CartItemQuantity cartItemId={item.id} className={styles.quantity} />
         <div className={styles.slider}>
           <FullSizeImage src={parsedImages[imageIndex]} />
           <div className={styles.sliderButtons}>

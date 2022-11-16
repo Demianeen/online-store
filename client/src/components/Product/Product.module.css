@@ -9,10 +9,6 @@
   transition: all 0.5s ease-out 0.4s;
 }
 
-.product:hover {
-  box-shadow: 0 4px 35px rgb(168 172 176 / 19%);
-}
-
 .outOfStockOverlay {
   position: absolute;
   inset: 0;
@@ -58,7 +54,6 @@
   right: 31px;
   bottom: 72px;
   z-index: 0;
-  opacity: 0;
   transition: all 0.6s ease-out 0.8s;
 }
 
@@ -80,13 +75,19 @@
   }
 }
 
+@media only screen and (min-width: 800px) {
+  .product:hover {
+    box-shadow: 0 4px 35px rgb(168 172 176 / 19%);
+  }
+
+  .addToCartButton {
+    opacity: 0;
+  }
+}
+
 @media only screen and (max-width: 600px) {
   .image {
     width: 100%;
     height: calc(90vw - 2 * 11px - 16px);
-  }
-
-  .addToCartButton {
-    opacity: 1;
   }
 }

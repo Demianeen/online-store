@@ -1,18 +1,27 @@
 import React from 'react'
 import { parsedSize } from '../../store/reducers/types'
 import { ICartItemSizes } from './CartItemSizes.types'
-import { useAppSelector } from '../../hooks/redux'
-import { useChangeItemSizeMutation } from '../../http/cartApi/cartApi'
+import { useChangeItemSizeMutation, useGetCartItemsQuery } from '../../http/cartApi/cartApi'
 import SizesSelect from '../SizesSelect/SizesSelect'
 import { selectCartItemSizeById, selectProductSizesById } from '../../http/cartApi/cartApiSelectors'
+import { useCheckQuery } from '../../http/userApi/userApi'
+import { skipToken } from '@reduxjs/toolkit/dist/query'
 
 const CartItemSizes = ({ sizesSize, cartItemId, className, ...props }: ICartItemSizes) => {
   // we can assure that item will defined because we pass ids from server
-  // eslint-disable-next-line
-  const size = useAppSelector(state => selectCartItemSizeById(state, cartItemId))!
-  // eslint-disable-next-line
-  const rawSizes = useAppSelector(state => selectProductSizesById(state, cartItemId))!
-  const sizes: parsedSize[] = JSON.parse(rawSizes)
+  const { data: userData } = useCheckQuery(undefined)
+  const {
+    selectedSize = 'XL',
+    rawProductSizes
+  } = useGetCartItemsQuery(userData?.user.id ?? skipToken,
+    {
+      selectFromResult: ({ data }) => ({
+        selectedSize: (data != null) ? selectCartItemSizeById(data, cartItemId) : 'XL',
+        rawProductSizes: (data != null) ? selectProductSizesById(data, cartItemId) : 'XL'
+      })
+    }
+  )
+  const sizes: parsedSize[] = JSON.parse(rawProductSizes ?? '')
 
   const [changeItemSize] = useChangeItemSizeMutation()
 
@@ -31,7 +40,7 @@ const CartItemSizes = ({ sizesSize, cartItemId, className, ...props }: ICartItem
       sizesSize={sizesSize}
       sizes={sizes}
       onSizeSelect={selectSize}
-      defaultSize={size}
+      defaultSize={selectedSize}
     />
   )
 }

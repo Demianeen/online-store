@@ -1,0 +1,43 @@
+.product {
+  display: grid;
+  grid-template-rows: 20vh;
+  grid-template-columns: 1fr auto 17vh;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.product:last-child {
+  margin: 0;
+}
+
+.productDescription {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 8px;
+}
+
+.descriptionHeadingContainer {
+  margin-bottom: 4px;
+}
+
+.descriptionHeading {
+  margin: 0;
+  color: var(--black);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 160%;
+}
+
+.price {
+  margin: 0;
+  font: var(--price-regular-small-font);
+}
+
+.productDescriptionName {
+  height: auto;
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 114%;
+  text-transform: uppercase;
+}

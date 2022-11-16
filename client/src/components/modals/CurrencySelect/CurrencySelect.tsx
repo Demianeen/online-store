@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { changeCurrency } from '../../../store/reducers/currencySlice/currencySliceActions'
 import { selectCurrency, selectCurrencyOptions, selectCurrencySymbol } from '../../../store/reducers/currencySlice/currencySliceSelectors'
 import { getCurrencySymbol } from '../../../store/reducers/currencySlice/currencySlice'
+import Overlay from '../../Overlay/Overlay'
 
 const CurrencySelect = ({ isOpen, setIsOpen, className, ...props }: ICurrencySelect) => {
   const dispatch = useAppDispatch()
@@ -36,10 +37,7 @@ const CurrencySelect = ({ isOpen, setIsOpen, className, ...props }: ICurrencySel
 
       {isOpen &&
         <>
-          <div
-            className={styles.overlay}
-            onClick={() => setIsOpen(false)}
-          ></div>
+          <Overlay onClick={() => setIsOpen(false)} />
           <div className={styles.dropListContainer}>
             <ul className={styles.ul}>
               {options.map(currency =>

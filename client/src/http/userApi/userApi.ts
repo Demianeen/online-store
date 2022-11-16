@@ -47,7 +47,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }
     }),
     check: builder.query<IUserApiState, undefined>({
-      query: (args) => '/user/auth',
+      query: () => '/user/auth',
       transformResponse (baseQueryReturnValue: string) {
         return transformData(baseQueryReturnValue)
       }

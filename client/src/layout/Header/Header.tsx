@@ -17,6 +17,8 @@ import { selectCartOverallQuantity } from '../../http/cartApi/cartApiSelectors'
 import { useCheckQuery } from '../../http/userApi/userApi'
 import Overlay from '../../components/Overlay/Overlay'
 import BurgerMenu from '../../components/BurgerMenu/BurgerMenu'
+import { useGetCartItemsQuery } from '../../http/cartApi/cartApi'
+import { skipToken } from '@reduxjs/toolkit/dist/query'
 
 const Header = ({ className, ...props }: HeaderProps) => {
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
@@ -26,10 +28,15 @@ const Header = ({ className, ...props }: HeaderProps) => {
 
   const dispatch = useAppDispatch()
   const { selectGender } = productSlice.actions
-  const { data } = useCheckQuery(undefined)
+  const { data: userData, isSuccess: isUserLogged } = useCheckQuery(undefined)
   const { selectedGender } = useAppSelector(store => store.product)
   // TODO: Add useContext if cartIsOpen
-  const overallQuantity = useAppSelector(selectCartOverallQuantity)
+  const { overallQuantity } = useGetCartItemsQuery(userData?.user?.id ?? skipToken, {
+    selectFromResult: ({ data }) => ({
+      overallQuantity: (data !== undefined) ? selectCartOverallQuantity(data) : 0
+    })
+  })
+  // const overallQuantity = useAppSelector(selectCartOverallQuantity)
 
   const navigate = useNavigate()
 
@@ -119,7 +126,7 @@ const Header = ({ className, ...props }: HeaderProps) => {
           >
             <BrandIcon />
           </Link>
-          {data !== undefined
+          {isUserLogged
             ? <div className={styles.container}>
               <CurrencySelect
                 isOpen={isCurrencyOpen}

@@ -6,22 +6,27 @@ import { useNavigate } from 'react-router-dom'
 import { Routes } from '../../../utils/consts'
 import Button from '../../Button/Button'
 import Order from '../../Order/Order'
-import CartItemQuantity from '../../CartItemQuantity/CartItemQuantity'
-import FullSizeImage from '../../FullSizeImage/FullSizeImage'
-import CartItemSizes from '../../CartItemSizes/CartItemSizes'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { selectAllCartItems, selectCartSubTotal, selectCartOverallQuantity, selectCartTax } from '../../../http/cartApi/cartApiSelectors'
+import { useAppDispatch } from '../../../hooks/redux'
+import { selectCartSubTotal, selectCartOverallQuantity, selectCartTax, selectCartItemIds } from '../../../http/cartApi/cartApiSelectors'
 import { addNotification } from '../../../store/reducers/notificationSlice/notificationSliceActions'
 import { useConvert } from '../../../hooks/currency'
+import { useGetCartItemsQuery } from '../../../http/cartApi/cartApi'
+import { useCheckQuery } from '../../../http/userApi/userApi'
+import { skipToken } from '@reduxjs/toolkit/dist/query'
+import CartControlItem from '../../CartControlItem/CartControlItem'
 
 const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
   const dispatch = useAppDispatch()
 
-  const Items = useAppSelector(selectAllCartItems)
-
-  const subTotal = useAppSelector(selectCartSubTotal)
-  const overallQuantity = useAppSelector(selectCartOverallQuantity)
-  const tax = useAppSelector(selectCartTax)
+  const { data: userData } = useCheckQuery(undefined)
+  const { tax, subTotal, overallQuantity, cartItemsIds } = useGetCartItemsQuery(userData?.user.id ?? skipToken, {
+    selectFromResult: ({ data }) => ({
+      tax: (data !== undefined) ? selectCartTax(data) : 0,
+      subTotal: (data !== undefined) ? selectCartSubTotal(data) : 0,
+      overallQuantity: (data !== undefined) ? selectCartOverallQuantity(data) : 0,
+      cartItemsIds: (data !== undefined) ? selectCartItemIds(data) : []
+    })
+  })
 
   const navigate = useNavigate()
 
@@ -30,15 +35,15 @@ const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
   const convertedSubtotal = convert(subTotal)
 
   useEffect(() => {
-    if (Items[0] === undefined && isVisible) {
+    if (cartItemsIds[0] === undefined && isVisible) {
       setIsVisible(false)
       dispatch(addNotification({ type: 'error', message: 'Add items to the cart first.' }))
     }
-  }, [Items[0], isVisible])
+  }, [cartItemsIds[0], isVisible])
 
   // TODO: Add loading and error handling
 
-  if (!isVisible || Items[0] === undefined) {
+  if (!isVisible || cartItemsIds[0] === undefined) {
     return <></>
   }
 
@@ -46,41 +51,7 @@ const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
     <SideModal className={styles.sideModal} {...props}>
       <p className={styles.heading}><b className={styles.bold}>{'My bag'}</b>{', '}{overallQuantity}{' items'}</p>
       <div className={styles.scrollContainer}>
-        {Items.map(({
-          id,
-          Product: {
-            Brand: { name: brandName },
-            Category: { name: categoryName },
-            price,
-            images
-          }
-        }) => {
-          const convertedPrice = convert(price)
-          const parsedImage = JSON.parse(images)[0]
-
-          return (
-            <div key={id} className={styles.product}>
-              <div className={styles.productDescription}>
-
-                <div className={styles.descriptionContainer}>
-                  <div className={styles.descriptionHeadingContainer}>
-                    <p className={styles.descriptionHeading}>{brandName}</p>
-                    <p className={styles.descriptionHeading}>{categoryName}</p>
-                  </div>
-                  <p className={styles.price}>{symbol}{convertedPrice}{'.00'}</p>
-                </div>
-
-                <p className={styles.productDescriptionName}>{'Size:'}</p>
-                <CartItemSizes
-                  cartItemId={id}
-                  sizesSize={'small'}
-                />
-              </div >
-              <CartItemQuantity cartItemId={id} />
-              <FullSizeImage src={parsedImage} />
-            </div>
-          )
-        })}
+        {cartItemsIds.map(id => <CartControlItem key={ id} cartItemId={id}/>)}
       </div>
       <div className={styles.total}>
         <span className={styles.totalName}>{'Total'}</span>

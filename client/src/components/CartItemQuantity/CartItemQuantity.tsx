@@ -2,16 +2,23 @@ import React from 'react'
 import styles from './CartItemQuantity.module.css'
 import cn from 'classnames'
 import { ICartItemProps } from './CartItemQuantity.types'
-import { useChangeItemQuantityMutation } from '../../http/cartApi/cartApi'
-import { useAppSelector } from '../../hooks/redux'
+import { useChangeItemQuantityMutation, useGetCartItemsQuery } from '../../http/cartApi/cartApi'
 import { selectCartItemById } from '../../http/cartApi/cartApiSelectors'
 import { AlertWithReturn } from '../../store/reducers/notificationSlice/notificationSliceAlert'
 import { IConfirmAlert } from '../../store/reducers/notificationSlice/notificationSlice.types'
+import { useCheckQuery } from '../../http/userApi/userApi'
+import { skipToken } from '@reduxjs/toolkit/dist/query'
 
 const CartItemQuantity = ({ cartItemId, className, ...props }: ICartItemProps) => {
   // we can assure that item will defined because we pass ids from server
   // eslint-disable-next-line
-  const { id, quantity } = useAppSelector(state => selectCartItemById(state, cartItemId))!
+  const { data: userData} = useCheckQuery(undefined)
+  const { item } = useGetCartItemsQuery(userData?.user.id ?? skipToken, {
+    selectFromResult: ({ data }) => ({
+      item: (data != null) ? selectCartItemById(data, cartItemId) : undefined
+    })
+  })
+  // const { id, quantity } = useAppSelector(state => selectCartItemById(state, cartItemId))!
   const [changeItemQuantity] = useChangeItemQuantityMutation()
 
   const increaseByOne = async (id: number, quantity: number) => {
@@ -36,18 +43,22 @@ const CartItemQuantity = ({ cartItemId, className, ...props }: ICartItemProps) =
     changeItemQuantity({ cartItemId: id, quantity: decreasedQuantity })
   }
 
+  if (item === undefined) {
+    return <></>
+  }
+
   return (
     <div className={cn(styles.quantityContainer, className)} {...props}>
       <button
-        onClick={async () => await increaseByOne(id, quantity)}
+        onClick={async () => await increaseByOne(item.id, item.quantity)}
         className={styles.quantityButton}
       >
         <div className={styles.verticalLine}></div>
         <div className={styles.horizontalLine}></div>
       </button>
-      <p className={styles.quantity}>{quantity}</p>
+      <p className={styles.quantity}>{item.quantity}</p>
       <button
-        onClick={async () => await decreaseByOne(id, quantity)}
+        onClick={async () => await decreaseByOne(item.id, item.quantity)}
         className={styles.quantityButton}
       >
         <div className={styles.horizontalLine}></div>
