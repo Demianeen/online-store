@@ -10,7 +10,6 @@ import { ReactComponent as MenuIcon } from './Menu.svg'
 import styles from './Header.module.css'
 import cn from 'classnames'
 import CurrencySelect from '../../components/modals/CurrencySelect/CurrencySelect'
-import productSlice from '../../store/reducers/ProductSlice/slice'
 import UserControl from '../../components/modals/UserControl/UserControl'
 import CartControl from '../../components/modals/CartControl/CartControl'
 import { selectCartOverallQuantity } from '../../http/cartApi/cartApiSelectors'
@@ -19,6 +18,8 @@ import Overlay from '../../components/Overlay/Overlay'
 import BurgerMenu from '../../components/BurgerMenu/BurgerMenu'
 import { useGetCartItemsQuery } from '../../http/cartApi/cartApi'
 import { skipToken } from '@reduxjs/toolkit/dist/query'
+import { selectGender } from '../../store/reducers/productParamsSlice/productParamsSliceActions'
+import { Gender } from '../../http/categoryApi/categoryApi.types'
 
 const Header = ({ className, ...props }: HeaderProps) => {
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
@@ -27,20 +28,18 @@ const Header = ({ className, ...props }: HeaderProps) => {
   const [isBurgerOpen, setIsBurgerOpen] = useState(false)
 
   const dispatch = useAppDispatch()
-  const { selectGender } = productSlice.actions
   const { data: userData, isSuccess: isUserLogged } = useCheckQuery(undefined)
-  const { selectedGender } = useAppSelector(store => store.product)
+  const { selectedGender } = useAppSelector(store => store.productParams)
   // TODO: Add useContext if cartIsOpen
   const { overallQuantity } = useGetCartItemsQuery(userData?.user?.id ?? skipToken, {
     selectFromResult: ({ data }) => ({
       overallQuantity: (data !== undefined) ? selectCartOverallQuantity(data) : 0
     })
   })
-  // const overallQuantity = useAppSelector(selectCartOverallQuantity)
 
   const navigate = useNavigate()
 
-  const handleGenderSelect = (value: string) => {
+  const handleGenderSelect = (value: Gender) => {
     dispatch(selectGender(value))
   }
 

@@ -7,7 +7,7 @@ import { Routes } from '../../../utils/consts'
 import Button from '../../Button/Button'
 import Order from '../../Order/Order'
 import { useAppDispatch } from '../../../hooks/redux'
-import { selectCartSubTotal, selectCartOverallQuantity, selectCartTax, selectCartItemIds } from '../../../http/cartApi/cartApiSelectors'
+import { selectCartSubTotal, selectCartOverallQuantity, selectCartTax, selectCartItemsIds } from '../../../http/cartApi/cartApiSelectors'
 import { addNotification } from '../../../store/reducers/notificationSlice/notificationSliceActions'
 import { useConvert } from '../../../hooks/currency'
 import { useGetCartItemsQuery } from '../../../http/cartApi/cartApi'
@@ -19,12 +19,13 @@ const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
   const dispatch = useAppDispatch()
 
   const { data: userData } = useCheckQuery(undefined)
-  const { tax, subTotal, overallQuantity, cartItemsIds } = useGetCartItemsQuery(userData?.user.id ?? skipToken, {
+
+  const { tax, subTotal, overallQuantity, cartItemsIds } = useGetCartItemsQuery(userData?.user.CartId ?? skipToken, {
     selectFromResult: ({ data }) => ({
       tax: (data !== undefined) ? selectCartTax(data) : 0,
       subTotal: (data !== undefined) ? selectCartSubTotal(data) : 0,
       overallQuantity: (data !== undefined) ? selectCartOverallQuantity(data) : 0,
-      cartItemsIds: (data !== undefined) ? selectCartItemIds(data) : []
+      cartItemsIds: (data !== undefined) ? selectCartItemsIds(data) : []
     })
   })
 

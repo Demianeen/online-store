@@ -11,6 +11,7 @@ RUN npm config set cache /tmp --global
 COPY . .
 
 ENV PORT=4000
+ENV DB_HOST=postgres
 
 CMD [ "npm", "run", "start" ]
 EXPOSE ${PORT}

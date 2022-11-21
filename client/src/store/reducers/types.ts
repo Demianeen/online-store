@@ -1,4 +1,6 @@
-export type NotCreationAttributesKeys = 'id' | 'createdAt' | 'updatedAt'
+import { IRawMeta } from './../../http/index.types'
+
+export type NotCreationAttributesKeys = keyof IRawMeta
 export type CreationAttributes<T, N extends string = ''> = Omit<T, NotCreationAttributesKeys | N>
 
 // Cart and Product only

@@ -3,30 +3,21 @@ import { IProductFeed } from './ProductsFeed.types'
 import styles from './ProductsFeed.module.css'
 import cn from 'classnames'
 import { useAppSelector } from '../../hooks/redux'
-import { IProductWithBrandAndCategory } from '../../store/reducers/ProductSlice/types'
 import Product from '../Product/Product'
+import { useGetProductsQuery, selectProductsIds } from '../../http/productApi/productApi'
 
 const ProductsFeed = ({ className, ...props }: IProductFeed) => {
-  const { products } = useAppSelector(store => store.product)
-
-  const inStockProducts: IProductWithBrandAndCategory[] = []
-  const outOfStockProducts: IProductWithBrandAndCategory[] = []
-
-  products.forEach(product => {
-    if (product.isInStock) {
-      inStockProducts.push(product)
-      return
-    }
-    outOfStockProducts.push(product)
+  const productParams = useAppSelector(state => state.productParams)
+  const { productsIds } = useGetProductsQuery(productParams, {
+    selectFromResult: ({ data }) => ({
+      productsIds: (data !== undefined) ? selectProductsIds(data) : []
+    })
   })
 
   return (
     <div className={cn(styles.container, className)} {...props}>
-      {inStockProducts.map((product) =>
-        <Product key={product.id} product={product}/>
-      )}
-      {outOfStockProducts.map((product) =>
-        <Product key={product.id} product={product} />
+      {productsIds.map((id) =>
+        <Product key={id} productId={id}/>
       )}
     </div>)
 }

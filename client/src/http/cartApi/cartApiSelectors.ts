@@ -4,28 +4,18 @@ import { cartItemsAdapter } from './cartApi'
 export const {
   selectAll: selectAllCartItems,
   selectById: selectCartItemById,
-  selectIds: selectCartItemIds
+  selectIds: selectCartItemsIds
 } = cartItemsAdapter.getSelectors()
 
 export const selectProductSizesById = createSelector(
   selectCartItemById,
-  (item) => item?.Product.sizes
+  (item) => item?.Product?.sizes
 )
 
 export const selectCartItemSizeById = createSelector(
   selectCartItemById,
   (item) => item?.size
 )
-
-// export const selectCartItemsStatus = createSelector(
-//   selectCartItemsResult,
-//   (cartItemsResult) => ({
-//     isSuccess: cartItemsResult.isSuccess,
-//     isLoading: cartItemsResult.isLoading,
-//     isError: cartItemsResult.isError,
-//     error: cartItemsResult.error
-//   })
-// )
 
 export const selectCartOverallQuantity = createSelector(
   selectAllCartItems,
@@ -38,7 +28,7 @@ export const selectCartOverallQuantity = createSelector(
 export const selectCartSubTotal = createSelector(
   selectAllCartItems,
   (items) => items.reduce(
-    (total, item) => total + (item.Product.price * item.quantity),
+    (total, item) => total + item.Product.price * item.quantity,
     0
   )
 )
@@ -56,3 +46,13 @@ export const selectCartTotal = createSelector(
   selectCartTax,
   (subTotal, tax) => subTotal + tax
 )
+
+// export const selectCartItemsStatus = createSelector(
+//   selectCartItemsResult,
+//   (cartItemsResult) => ({
+//     isSuccess: cartItemsResult.isSuccess,
+//     isLoading: cartItemsResult.isLoading,
+//     isError: cartItemsResult.isError,
+//     error: cartItemsResult.error
+//   })
+// )

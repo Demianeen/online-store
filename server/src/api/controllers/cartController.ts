@@ -4,8 +4,6 @@ import { NextFunction, Response } from 'express'
 import ApiError from '../error/ApiError.js'
 import { Cart } from '../models/Cart.js'
 import { Product } from '../models/Product.js'
-import { Brand } from '../models/Brand.js'
-import { Category } from '../models/Category.js'
 
 const isSizeValid = (size: string): size is 'XS' | 'S' | 'M' | 'L' | 'XL' => {
   return size === 'XS' || size === 'S' || size === 'M' || size === 'L' || size === 'XL'
@@ -19,26 +17,19 @@ class CartController {
     res.json(cart)
   }
 
-  async get (req: GetCartBodyRequest, res: Response, next: NextFunction): Promise<void> {
-    const { UserId } = req.query
-    if (!UserId) return next(ApiError.badRequest('UserId is required'))
+  async getCartItems (req: GetCartBodyRequest, res: Response, next: NextFunction): Promise<void> {
+    const { CartId } = req.query
+    if (!CartId) return next(ApiError.badRequest('UserId is required'))
 
-    const cart = await Cart.findOne({
-      where: { UserId },
+    const cartItems = await CartItem.findAll({
+      where: { CartId },
       include: {
-        model: CartItem,
-        as: 'Items',
-        include: [{
-          model: Product,
-          include: [
-            { model: Category, as: 'Category' },
-            { model: Brand, as: 'Brand' }
-          ]
-        }]
+        model: Product,
+        as: 'Product'
       }
     })
 
-    res.json(cart)
+    res.json(cartItems)
   }
 
   async addItem (req: CartItemBodyRequest, res: Response, next: NextFunction): Promise<void> {

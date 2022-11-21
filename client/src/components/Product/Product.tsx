@@ -6,38 +6,54 @@ import { Routes } from '../../utils/consts'
 import AddToCart from '../AddToCart/AddToCart'
 import { useNavigate } from 'react-router-dom'
 import { useConvert } from '../../hooks/currency'
+import { selectProductById, useGetProductsQuery } from '../../http/productApi/productApi'
+import { useAppSelector } from '../../hooks/redux'
+import { selectCategoryById } from '../../http/categoryApi/categoryApiSelectors'
+import { selectBrandById } from '../../http/brandApi/brandApiSelectors'
 
-const Product = ({ product, className, ...props }: IProduct) => {
-  const { id, Brand, Category, price, images, sizes, isInStock } = product
+const Product = ({ productId, className, ...props }: IProduct) => {
+  const productParams = useAppSelector(state => state.productParams)
+  const { product } = useGetProductsQuery(productParams, {
+    selectFromResult: ({ data }) => ({
+      product: (data !== undefined) ? selectProductById(data, productId) : undefined
+    })
+  })
+  const brand = useAppSelector(state => selectBrandById(state, product?.BrandId ?? ''))
+  const category = useAppSelector(state => selectCategoryById(state, product?.CategoryId ?? ''))
+  const imageName = `${brand?.name ?? ''} ${category?.name ?? ''}`
+
   const navigate = useNavigate()
 
   const [convert, { symbol }] = useConvert()
-  const convertedPrice = convert(price)
 
-  const parsedImages: string[] = JSON.parse(images)
+  if (product === undefined) {
+    return <></>
+  }
+
+  const convertedPrice = convert(product.price)
+
   return (
     <div
-      key={id}
-      onClick={() => navigate(`${Routes.PRODUCT_ROUTE}/${id}`)}
+      onClick={() => navigate(`${Routes.PRODUCT_ROUTE}/${product.id}`)}
       className={cn(styles.product, className)}
       {...props}
     >
-      {!isInStock && <div className={styles.outOfStockOverlay}>
+      {!product.isInStock && <div className={styles.outOfStockOverlay}>
         <span className={styles.overlayText}>{'Out of stock'}</span>
       </div>}
       <img
-        src={process.env.REACT_APP_API_URL + parsedImages[0]}
-        alt={Brand.name + ' ' + Category.name}
+        src={process.env.REACT_APP_API_URL + product.images[0]}
+        alt={imageName}
         className={styles.image}
       />
-      <span className={styles.name}>{Brand.name + ' ' + Category.name}</span>
+      <span className={styles.name}>{imageName}</span>
       <span className={styles.price}>{symbol}{convertedPrice}{'.00'}</span>
-      {isInStock && <AddToCart
+      {product.isInStock && <AddToCart
         className={styles.addToCartButton}
-        productId={id}
+        productId={product.id}
         buttonSize={'small'}
-        size={JSON.parse(sizes)[0]}
-        isInStock={isInStock}
+        size={product.sizes[0]}
+        isInStock={product.isInStock}
       />}
     </div>
 

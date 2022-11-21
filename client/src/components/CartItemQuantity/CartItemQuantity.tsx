@@ -10,15 +10,12 @@ import { useCheckQuery } from '../../http/userApi/userApi'
 import { skipToken } from '@reduxjs/toolkit/dist/query'
 
 const CartItemQuantity = ({ cartItemId, className, ...props }: ICartItemProps) => {
-  // we can assure that item will defined because we pass ids from server
-  // eslint-disable-next-line
-  const { data: userData} = useCheckQuery(undefined)
-  const { item } = useGetCartItemsQuery(userData?.user.id ?? skipToken, {
+  const { data: userData } = useCheckQuery(undefined)
+  const { item } = useGetCartItemsQuery(userData?.user.CartId ?? skipToken, {
     selectFromResult: ({ data }) => ({
       item: (data != null) ? selectCartItemById(data, cartItemId) : undefined
     })
   })
-  // const { id, quantity } = useAppSelector(state => selectCartItemById(state, cartItemId))!
   const [changeItemQuantity] = useChangeItemQuantityMutation()
 
   const increaseByOne = async (id: number, quantity: number) => {

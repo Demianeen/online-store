@@ -1,10 +1,12 @@
+import { categoryApiSlice } from '../http/categoryApi/categoryApi'
 import { currencySlice } from './reducers/currencySlice/currencySlice'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { cartApiSlice } from '../http/cartApi/cartApi'
 import { userApiSlice } from '../http/userApi/userApi'
 import { listenerMiddleware } from './listener'
 import { notificationSlice } from './reducers/notificationSlice/notificationSlice'
-import productSlice from './reducers/ProductSlice/slice'
+import productSlice from './reducers/productParamsSlice/productParamsSlice'
+import { apiSlice } from '../http'
 
 export const rootReducer = combineReducers({
   // here we use different endpoints as different slices to use them with typing
@@ -13,10 +15,11 @@ export const rootReducer = combineReducers({
   userApi: userApiSlice.reducer,
   cartApi: cartApiSlice.reducer,
   currencyApi: currencySlice.reducer,
+  categoryApi: categoryApiSlice.reducer,
   [currencySlice.name]: currencySlice.reducer,
   [notificationSlice.name]: notificationSlice.reducer,
   [productSlice.name]: productSlice.reducer,
-  [cartApiSlice.reducerPath]: cartApiSlice.reducer
+  [apiSlice.reducerPath]: apiSlice.reducer
 })
 
 export const store = configureStore({

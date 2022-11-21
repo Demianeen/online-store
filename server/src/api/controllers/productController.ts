@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Response } from 'express'
 import { productCreateRequest, productGetManyRequest, Options } from '../../types/controllers/productController.js'
 import { v4 as uuidv4 } from 'uuid'
 import ApiError from '../error/ApiError.js'
@@ -6,8 +6,6 @@ import path from 'path'
 import { Product } from '../models/Product.js'
 import { Color } from '../models/Color.js'
 import { IColor } from '../../types/controllers/colorController.js'
-import { Category } from '../models/Category.js'
-import { Brand } from '../models/Brand.js'
 
 const isGenderCorrect = (gender: string): gender is 'WOMEN' | 'MEN' | 'KIDS' => {
   return gender === 'WOMEN' || gender === 'MEN' || gender === 'KIDS'
@@ -67,24 +65,12 @@ class ProductController {
     }
   }
 
-  async getOne (req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { id } = req.params
-    if (!id) return next(ApiError.badRequest('Id is required'))
-
-    const device = await Product.findOne({
-      where: { id },
-      include: [{ model: Color, as: 'Colors' }, { model: Category, as: 'Category' }, { model: Brand, as: 'Brand' }]
-    })
-    res.json(device)
-  }
-
   async getAll (req: productGetManyRequest, res: Response): Promise<void> {
     const { CategoryId, BrandId, gender, limit = 9, page = 1 } = req.query
     const offset = page * limit - limit
 
     const options: Options = {
       where: {},
-      include: [{ model: Category, as: 'Category' }, { model: Brand, as: 'Brand' }],
       limit,
       offset
     }
@@ -99,9 +85,9 @@ class ProductController {
       options.where.gender = gender
     }
 
-    const productsAndQuantity = await Product.findAndCountAll(options)
+    const products = await Product.findAll(options)
 
-    res.json(productsAndQuantity)
+    res.json(products)
   }
 }
 

@@ -1,6 +1,6 @@
 import { unhandledErrorNotification } from './../../store/reducers/notificationSlice/notificationSliceActions'
 import { selectUser } from './../userApi/userApi'
-import { ICartItem, CartItemCreate, ChangeCartItemQuantity, ChangeCartItemSize, ICartRaw } from './cartApi.types'
+import { ICartItem, CartItemCreate, IChangeCartItemQuantity, IChangeCartItemSize, ICartItemRaw } from './cartApi.types'
 import { apiSlice } from '..'
 import { createEntityAdapter, EntityState } from '@reduxjs/toolkit'
 
@@ -14,15 +14,15 @@ export const cartItemsInitialState = cartItemsAdapter.getInitialState()
 export const cartApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCartItems: builder.query<EntityState<ICartItem>, number>({
-      query: (UserId) => ({
-        url: '/cart',
+      query: (CartId) => ({
+        url: '/cart/item',
         params: {
-          UserId
+          CartId
         }
       }),
-      transformResponse: (responseData: ICartRaw) => {
+      transformResponse: (responseData: ICartItemRaw[]) => {
         // parse stringified properties
-        const parsedItems: ICartItem[] = responseData.Items.map((el) => ({
+        const parsedItems: ICartItem[] = responseData.map((el) => ({
           ...el,
           createdAt: new Date(el.createdAt).getTime(),
           updatedAt: new Date(el.updatedAt).getTime()
@@ -50,7 +50,7 @@ export const cartApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['cart']
     }),
-    changeItemQuantity: builder.mutation<ICartItem, ChangeCartItemQuantity>({
+    changeItemQuantity: builder.mutation<ICartItem, IChangeCartItemQuantity>({
       query: ({ cartItemId, quantity }) => ({
         url: '/cart/item/quantity',
         method: 'POST',
@@ -69,7 +69,7 @@ export const cartApiSlice = apiSlice.injectEndpoints({
 
         const patchedResult = dispatch(
           cartApiSlice.util
-            .updateQueryData('getCartItems', data.user.id, draft => {
+            .updateQueryData('getCartItems', data.user.CartId, draft => {
               const entity = draft.entities[cartItemId]
               if (entity === undefined) return
               entity.quantity = quantity
@@ -83,7 +83,7 @@ export const cartApiSlice = apiSlice.injectEndpoints({
         }
       }
     }),
-    changeItemSize: builder.mutation<ICartItem, ChangeCartItemSize>({
+    changeItemSize: builder.mutation<ICartItem, IChangeCartItemSize>({
       query: ({ cartItemId, size }) => ({
         url: '/cart/item/size',
         method: 'POST',
@@ -101,7 +101,7 @@ export const cartApiSlice = apiSlice.injectEndpoints({
 
         const patchedResult = dispatch(
           cartApiSlice.util
-            .updateQueryData('getCartItems', data.user.id, draft => {
+            .updateQueryData('getCartItems', data.user.CartId, draft => {
               const entity = draft.entities[cartItemId]
               if (entity === undefined) {
                 dispatch(unhandledErrorNotification())

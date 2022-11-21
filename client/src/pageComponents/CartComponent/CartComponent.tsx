@@ -3,7 +3,7 @@ import { IUserComponent } from './CartComponent.types'
 import styles from './CartComponent.module.css'
 import Order from '../../components/Order/Order'
 import { useAppSelector } from '../../hooks/redux'
-import { selectCartItemIds, selectCartOverallQuantity, selectCartSubTotal, selectCartTax, selectCartTaxPercentage } from '../../http/cartApi/cartApiSelectors'
+import { selectCartItemsIds, selectCartOverallQuantity, selectCartSubTotal, selectCartTax, selectCartTaxPercentage } from '../../http/cartApi/cartApiSelectors'
 import { useConvert } from '../../hooks/currency'
 import CartComponentItem from '../../components/CartComponentItem/CartComponentItem'
 import { useGetCartItemsQuery } from '../../http/cartApi/cartApi'
@@ -13,15 +13,15 @@ import { skipToken } from '@reduxjs/toolkit/dist/query'
 const CartComponent = ({ className, ...props }: IUserComponent) => {
   const { data: userData } = useCheckQuery(undefined)
 
-  const taxPercentage = useAppSelector(selectCartTaxPercentage)
-  const { tax, subTotal, overallQuantity, cartItemsIds } = useGetCartItemsQuery(userData?.user.id ?? skipToken, {
+  const { tax, subTotal, overallQuantity, cartItemsIds } = useGetCartItemsQuery(userData?.user.CartId ?? skipToken, {
     selectFromResult: ({ data }) => ({
       tax: (data !== undefined) ? selectCartTax(data) : 0,
       subTotal: (data !== undefined) ? selectCartSubTotal(data) : 0,
       overallQuantity: (data !== undefined) ? selectCartOverallQuantity(data) : 0,
-      cartItemsIds: (data !== undefined) ? selectCartItemIds(data) : []
+      cartItemsIds: (data !== undefined) ? selectCartItemsIds(data) : []
     })
   })
+  const taxPercentage = useAppSelector(selectCartTaxPercentage)
 
   const [convert, { symbol }] = useConvert()
   const convertedTax = convert(tax)

@@ -8,20 +8,20 @@ import { useCheckQuery } from '../../http/userApi/userApi'
 import { skipToken } from '@reduxjs/toolkit/dist/query'
 
 const CartItemSizes = ({ sizesSize, cartItemId, className, ...props }: ICartItemSizes) => {
-  // we can assure that item will defined because we pass ids from server
   const { data: userData } = useCheckQuery(undefined)
   const {
     selectedSize = 'XL',
-    rawProductSizes
-  } = useGetCartItemsQuery(userData?.user.id ?? skipToken,
+    sizes
+  } = useGetCartItemsQuery(userData?.user.CartId ?? skipToken,
     {
       selectFromResult: ({ data }) => ({
-        selectedSize: (data != null) ? selectCartItemSizeById(data, cartItemId) : 'XL',
-        rawProductSizes: (data != null) ? selectProductSizesById(data, cartItemId) : 'XL'
+        selectedSize: (data !== undefined) ? selectCartItemSizeById(data, cartItemId) : 'XL',
+        sizes: (data !== undefined) ? selectProductSizesById(data, cartItemId) : '["XL"]'
       })
     }
   )
-  const sizes: parsedSize[] = JSON.parse(rawProductSizes ?? '')
+
+  const parsedSizes: parsedSize[] = JSON.parse(sizes ?? '["XL"]')
 
   const [changeItemSize] = useChangeItemSizeMutation()
 
@@ -38,7 +38,7 @@ const CartItemSizes = ({ sizesSize, cartItemId, className, ...props }: ICartItem
   return (
     <SizesSelect
       sizesSize={sizesSize}
-      sizes={sizes}
+      sizes={parsedSizes}
       onSizeSelect={selectSize}
       defaultSize={selectedSize}
     />

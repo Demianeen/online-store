@@ -5,7 +5,6 @@ import { IBurgerMenu } from './BurgerMenu.types'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Routes } from '../../utils/consts'
 import { useAppDispatch } from '../../hooks/redux'
-import productSlice from '../../store/reducers/ProductSlice/slice'
 import { useSignOut } from '../../hooks/useSignOut'
 import { useCheckQuery } from '../../http/userApi/userApi'
 import { ReactComponent as CloseIcon } from './Close.svg'
@@ -14,6 +13,8 @@ import { ReactComponent as ShopifyIcon } from './Shopify.svg'
 import { ReactComponent as SignOutIcon } from './SignOut.svg'
 import { ReactComponent as CaretDownIcon } from './CaretDown.svg'
 import { ReactComponent as LoginIcon } from './Login.svg'
+import { selectGender } from '../../store/reducers/productParamsSlice/productParamsSliceActions'
+import { Gender } from '../../http/categoryApi/categoryApi.types'
 
 const BurgerMenu = ({ isMenuOpen, setIsMenuOpen, className, ...props }: IBurgerMenu) => {
   const dispatch = useAppDispatch()
@@ -27,9 +28,7 @@ const BurgerMenu = ({ isMenuOpen, setIsMenuOpen, className, ...props }: IBurgerM
 
   const signOut = useSignOut()
 
-  const { selectGender } = productSlice.actions
-
-  const handleGenderSelect = (value: string) => {
+  const handleGenderSelect = (value: Gender) => {
     dispatch(selectGender(value))
   }
 

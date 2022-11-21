@@ -4,6 +4,7 @@ import { DestroyOptions, InferAttributes, InferCreationAttributes } from 'sequel
 import { CreationAttributes } from './index.js'
 
 interface ICartBody {
+  CartId?: number
   UserId?: number
 }
 
