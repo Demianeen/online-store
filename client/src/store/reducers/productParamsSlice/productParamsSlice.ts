@@ -1,11 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { IProductState } from './productParamsSlice.types'
-import { nextPage, previousPage, selectBrand, selectCategory, selectGender, setLimit } from './productParamsSliceActions'
+import {
+  endValues,
+  nextPage,
+  previousPage,
+  selectGender,
+  setLimit
+} from './productParamsSliceActions'
 
 const initialState: IProductState = {
-  limit: 12,
-  page: 1,
-  selectedGender: 'WOMEN'
+  params: {
+    limit: 12,
+    page: 1,
+    selectedGender: 'WOMEN'
+  },
+  isValuesEnded: false
 }
 
 const productSlice = createSlice({
@@ -15,26 +24,34 @@ const productSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(selectCategory, (state, action) => {
-        state.page = 1
-        state.selectedCategoryId = action.payload
-      })
-      .addCase(selectBrand, (state, action) => {
-        state.page = 1
-        state.selectedCategoryId = action.payload
-      })
+    // .addCase(selectCategory, (state, action) => {
+    //   state.params.page = 1
+    //   state.isValuesEnded = false
+    //   state.params.selectedCategoryId = action.payload
+    // })
+    // .addCase(selectBrand, (state, action) => {
+    //   state.params.page = 1
+    //   state.isValuesEnded = false
+    //   state.params.selectedCategoryId = action.payload
+    // })
+
       .addCase(selectGender, (state, action) => {
-        state.page = 1
-        state.selectedGender = action.payload
+        state.params.page = 1
+        state.isValuesEnded = false
+
+        state.params.selectedGender = action.payload
       })
       .addCase(setLimit, (state, action) => {
-        state.limit = action.payload
+        state.params.limit = action.payload
       })
       .addCase(nextPage, state => {
-        state.page++
+        state.params.page++
       })
       .addCase(previousPage, state => {
-        state.page--
+        state.params.page--
+      })
+      .addCase(endValues, (state) => {
+        state.isValuesEnded = true
       })
   }
 })

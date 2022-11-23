@@ -3,27 +3,37 @@ import { RootState } from '../../store'
 
 export const selectProductParamsState = (state: RootState) => state.productParams
 
-export const selectProductGender = createSelector(
+export const selectProductParams = createSelector(
   selectProductParamsState,
+  (state) => state.params
+)
+
+export const selectProductGender = createSelector(
+  selectProductParams,
   (params) => params.selectedGender
 )
 
 export const selectProductLimit = createSelector(
-  selectProductParamsState,
+  selectProductParams,
   (params) => params.limit
 )
 
 export const selectProductPage = createSelector(
-  selectProductParamsState,
+  selectProductParams,
   (params) => params.page
 )
 
-export const selectSelectedBrandId = createSelector(
-  selectProductParamsState,
-  (params) => params.selectedBrandId
-)
+// export const selectSelectedBrandId = createSelector(
+//   selectProductParams,
+//   (params) => params.selectedBrandId
+// )
 
-export const selectSelectedCategoryId = createSelector(
+// export const selectSelectedCategoryId = createSelector(
+//   selectProductParams,
+//   (params) => params.selectedCategoryId
+// )
+
+export const selectIsValuesEnded = createSelector(
   selectProductParamsState,
-  (params) => params.selectedCategoryId
+  (state) => state.isValuesEnded
 )

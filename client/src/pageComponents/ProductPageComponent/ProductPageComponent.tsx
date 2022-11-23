@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IProductPageComponent } from './ProductPageComponent.types'
 import styles from './ProductPageComponent.module.css'
 import cn from 'classnames'
@@ -9,17 +9,13 @@ import { useConvert } from '../../hooks/currency'
 import { useAppSelector } from '../../hooks/redux'
 import { selectBrandById } from '../../http/brandApi/brandApiSelectors'
 import { selectCategoryById } from '../../http/categoryApi/categoryApiSelectors'
-import { useGetProductsQuery, selectProductById } from '../../http/productApi/productApi'
+import { selectProductById } from '../../http/productApi/productApi'
+import { useInfiniteGetProducts } from '../../hooks/useInfiniteGetProducts'
 
 const ProductPageComponent = ({ className, ...props }: IProductPageComponent) => {
   const { id } = useParams()
 
-  const productParams = useAppSelector(state => state.productParams)
-  const { product } = useGetProductsQuery(productParams, {
-    selectFromResult: ({ data }) => ({
-      product: (data !== undefined) ? selectProductById(data, id ?? '') : undefined
-    })
-  })
+  const product = useInfiniteGetProducts(selectProductById, id ?? '')
   const brand = useAppSelector(state => selectBrandById(state, product?.BrandId ?? ''))
   const category = useAppSelector(state => selectCategoryById(state, product?.CategoryId ?? ''))
 
@@ -30,6 +26,12 @@ const ProductPageComponent = ({ className, ...props }: IProductPageComponent) =>
   const [selectedSize, setSelectedSize] = useState<parsedSize>(product?.sizes[0] ?? 'XS')
 
   const [convert, { symbol }] = useConvert()
+
+  useEffect(() => {
+    if (product !== undefined) {
+      setMainImage(product.images[0])
+    }
+  }, [product?.images[0]])
 
   if (product === undefined) {
     return <p>{'Loading...'}</p>
@@ -45,7 +47,7 @@ const ProductPageComponent = ({ className, ...props }: IProductPageComponent) =>
         <section className={styles.imageGalleryContainer}>
           <ol className={styles.imageGallery}>
 
-            {product.images.map(imagePath =>
+            {product.images.map((imagePath) =>
               <li key={imagePath} className={styles.imageGalleryItem}>
                 {/* image gallery and gallery image are different names */}
                 <div className={styles.galleryImageContainer}>

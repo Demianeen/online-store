@@ -6,18 +6,14 @@ import { Routes } from '../../utils/consts'
 import AddToCart from '../AddToCart/AddToCart'
 import { useNavigate } from 'react-router-dom'
 import { useConvert } from '../../hooks/currency'
-import { selectProductById, useGetProductsQuery } from '../../http/productApi/productApi'
+import { selectProductById } from '../../http/productApi/productApi'
 import { useAppSelector } from '../../hooks/redux'
 import { selectCategoryById } from '../../http/categoryApi/categoryApiSelectors'
 import { selectBrandById } from '../../http/brandApi/brandApiSelectors'
+import { useInfiniteGetProducts } from '../../hooks/useInfiniteGetProducts'
 
 const Product = ({ productId, className, ...props }: IProduct) => {
-  const productParams = useAppSelector(state => state.productParams)
-  const { product } = useGetProductsQuery(productParams, {
-    selectFromResult: ({ data }) => ({
-      product: (data !== undefined) ? selectProductById(data, productId) : undefined
-    })
-  })
+  const product = useInfiniteGetProducts(selectProductById, productId)
   const brand = useAppSelector(state => selectBrandById(state, product?.BrandId ?? ''))
   const category = useAppSelector(state => selectCategoryById(state, product?.CategoryId ?? ''))
   const imageName = `${brand?.name ?? ''} ${category?.name ?? ''}`

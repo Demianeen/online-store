@@ -2,15 +2,14 @@ import { IGetProducts, IProduct, IProductRaw, ProductCreate } from './productApi
 import { apiSlice } from '..'
 import { createEntityAdapter, EntityState } from '@reduxjs/toolkit'
 
-export const productsAdapter = createEntityAdapter<IProduct>({
-  sortComparer: (a, _) => a.isInStock ? -1 : 1
-})
+export const productsAdapter = createEntityAdapter<IProduct>()
 
 export const productsAdapterInitialState = productsAdapter.getInitialState()
 
 export const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query<EntityState<IProduct>, IGetProducts>({
+      keepUnusedDataFor: 600,
       query: (params) => ({
         url: '/product',
         params: {

@@ -20,6 +20,7 @@ import { useGetCartItemsQuery } from '../../http/cartApi/cartApi'
 import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { selectGender } from '../../store/reducers/productParamsSlice/productParamsSliceActions'
 import { Gender } from '../../http/categoryApi/categoryApi.types'
+import { selectProductGender } from '../../store/reducers/productParamsSlice/productParamsSliceSelectors'
 
 const Header = ({ className, ...props }: HeaderProps) => {
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
@@ -29,7 +30,7 @@ const Header = ({ className, ...props }: HeaderProps) => {
 
   const dispatch = useAppDispatch()
   const { data: userData, isSuccess: isUserLogged } = useCheckQuery(undefined)
-  const { selectedGender } = useAppSelector(store => store.productParams)
+  const selectedGender = useAppSelector(selectProductGender)
   // TODO: Add useContext if cartIsOpen
   const { overallQuantity } = useGetCartItemsQuery(userData?.user?.id ?? skipToken, {
     selectFromResult: ({ data }) => ({
