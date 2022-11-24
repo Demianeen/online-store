@@ -20,6 +20,10 @@
   background: #EEE;
 }
 
+.li {
+  white-space: nowrap;
+}
+
 @media only screen and (max-width: 600px) {
   .sideModal {
     display: none;

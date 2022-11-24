@@ -10,6 +10,8 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: clothes_online_store
       PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   nginx:
     image: demianeen/online-store-nginx
@@ -32,7 +34,7 @@ services:
       - /app/node_modules
       - ./server:/app
     ports:
-      - 8080:8080
+      - 8080:4000
     env_file: ./server/.env
     restart: unless-stopped
   
@@ -48,4 +50,7 @@ services:
     volumes: 
       - /app/node_modules
       - ./client:/app
+      
+volumes:
+  pgdata:
      
