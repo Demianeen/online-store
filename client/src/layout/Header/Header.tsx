@@ -32,7 +32,7 @@ const Header = ({ className, ...props }: HeaderProps) => {
   const { data: userData, isSuccess: isUserLogged } = useCheckQuery(undefined)
   const selectedGender = useAppSelector(selectProductGender)
   // TODO: Add useContext if cartIsOpen
-  const { overallQuantity } = useGetCartItemsQuery(userData?.user?.id ?? skipToken, {
+  const { overallQuantity } = useGetCartItemsQuery(userData?.user?.CartId ?? skipToken, {
     selectFromResult: ({ data }) => ({
       overallQuantity: (data !== undefined) ? selectCartOverallQuantity(data) : 0
     })
