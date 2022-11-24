@@ -29,11 +29,11 @@ class ProductController {
       const fileNames: string[] = []
       if (Array.isArray(images)) {
         images.forEach((el, index) => {
-          fileNames[index] = uuidv4() + '.png'
+          fileNames[index] = uuidv4() + '.webp'
           el.mv(path.resolve('src/static/' + fileNames[index]))
         })
       } else {
-        fileNames[0] = uuidv4() + '.png'
+        fileNames[0] = uuidv4() + '.webp'
         images.mv(path.resolve('src/static/' + fileNames[0]))
       }
 

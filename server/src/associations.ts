@@ -11,7 +11,6 @@ const setAssociations = (): void => {
   User.hasOne(Cart)
   Cart.belongsTo(User)
 
-  // TODO: add associations as Products
   Product.hasMany(CartItem)
   CartItem.belongsTo(Product)
 
