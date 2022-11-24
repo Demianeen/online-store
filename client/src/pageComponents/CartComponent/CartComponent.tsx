@@ -9,8 +9,13 @@ import CartComponentItem from '../../components/CartComponentItem/CartComponentI
 import { useGetCartItemsQuery } from '../../http/cartApi/cartApi'
 import { useCheckQuery } from '../../http/userApi/userApi'
 import { skipToken } from '@reduxjs/toolkit/dist/query'
+import { useGetCategoriesQuery } from '../../http/categoryApi/categoryApi'
+import { useGetBrandsQuery } from '../../http/brandApi/brandApi'
 
 const CartComponent = ({ className, ...props }: IUserComponent) => {
+  useGetCategoriesQuery(undefined)
+  useGetBrandsQuery(undefined)
+
   const { data: userData } = useCheckQuery(undefined)
 
   const { tax, subTotal, overallQuantity, cartItemsIds } = useGetCartItemsQuery(userData?.user.CartId ?? skipToken, {

@@ -3,14 +3,16 @@ import { IProductFeed } from './ProductsFeed.types'
 import styles from './ProductsFeed.module.css'
 import cn from 'classnames'
 import Product from '../Product/Product'
-import { selectProductsIds } from '../../http/productApi/productApi'
 import { nextPage } from '../../store/reducers/productParamsSlice/productParamsSliceActions'
-import { useInfiniteGetProducts } from '../../hooks/useInfiniteGetProducts'
 import { useAppSelector, useAppDispatch } from '../../hooks/redux'
 import { selectIsValuesEnded } from '../../store/reducers/productParamsSlice/productParamsSliceSelectors'
+import { useInitializeGetProductsQuery } from '../../hooks/useInitializeGetProductsQuery'
+import { selectProductsIds } from '../../store/reducers/productSlice/productSliceSelectors'
 
 const ProductsFeed = ({ className, ...props }: IProductFeed) => {
-  const productsIds = useInfiniteGetProducts(selectProductsIds, undefined)
+  useInitializeGetProductsQuery()
+
+  const productsIds = useAppSelector(selectProductsIds)
 
   const childRef = useRef<HTMLDivElement>(null)
 

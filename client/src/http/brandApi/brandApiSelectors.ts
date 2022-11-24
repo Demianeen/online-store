@@ -13,4 +13,6 @@ export const {
   selectAll: selectAllBrands,
   selectById: selectBrandById,
   selectIds: selectBrandsIds
-} = brandsAdapter.getSelectors<RootState>((state) => selectBrandData(state) ?? brandsAdapterInitialState)
+} = brandsAdapter.getSelectors<RootState>(
+  (state) => selectBrandData(state) ?? brandsAdapterInitialState
+)

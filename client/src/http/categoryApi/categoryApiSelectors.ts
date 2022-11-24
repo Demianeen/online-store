@@ -13,4 +13,6 @@ export const {
   selectAll: selectAllCategories,
   selectById: selectCategoryById,
   selectIds: selectCategoriesIds
-} = categoriesAdapter.getSelectors<RootState>((state) => selectCategoryData(state) ?? categoriesAdapterInitialState)
+} = categoriesAdapter.getSelectors<RootState>(
+  (state) => selectCategoryData(state) ?? categoriesAdapterInitialState
+)

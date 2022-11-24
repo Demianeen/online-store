@@ -1,6 +1,6 @@
 import { IGetProducts, IProduct, IProductRaw, ProductCreate } from './productApi.types'
 import { apiSlice } from '..'
-import { createEntityAdapter, EntityState } from '@reduxjs/toolkit'
+import { createEntityAdapter } from '@reduxjs/toolkit'
 
 export const productsAdapter = createEntityAdapter<IProduct>()
 
@@ -8,7 +8,7 @@ export const productsAdapterInitialState = productsAdapter.getInitialState()
 
 export const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query<EntityState<IProduct>, IGetProducts>({
+    getProducts: builder.query<IProduct[], IGetProducts>({
       keepUnusedDataFor: 600,
       query: (params) => ({
         url: '/product',
@@ -27,7 +27,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
           sizes: JSON.parse(el.sizes),
           images: JSON.parse(el.images)
         }))
-        return productsAdapter.setAll(productsAdapterInitialState, parsedProducts)
+        return parsedProducts
       },
       providesTags: ['cart']
     }),
@@ -50,11 +50,3 @@ export const {
 } = productApiSlice
 
 export const { endpoints, reducerPath, reducer, middleware } = productApiSlice
-
-export const {
-  selectAll: selectAllProducts,
-  selectById: selectProductById,
-  selectIds: selectProductsIds,
-  selectTotal: selectProductsQuantity,
-  selectEntities: selectProductEntities
-} = productsAdapter.getSelectors()

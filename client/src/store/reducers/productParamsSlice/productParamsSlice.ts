@@ -5,7 +5,8 @@ import {
   nextPage,
   previousPage,
   selectGender,
-  setLimit
+  setLimit,
+  toggleIsNeedToResetState
 } from './productParamsSliceActions'
 
 const initialState: IProductState = {
@@ -14,10 +15,11 @@ const initialState: IProductState = {
     page: 1,
     selectedGender: 'WOMEN'
   },
-  isValuesEnded: false
+  isValuesEnded: false,
+  isNeedToResetState: false
 }
 
-const productSlice = createSlice({
+const productParamsSlice = createSlice({
   name: 'productParams',
   initialState,
   reducers: {
@@ -38,6 +40,7 @@ const productSlice = createSlice({
       .addCase(selectGender, (state, action) => {
         state.params.page = 1
         state.isValuesEnded = false
+        state.isNeedToResetState = true
 
         state.params.selectedGender = action.payload
       })
@@ -53,7 +56,10 @@ const productSlice = createSlice({
       .addCase(endValues, (state) => {
         state.isValuesEnded = true
       })
+      .addCase(toggleIsNeedToResetState, (state) => {
+        state.isNeedToResetState = !state.isNeedToResetState
+      })
   }
 })
 
-export default productSlice
+export default productParamsSlice

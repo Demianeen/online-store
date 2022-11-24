@@ -5,8 +5,9 @@ import { cartApiSlice } from '../http/cartApi/cartApi'
 import { userApiSlice } from '../http/userApi/userApi'
 import { listenerMiddleware } from './listener'
 import { notificationSlice } from './reducers/notificationSlice/notificationSlice'
-import productSlice from './reducers/productParamsSlice/productParamsSlice'
+import productParamsSlice from './reducers/productParamsSlice/productParamsSlice'
 import { apiSlice } from '../http'
+import productSlice from './reducers/productSlice/productSlice'
 
 export const rootReducer = combineReducers({
   // here we use different endpoints as different slices to use them with typing
@@ -18,6 +19,7 @@ export const rootReducer = combineReducers({
   categoryApi: categoryApiSlice.reducer,
   [currencySlice.name]: currencySlice.reducer,
   [notificationSlice.name]: notificationSlice.reducer,
+  [productParamsSlice.name]: productParamsSlice.reducer,
   [productSlice.name]: productSlice.reducer,
   [apiSlice.reducerPath]: apiSlice.reducer
 })

@@ -6,15 +6,11 @@ import AlertHandler from './components/AlertHandler/AlertHandler'
 import { useFetchCurrencyRatesQuery } from './http/currencyApi/currencyApi'
 import { useAppDispatch } from './hooks/redux'
 import { setCurrencyRates } from './store/reducers/currencySlice/currencySliceActions'
-import { useGetCategoriesQuery } from './http/categoryApi/categoryApi'
-import { useGetBrandsQuery } from './http/brandApi/brandApi'
 
 const App = () => {
   const dispatch = useAppDispatch()
 
   const { data: currencyData, isSuccess } = useFetchCurrencyRatesQuery(undefined)
-  useGetCategoriesQuery(undefined)
-  useGetBrandsQuery(undefined)
 
   useEffect(() => {
     if (isSuccess) {

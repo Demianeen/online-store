@@ -9,13 +9,17 @@ import { useConvert } from '../../hooks/currency'
 import { useAppSelector } from '../../hooks/redux'
 import { selectBrandById } from '../../http/brandApi/brandApiSelectors'
 import { selectCategoryById } from '../../http/categoryApi/categoryApiSelectors'
-import { selectProductById } from '../../http/productApi/productApi'
-import { useInfiniteGetProducts } from '../../hooks/useInfiniteGetProducts'
+import { useGetBrandsQuery } from '../../http/brandApi/brandApi'
+import { useGetCategoriesQuery } from '../../http/categoryApi/categoryApi'
+import { selectProductById } from '../../store/reducers/productSlice/productSliceSelectors'
 
 const ProductPageComponent = ({ className, ...props }: IProductPageComponent) => {
+  useGetCategoriesQuery(undefined)
+  useGetBrandsQuery(undefined)
+
   const { id } = useParams()
 
-  const product = useInfiniteGetProducts(selectProductById, id ?? '')
+  const product = useAppSelector(state => selectProductById(state, id ?? ''))
   const brand = useAppSelector(state => selectBrandById(state, product?.BrandId ?? ''))
   const category = useAppSelector(state => selectCategoryById(state, product?.CategoryId ?? ''))
 
