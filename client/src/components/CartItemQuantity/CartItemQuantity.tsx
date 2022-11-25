@@ -2,29 +2,23 @@ import React from 'react'
 import styles from './CartItemQuantity.module.css'
 import cn from 'classnames'
 import { ICartItemProps } from './CartItemQuantity.types'
-import { useChangeItemQuantityMutation, useGetCartItemsQuery } from '../../http/cartApi/cartApi'
-import { selectCartItemById } from '../../http/cartApi/cartApiSelectors'
+import { useChangeItemQuantityMutation } from '../../http/cartApi/cartApi'
+import { selectCartItemQuantityById } from '../../http/cartApi/cartApiSelectors'
 import { AlertWithReturn } from '../../store/reducers/notificationSlice/notificationSliceAlert'
 import { IConfirmAlert } from '../../store/reducers/notificationSlice/notificationSlice.types'
-import { useCheckQuery } from '../../http/userApi/userApi'
-import { skipToken } from '@reduxjs/toolkit/dist/query'
+import { useAppSelector } from '../../hooks/redux'
 
 const CartItemQuantity = ({ cartItemId, className, ...props }: ICartItemProps) => {
-  const { data: userData } = useCheckQuery(undefined)
-  const { item } = useGetCartItemsQuery(userData?.user.CartId ?? skipToken, {
-    selectFromResult: ({ data }) => ({
-      item: (data != null) ? selectCartItemById(data, cartItemId) : undefined
-    })
-  })
+  const quantity = useAppSelector(state => selectCartItemQuantityById(state, cartItemId))
   const [changeItemQuantity] = useChangeItemQuantityMutation()
 
-  const increaseByOne = async (id: number, quantity: number) => {
+  const increaseByOne = async (quantity: number) => {
     const increasedQuantity = quantity + 1
 
-    changeItemQuantity({ cartItemId: id, quantity: increasedQuantity })
+    changeItemQuantity({ cartItemId, quantity: increasedQuantity })
   }
 
-  const decreaseByOne = async (id: number, quantity: number) => {
+  const decreaseByOne = async (quantity: number) => {
     const decreasedQuantity = quantity - 1
 
     if (decreasedQuantity < 1) {
@@ -37,25 +31,25 @@ const CartItemQuantity = ({ cartItemId, className, ...props }: ICartItemProps) =
       if (!isDeleteConfirmed) return
     }
 
-    changeItemQuantity({ cartItemId: id, quantity: decreasedQuantity })
+    changeItemQuantity({ cartItemId, quantity: decreasedQuantity })
   }
 
-  if (item === undefined) {
+  if (quantity === undefined) {
     return <></>
   }
 
   return (
     <div className={cn(styles.quantityContainer, className)} {...props}>
       <button
-        onClick={async () => await increaseByOne(item.id, item.quantity)}
+        onClick={async () => await increaseByOne(quantity)}
         className={styles.quantityButton}
       >
         <div className={styles.verticalLine}></div>
         <div className={styles.horizontalLine}></div>
       </button>
-      <p className={styles.quantity}>{item.quantity}</p>
+      <p className={styles.quantity}>{quantity}</p>
       <button
-        onClick={async () => await decreaseByOne(item.id, item.quantity)}
+        onClick={async () => await decreaseByOne(quantity)}
         className={styles.quantityButton}
       >
         <div className={styles.horizontalLine}></div>

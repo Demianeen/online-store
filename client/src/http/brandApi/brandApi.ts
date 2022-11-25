@@ -15,7 +15,7 @@ export const brandApiSlice = apiSlice.injectEndpoints({
       transformResponse: (responseData: ICategoryRaw[]) => {
         return brandsAdapter.setAll(brandsAdapterInitialState, responseData)
       },
-      providesTags: ['cart']
+      providesTags: ['brand']
     }),
     createBrand: builder.mutation<ICategory, CategoryCreate>({
       query: (category) => ({
@@ -23,7 +23,7 @@ export const brandApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: category
       }),
-      invalidatesTags: ['cart']
+      invalidatesTags: ['brand']
     })
   })
 })

@@ -7,6 +7,7 @@
   box-sizing: border-box;
   width: 300px;
   padding: 0 10px;
+  color: white;
   transition: 0.3s;
   pointer-events: none;
 }
@@ -22,13 +23,11 @@
 }
 
 .success {
-  background-color: #D1E7DD;
-  border-color: #BADBCC;
+  background-color: var(--c-primary);
 }
 
 .error {
-  background-color: #F8D7DA;
-  border-color: #F5C2C7;
+  background-color: #E74C3C;
 }
 
 .close {
@@ -36,7 +35,6 @@
   position: absolute;
   top: 5px;
   right: 10px;
-  color: white;
   font-size: 22px;
   line-height: 20px;
   cursor: pointer;

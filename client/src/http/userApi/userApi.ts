@@ -1,16 +1,6 @@
 import { apiSlice } from '..'
 import { IRegisterBody, IUserApiState, IUserJWT } from './userApi.types'
 import jwtDecode from 'jwt-decode'
-import { RootState } from '@reduxjs/toolkit/dist/query/core/apiState'
-
-/**
-* If jwt defined set it in localStore and return decoded jwt token
-*/
-// export const setAuthToken = (token: string) => {
-//   localStorage.setItem('token', token)
-//   const decoded = jwtDecode<IUserJWT>(token)
-//   return decoded
-// }
 
 const transformData = (token: string): IUserApiState => {
   localStorage.setItem('token', token)
@@ -64,6 +54,3 @@ export const {
 } = userApiSlice
 
 export const { endpoints, reducerPath, reducer, middleware } = userApiSlice
-
-export const selectUser = (state: RootState<any, any, 'api'>) =>
-  userApiSlice.endpoints.check.select(undefined)(state)

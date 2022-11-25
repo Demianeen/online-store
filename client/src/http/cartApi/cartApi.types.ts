@@ -1,14 +1,15 @@
+import { EntityId } from '@reduxjs/toolkit'
 import { IParsedMeta, IRawMeta } from './../index.types'
 import { CreationAttributes, parsedSize } from '../../store/reducers/types'
 import { IProductRaw } from '../productApi/productApi.types'
 
 export interface IChangeCartItemQuantity {
-  cartItemId: number
+  cartItemId: EntityId
   quantity: number
 }
 
 export interface IChangeCartItemSize {
-  cartItemId: number
+  cartItemId: EntityId
   size: parsedSize
 }
 

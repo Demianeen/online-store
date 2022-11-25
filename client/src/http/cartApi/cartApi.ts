@@ -1,15 +1,16 @@
+import { RootState } from './../../store/store'
 import { unhandledErrorNotification } from './../../store/reducers/notificationSlice/notificationSliceActions'
-import { selectUser } from './../userApi/userApi'
 import { ICartItem, CartItemCreate, IChangeCartItemQuantity, IChangeCartItemSize, ICartItemRaw } from './cartApi.types'
 import { apiSlice } from '..'
 import { createEntityAdapter, EntityState } from '@reduxjs/toolkit'
+import { selectUser } from '../userApi/userApiSelectors'
 
 export const cartItemsAdapter = createEntityAdapter<ICartItem>({
   // Keeps the "all IDs" array sorted based on when cart item was created at
   sortComparer: (a, b) => a.createdAt - b.createdAt
 })
 
-export const cartItemsInitialState = cartItemsAdapter.getInitialState()
+export const cartItemsAdapterInitialState = cartItemsAdapter.getInitialState()
 
 export const cartApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -27,7 +28,7 @@ export const cartApiSlice = apiSlice.injectEndpoints({
           createdAt: new Date(el.createdAt).getTime(),
           updatedAt: new Date(el.updatedAt).getTime()
         }))
-        return cartItemsAdapter.setAll(cartItemsInitialState, parsedItems)
+        return cartItemsAdapter.setAll(cartItemsAdapterInitialState, parsedItems)
       },
       providesTags: ['cart']
     }),
@@ -59,20 +60,23 @@ export const cartApiSlice = apiSlice.injectEndpoints({
           quantity
         }
       }),
-      invalidatesTags: ['cart'],
       async onQueryStarted ({ cartItemId, quantity }, { dispatch, queryFulfilled, getState }) {
-        const { data } = selectUser(getState())
-        if (data === undefined) {
+        const user = selectUser(getState() as RootState)
+        if (user === undefined) {
           dispatch(unhandledErrorNotification())
           return
         }
 
         const patchedResult = dispatch(
           cartApiSlice.util
-            .updateQueryData('getCartItems', data.user.CartId, draft => {
+            .updateQueryData('getCartItems', user.CartId, draft => {
               const entity = draft.entities[cartItemId]
               if (entity === undefined) return
-              entity.quantity = quantity
+              if (quantity !== 0) {
+                entity.quantity = quantity
+              } else {
+                cartItemsAdapter.removeOne(cartItemsAdapterInitialState, cartItemId)
+              }
             })
         )
 
@@ -93,15 +97,15 @@ export const cartApiSlice = apiSlice.injectEndpoints({
         }
       }),
       async onQueryStarted ({ cartItemId, size }, { dispatch, queryFulfilled, getState }) {
-        const { data } = selectUser(getState())
-        if (data === undefined) {
+        const user = selectUser(getState() as RootState)
+        if (user === undefined) {
           dispatch(unhandledErrorNotification())
           return
         }
 
         const patchedResult = dispatch(
           cartApiSlice.util
-            .updateQueryData('getCartItems', data.user.CartId, draft => {
+            .updateQueryData('getCartItems', user.CartId, draft => {
               const entity = draft.entities[cartItemId]
               if (entity === undefined) {
                 dispatch(unhandledErrorNotification())

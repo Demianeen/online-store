@@ -1,41 +1,29 @@
 import React from 'react'
 import styles from './CartControlItem.module.css'
 import { ICartControlItem } from './CartControlItem.types'
-import { selectCartItemById } from '../../http/cartApi/cartApiSelectors'
+import { selectCartItemProductById } from '../../http/cartApi/cartApiSelectors'
 import CartItemSizes from '../CartItemSizes/CartItemSizes'
 import CartItemQuantity from '../CartItemQuantity/CartItemQuantity'
 import FullSizeImage from '../FullSizeImage/FullSizeImage'
-import { useConvert } from '../../hooks/currency'
-import { useGetCartItemsQuery } from '../../http/cartApi/cartApi'
-import { useCheckQuery } from '../../http/userApi/userApi'
-import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { useAppSelector } from '../../hooks/redux'
 import { selectBrandById } from '../../http/brandApi/brandApiSelectors'
 import { selectCategoryById } from '../../http/categoryApi/categoryApiSelectors'
+import Price from '../Price/Price'
 
 const CartControlItem = ({ cartItemId, className, ...props }: ICartControlItem) => {
-  const { data: userData } = useCheckQuery(undefined)
-  const { item } = useGetCartItemsQuery(userData?.user.CartId ?? skipToken, {
-    selectFromResult: ({ data }) => ({
-      item: (data !== undefined) ? selectCartItemById(data, cartItemId) : undefined
-    })
-  })
+  const product = useAppSelector(state => selectCartItemProductById(state, cartItemId))
 
-  const brand = useAppSelector(state => selectBrandById(state, item?.Product?.BrandId ?? ''))
-  const category = useAppSelector(state => selectCategoryById(state, item?.Product?.CategoryId ?? ''))
+  const brand = useAppSelector(state => selectBrandById(state, product?.BrandId ?? ''))
+  const category = useAppSelector(state => selectCategoryById(state, product?.CategoryId ?? ''))
 
-  const [convert, { symbol }] = useConvert()
-
-  if (item === undefined) {
+  if (product === undefined) {
     return <></>
   }
 
-  const convertedPrice = convert(item.Product.price ?? 0)
-
-  const parsedImage: string = JSON.parse(item.Product.images)[0]
+  const parsedImage: string = JSON.parse(product.images)[0]
 
   return (
-    <div key={item.id} className={styles.product}>
+    <div key={cartItemId} className={styles.product}>
       <div className={styles.productDescription}>
 
         <div className={styles.descriptionContainer}>
@@ -43,16 +31,16 @@ const CartControlItem = ({ cartItemId, className, ...props }: ICartControlItem) 
             <p className={styles.descriptionHeading}>{brand?.name}</p>
             <p className={styles.descriptionHeading}>{category?.name}</p>
           </div>
-          <p className={styles.price}>{symbol}{convertedPrice}{'.00'}</p>
+          <p className={styles.price}><Price price={product.price} /></p>
         </div>
 
         <p className={styles.productDescriptionName}>{'Size:'}</p>
         <CartItemSizes
-          cartItemId={item.id}
+          cartItemId={cartItemId}
           sizesSize={'small'}
         />
       </div >
-      <CartItemQuantity cartItemId={item.id} />
+      <CartItemQuantity cartItemId={cartItemId} />
       <FullSizeImage src={parsedImage} />
     </div>
   )

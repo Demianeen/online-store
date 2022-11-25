@@ -6,34 +6,19 @@ import { useNavigate } from 'react-router-dom'
 import { Routes } from '../../../utils/consts'
 import Button from '../../Button/Button'
 import Order from '../../Order/Order'
-import { useAppDispatch } from '../../../hooks/redux'
-import { selectCartSubTotal, selectCartOverallQuantity, selectCartTax, selectCartItemsIds } from '../../../http/cartApi/cartApiSelectors'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { selectCartItemsIds } from '../../../http/cartApi/cartApiSelectors'
 import { addNotification } from '../../../store/reducers/notificationSlice/notificationSliceActions'
-import { useConvert } from '../../../hooks/currency'
-import { useGetCartItemsQuery } from '../../../http/cartApi/cartApi'
-import { useCheckQuery } from '../../../http/userApi/userApi'
-import { skipToken } from '@reduxjs/toolkit/dist/query'
 import CartControlItem from '../../CartControlItem/CartControlItem'
+import OverallCartQuantity from '../../OverallCartQuantity/OverallCartQuantity'
+import CartTotal from '../../CartTotal/CartTotal'
 
 const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
   const dispatch = useAppDispatch()
 
-  const { data: userData } = useCheckQuery(undefined)
-
-  const { tax, subTotal, overallQuantity, cartItemsIds } = useGetCartItemsQuery(userData?.user.CartId ?? skipToken, {
-    selectFromResult: ({ data }) => ({
-      tax: (data !== undefined) ? selectCartTax(data) : 0,
-      subTotal: (data !== undefined) ? selectCartSubTotal(data) : 0,
-      overallQuantity: (data !== undefined) ? selectCartOverallQuantity(data) : 0,
-      cartItemsIds: (data !== undefined) ? selectCartItemsIds(data) : []
-    })
-  })
+  const cartItemsIds = useAppSelector(selectCartItemsIds)
 
   const navigate = useNavigate()
-
-  const [convert, { symbol }] = useConvert()
-  const convertedTax = convert(tax)
-  const convertedSubtotal = convert(subTotal)
 
   useEffect(() => {
     if (cartItemsIds[0] === undefined && isVisible) {
@@ -50,14 +35,18 @@ const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
 
   return (
     <SideModal className={styles.sideModal} {...props}>
-      <p className={styles.heading}><b className={styles.bold}>{'My bag'}</b>{', '}{overallQuantity}{' items'}</p>
+      <p className={styles.heading}>
+        <b className={styles.bold}>{'My bag'}</b>{', '}
+        <OverallCartQuantity />
+        {' items'}
+      </p>
       <div className={styles.scrollContainer}>
         {cartItemsIds.map(id => <CartControlItem key={ id} cartItemId={id}/>)}
       </div>
       <div className={styles.total}>
         <span className={styles.totalName}>{'Total'}</span>
         <span className={styles.totalValue}>
-          {symbol}{convertedSubtotal + convertedTax}{'.00'}
+          <CartTotal />
         </span>
       </div>
       <div className={styles.buttonContainer}>
@@ -68,7 +57,7 @@ const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
         >
           {'View bag'}
         </Button>
-        {/* because onclick already un button */}
+        {/* because onclick already on button */}
         <div onClick={() => { setIsVisible(false) }}>
           <Order
             className={styles.button}

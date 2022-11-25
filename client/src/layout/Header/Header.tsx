@@ -12,7 +12,8 @@ import cn from 'classnames'
 import CurrencySelect from '../../components/modals/CurrencySelect/CurrencySelect'
 import UserControl from '../../components/modals/UserControl/UserControl'
 import CartControl from '../../components/modals/CartControl/CartControl'
-import { selectCartOverallQuantity } from '../../http/cartApi/cartApiSelectors'
+import OverallCartQuantity from '../../components/OverallCartQuantity/OverallCartQuantity'
+import { selectIsOverallCartQuantityNotZero } from '../../http/cartApi/cartApiSelectors'
 import { useCheckQuery } from '../../http/userApi/userApi'
 import Overlay from '../../components/Overlay/Overlay'
 import BurgerMenu from '../../components/BurgerMenu/BurgerMenu'
@@ -21,22 +22,24 @@ import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { selectGender } from '../../store/reducers/productParamsSlice/productParamsSliceActions'
 import { Gender } from '../../http/categoryApi/categoryApi.types'
 import { selectProductGender } from '../../store/reducers/productParamsSlice/productParamsSliceSelectors'
+import { selectIsUserLogged, selectUserCartId } from '../../http/userApi/userApiSelectors'
 
 const Header = ({ className, ...props }: HeaderProps) => {
+  useCheckQuery(undefined)
+
+  const isUserLogged = useAppSelector(selectIsUserLogged)
+  const cartId = useAppSelector(selectUserCartId)
+  useGetCartItemsQuery(cartId ?? skipToken)
+
+  const isCartQuantityNotZero = useAppSelector(selectIsOverallCartQuantityNotZero)
+
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isUserOpen, setIsUserOpen] = useState(false)
   const [isBurgerOpen, setIsBurgerOpen] = useState(false)
 
   const dispatch = useAppDispatch()
-  const { data: userData, isSuccess: isUserLogged } = useCheckQuery(undefined)
   const selectedGender = useAppSelector(selectProductGender)
-  // TODO: Add useContext if cartIsOpen
-  const { overallQuantity } = useGetCartItemsQuery(userData?.user?.CartId ?? skipToken, {
-    selectFromResult: ({ data }) => ({
-      overallQuantity: (data !== undefined) ? selectCartOverallQuantity(data) : 0
-    })
-  })
 
   const navigate = useNavigate()
 
@@ -78,7 +81,7 @@ const Header = ({ className, ...props }: HeaderProps) => {
     <>
       <Overlay
         onClick={() => closeAll()}
-        isVisible={(isCartOpen && overallQuantity > 0) || isUserOpen}
+        isVisible={(isCartOpen && isCartQuantityNotZero) || isUserOpen}
         className={styles.overlay}
       />
       <div className={styles.headerContainer}>
@@ -140,8 +143,8 @@ const Header = ({ className, ...props }: HeaderProps) => {
                   className={styles.cartIconButton}
                 >
                   <CartIcon />
-                  {isCartOpen && overallQuantity > 0
-                    ? <span className={styles.notificationBadge}>{overallQuantity}</span>
+                  {isCartOpen && isCartQuantityNotZero
+                    ? <span className={styles.notificationBadge}><OverallCartQuantity /></span>
                     : <></>
                   }
                 </button>

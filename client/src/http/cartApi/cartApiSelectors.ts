@@ -1,20 +1,50 @@
+import { RootState } from './../../store/store'
+import { skipToken } from '@reduxjs/toolkit/dist/query'
+import { selectUser } from './../userApi/userApiSelectors'
 import { createSelector } from '@reduxjs/toolkit'
-import { cartItemsAdapter } from './cartApi'
+import { cartApiSlice, cartItemsAdapter, cartItemsAdapterInitialState } from './cartApi'
+
+const getCartItemsResult = (state: RootState) => {
+  const user = selectUser(state)
+  return cartApiSlice.endpoints.getCartItems.select(user?.CartId ?? skipToken)(state)
+}
+
+const selectCartItemsData = createSelector(
+  getCartItemsResult,
+  (result) => result.data
+)
 
 export const {
   selectAll: selectAllCartItems,
   selectById: selectCartItemById,
   selectIds: selectCartItemsIds
-} = cartItemsAdapter.getSelectors()
+} = cartItemsAdapter.getSelectors<RootState>(
+  state => selectCartItemsData(state) ?? cartItemsAdapterInitialState
+)
+
+export const selectCartItemProductById = createSelector(
+  selectCartItemById,
+  (item) => item?.Product
+)
 
 export const selectProductSizesById = createSelector(
-  selectCartItemById,
-  (item) => item?.Product?.sizes
+  selectCartItemProductById,
+  (product) => product?.sizes
+)
+
+export const selectProductImagesById = createSelector(
+  selectCartItemProductById,
+  (product) => product?.images
 )
 
 export const selectCartItemSizeById = createSelector(
   selectCartItemById,
   (item) => item?.size
+)
+
+export const selectCartItemQuantityById = createSelector(
+  selectCartItemById,
+  (item) => item?.quantity
 )
 
 export const selectCartOverallQuantity = createSelector(
@@ -23,6 +53,11 @@ export const selectCartOverallQuantity = createSelector(
     (total, item) => total + item.quantity,
     0
   )
+)
+
+export const selectIsOverallCartQuantityNotZero = createSelector(
+  selectCartOverallQuantity,
+  (quantity) => quantity !== 0
 )
 
 export const selectCartSubTotal = createSelector(

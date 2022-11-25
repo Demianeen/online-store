@@ -5,13 +5,13 @@ import cn from 'classnames'
 import { useParams } from 'react-router-dom'
 import AddToCart from '../../components/AddToCart/AddToCart'
 import { parsedSize } from '../../store/reducers/types'
-import { useConvert } from '../../hooks/currency'
 import { useAppSelector } from '../../hooks/redux'
 import { selectBrandById } from '../../http/brandApi/brandApiSelectors'
 import { selectCategoryById } from '../../http/categoryApi/categoryApiSelectors'
 import { useGetBrandsQuery } from '../../http/brandApi/brandApi'
 import { useGetCategoriesQuery } from '../../http/categoryApi/categoryApi'
 import { selectProductById } from '../../store/reducers/productSlice/productSliceSelectors'
+import Price from '../../components/Price/Price'
 
 const ProductPageComponent = ({ className, ...props }: IProductPageComponent) => {
   useGetCategoriesQuery(undefined)
@@ -28,8 +28,6 @@ const ProductPageComponent = ({ className, ...props }: IProductPageComponent) =>
   const [mainImage, setMainImage] = useState<string>(product?.images[0] ?? '')
 
   const [selectedSize, setSelectedSize] = useState<parsedSize>(product?.sizes[0] ?? 'XS')
-
-  const [convert, { symbol }] = useConvert()
 
   useEffect(() => {
     if (product !== undefined) {
@@ -102,7 +100,7 @@ const ProductPageComponent = ({ className, ...props }: IProductPageComponent) =>
           </div>
 
           <p className={styles.productDescriptionName}>{'PRICE:'}</p>
-          <p className={styles.price}>{symbol}{convert(product.price)}{'.00'}</p>
+          <p className={styles.price}><Price price={product.price} /></p>
 
           {/* Id is string if page already loaded */}
           <AddToCart

@@ -12,6 +12,7 @@
   position: absolute;
   height: 400px;
   inset: auto 0 0 0;
+  pointer-events: none;
 }
 
 @media only screen and (max-width: 1200px) {
