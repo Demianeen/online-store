@@ -58,6 +58,10 @@
   .user,
   .shopIconContainer,
   .overlay {
-    display: none;
+    display: none !important;
+  }
+
+  .currencySelect {
+    margin-right: 0;
   }
 }

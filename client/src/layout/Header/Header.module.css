@@ -20,7 +20,8 @@
 }
 
 .shopIconContainer {
-  position: relative;
+  position: absolute;
+  left: calc(50% - 16px);
   z-index: 2;
 }
 
