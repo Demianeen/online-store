@@ -10,7 +10,7 @@ import { useGetCategoriesQuery } from '../../http/categoryApi/categoryApi'
 import OverallCartQuantity from '../../components/OverallCartQuantity/OverallCartQuantity'
 import CartTotal from '../../components/CartTotal/CartTotal'
 import CartTax from '../../components/CartTax/CartTax'
-import CenteredText from '../../components/Centered/Centered'
+import Centered from '../../components/Centered/Centered'
 
 const CartComponent = ({ className, ...props }: IUserComponent) => {
   useGetCategoriesQuery(undefined, {
@@ -24,7 +24,7 @@ const CartComponent = ({ className, ...props }: IUserComponent) => {
   const taxPercentage = useAppSelector(selectCartTaxPercentage)
 
   if (cartItemsIds.length === 0) {
-    return <CenteredText>{'Add items to the cart first'}</CenteredText>
+    return <Centered>{'Add items to the cart first'}</Centered>
   }
 
   return (

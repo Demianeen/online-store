@@ -1,4 +1,4 @@
-import { NextFunction, Response } from 'express'
+import { NextFunction, Response, Request } from 'express'
 import { productCreateRequest, productGetManyRequest, Options } from '../../types/controllers/productController.js'
 import { v4 as uuidv4 } from 'uuid'
 import ApiError from '../error/ApiError.js'
@@ -63,6 +63,16 @@ class ProductController {
       }
       next(ApiError.internal(error as string))
     }
+  }
+
+  async getOne (req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { id } = req.params
+    if (!id) return next(ApiError.badRequest('Id is required'))
+
+    const device = await Product.findOne({
+      where: { id }
+    })
+    res.json(device)
   }
 
   async getAll (req: productGetManyRequest, res: Response): Promise<void> {

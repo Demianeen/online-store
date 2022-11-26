@@ -1,8 +1,8 @@
 import React from 'react'
 import styles from './Centered.module.css'
-import { ICenteredText } from './Centered.types'
+import { ICentered } from './Centered.types'
 
-const CenteredText = ({ children, className, ...props }: ICenteredText) => {
+const Centered = ({ children, className, ...props }: ICentered) => {
   return (
     <div className={styles.container}>
       {children}
@@ -10,4 +10,4 @@ const CenteredText = ({ children, className, ...props }: ICenteredText) => {
   )
 }
 
-export default CenteredText
+export default Centered

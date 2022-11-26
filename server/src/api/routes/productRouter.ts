@@ -6,5 +6,6 @@ const router = Router()
 
 router.post('/', checkRoleMiddleware('ADMIN'), productController.create)
 router.get('/', productController.getAll)
+router.get('/:id', productController.getOne)
 
 export default router

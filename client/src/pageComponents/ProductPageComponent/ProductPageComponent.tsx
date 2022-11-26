@@ -10,9 +10,10 @@ import { selectBrandById } from '../../http/brandApi/brandApiSelectors'
 import { selectCategoryById } from '../../http/categoryApi/categoryApiSelectors'
 import { useGetBrandsQuery } from '../../http/brandApi/brandApi'
 import { useGetCategoriesQuery } from '../../http/categoryApi/categoryApi'
-import { selectProductById } from '../../store/reducers/productSlice/productSliceSelectors'
 import Price from '../../components/Price/Price'
-import { useInitializeGetProductsQuery } from '../../hooks/useInitializeGetProductsQuery'
+import { useGetProductByIdQuery } from '../../http/productApi/productApi'
+import { skipToken } from '@reduxjs/toolkit/dist/query'
+import Centered from '../../components/Centered/Centered'
 
 const ProductPageComponent = ({ className, ...props }: IProductPageComponent) => {
   useGetCategoriesQuery(undefined, {
@@ -21,11 +22,10 @@ const ProductPageComponent = ({ className, ...props }: IProductPageComponent) =>
   useGetBrandsQuery(undefined, {
     selectFromResult: () => ({})
   })
-  useInitializeGetProductsQuery()
-
   const { id } = useParams()
 
-  const product = useAppSelector(state => selectProductById(state, id ?? ''))
+  const { data: product, isLoading, isSuccess } = useGetProductByIdQuery(id ?? skipToken)
+
   const brand = useAppSelector(state => selectBrandById(state, product?.BrandId ?? ''))
   const category = useAppSelector(state => selectCategoryById(state, product?.CategoryId ?? ''))
 
@@ -41,8 +41,12 @@ const ProductPageComponent = ({ className, ...props }: IProductPageComponent) =>
     }
   }, [product?.images[0]])
 
-  if (product === undefined) {
-    return <p>{'Loading...'}</p>
+  if (isLoading) {
+    return <Centered>{'Loading...'}</Centered>
+  }
+
+  if (!isSuccess) {
+    return <Centered>{'The product not found'}</Centered>
   }
 
   return (
