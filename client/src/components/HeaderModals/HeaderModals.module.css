@@ -34,6 +34,10 @@
   margin-right: 22px;
 }
 
+.currencySelectMargin {
+  margin-right: 22px !important;
+}
+
 /* .cart {
   fill: #43464E;
 } */
@@ -63,5 +67,9 @@
 
   .currencySelect {
     margin-right: 0;
+  }
+
+  .loginButton {
+    margin-right: 10px;
   }
 }

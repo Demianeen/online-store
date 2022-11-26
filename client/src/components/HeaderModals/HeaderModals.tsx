@@ -69,7 +69,9 @@ const HeaderModals = ({ className, ...props }: IFullSizeImage) => {
       <CurrencySelect
         isOpen={isCurrencyOpen}
         setIsOpen={setIsCurrencyOpen}
-        className={styles.currencySelect}
+        className={cn(styles.currencySelect, {
+          [styles.currencySelectMargin]: !isUserLogged
+        })}
       />
       <button
         onClick={() => navigate(Routes.LOGIN_ROUTE)}

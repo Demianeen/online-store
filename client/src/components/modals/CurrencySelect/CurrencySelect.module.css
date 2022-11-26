@@ -79,4 +79,12 @@
   .dropListContainer {
     left: -17.2vw;
   }
+
+  .downArrow {
+    padding-left: 8px;
+  }
+
+  .upArrow {
+    padding-right: 8px;
+  }
 }

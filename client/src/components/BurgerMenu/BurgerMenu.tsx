@@ -30,6 +30,7 @@ const BurgerMenu = ({ isMenuOpen, setIsMenuOpen, className, ...props }: IBurgerM
 
   const handleGenderSelect = (value: Gender) => {
     dispatch(selectGender(value))
+    setIsMenuOpen(false)
   }
 
   const handleNavigation = (route: Routes) => {
@@ -112,7 +113,7 @@ const BurgerMenu = ({ isMenuOpen, setIsMenuOpen, className, ...props }: IBurgerM
               </li>
               <li>
                 <button
-                  onClick={async () => await signOut()}
+                  onClick={async () => { await signOut(); setIsMenuOpen(false) }}
                   className={cn(styles.categoryButton, styles.signOut)}
                 >
                   <SignOutIcon className={styles.categoryIconNotFilled} />{'Sign out'}
