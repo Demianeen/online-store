@@ -31,6 +31,20 @@ export const productApiSlice = apiSlice.injectEndpoints({
       },
       providesTags: ['cart']
     }),
+    getProductById: builder.query<IProduct, number | string>({
+      query: (id) => ({
+        url: `/product/${id}`
+      }),
+      transformResponse: (responseData: IProductRaw) => {
+        // parse stringified properties
+        const parsedProduct: IProduct = {
+          ...responseData,
+          sizes: JSON.parse(responseData.sizes),
+          images: JSON.parse(responseData.images)
+        }
+        return parsedProduct
+      }
+    }),
     createProduct: builder.mutation<IProduct, ProductCreate>({
       query: (product) => ({
         url: '/product',
@@ -45,6 +59,8 @@ export const productApiSlice = apiSlice.injectEndpoints({
 export const {
   useCreateProductMutation,
   useGetProductsQuery,
+  useGetProductByIdQuery,
+  useLazyGetProductByIdQuery,
   useLazyGetProductsQuery,
   usePrefetch
 } = productApiSlice
