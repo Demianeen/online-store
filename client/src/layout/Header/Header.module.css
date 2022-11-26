@@ -1,11 +1,7 @@
-.overlay {
-  background: rgb(57 55 72 / 22%);
-}
-
 .headerContainer {
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 1;
 }
 
 .header {
@@ -17,43 +13,6 @@
   background: white;
 }
 
-.container {
-  display: flex;
-  box-sizing: border-box;
-}
-
-.genderButton,
-.cartIconButton,
-.userIconButton {
-  all: unset;
-  box-sizing: border-box;
-  cursor: pointer;
-}
-
-.genderButton {
-  position: relative;
-  margin-right: 32px;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 120%;
-}
-
-.selectedGenderButton {
-  color: var(--c-primary);
-  font-weight: 600;
-}
-
-.selectedGenderButton::after {
-  position: absolute;
-  left: -16px;
-  display: block;
-  width: calc(100% + 32px);
-  height: 2px;
-  margin-top: 31px;
-  background: var(--c-primary);
-  content: "";
-}
-
 .openMenu {
   all: unset;
   display: none;
@@ -61,53 +20,8 @@
 }
 
 .shopIconContainer {
-  position: absolute;
-  left: 50%;
-}
-
-.currencySelect,
-.cartIconButton,
-.userIconButton {
-  margin-right: 22px;
-}
-
-.cartIconButton,
-.userIconButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  font-size: 18px;
-}
-
-.cartIconButton {
-  fill: #43464E;
-}
-
-.notificationBadge {
-  position: absolute;
-  top: -6px;
-  right: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  color: white;
-  font-size: 15px;
-  background: black;
-  border-radius: 50%;
-}
-
-.modalContainer {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.userIconButton {
-  stroke: #43464E;
+  z-index: 2;
 }
 
 @media only screen and (max-width: 800px) {
@@ -123,13 +37,5 @@
 
   .openMenu {
     display: block;
-  }
-
-  .genderContainer,
-  .cartIconButton,
-  .userIconButton,
-  .shopIconContainer,
-  .overlay {
-    display: none;
   }
 }

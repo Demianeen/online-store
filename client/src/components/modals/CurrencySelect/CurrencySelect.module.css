@@ -1,9 +1,14 @@
+.overlay {
+  z-index: -1 !important;
+}
+
 .select {
   position: relative;
 }
 
 .selectButton {
   all: unset;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;

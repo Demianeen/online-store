@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import SideModal from '../SideModal/SideModal'
+import { ReactComponent as CartIcon } from './Cart.svg'
 import { ICartControl } from './CartControl.types'
 import styles from './CartControl.module.css'
 import { useNavigate } from 'react-router-dom'
@@ -12,8 +13,10 @@ import { addNotification } from '../../../store/reducers/notificationSlice/notif
 import CartControlItem from '../../CartControlItem/CartControlItem'
 import OverallCartQuantity from '../../OverallCartQuantity/OverallCartQuantity'
 import CartTotal from '../../CartTotal/CartTotal'
+import cn from 'classnames'
+import Overlay from '../../Overlay/Overlay'
 
-const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
+const CartControl = ({ isOpen, setIsOpen, className, ...props }: ICartControl) => {
   const dispatch = useAppDispatch()
 
   const cartItemsIds = useAppSelector(selectCartItemsIds)
@@ -21,52 +24,71 @@ const CartControl = ({ isVisible, setIsVisible, ...props }: ICartControl) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (cartItemsIds[0] === undefined && isVisible) {
-      setIsVisible(false)
+    if (cartItemsIds[0] === undefined && isOpen) {
+      setIsOpen(false)
       dispatch(addNotification({ type: 'error', message: 'Add items to the cart first.' }))
     }
-  }, [cartItemsIds[0], isVisible])
-
-  // TODO: Add loading and error handling
-
-  if (!isVisible || cartItemsIds[0] === undefined) {
-    return <></>
-  }
+  }, [cartItemsIds[0], isOpen])
 
   return (
-    <SideModal className={styles.sideModal} {...props}>
-      <p className={styles.heading}>
-        <b className={styles.bold}>{'My bag'}</b>{', '}
-        <OverallCartQuantity />
-        {' items'}
-      </p>
-      <div className={styles.scrollContainer}>
-        {cartItemsIds.map(id => <CartControlItem key={ id} cartItemId={id}/>)}
-      </div>
-      <div className={styles.total}>
-        <span className={styles.totalName}>{'Total'}</span>
-        <span className={styles.totalValue}>
-          <CartTotal />
-        </span>
-      </div>
-      <div className={styles.buttonContainer}>
-        <Button
-          onClick={() => { navigate(Routes.CART_ROUTE); setIsVisible(false) }}
-          className={styles.button}
-          buttonStyle={'ghost'}
+    <>
+      <Overlay
+        onClick={() => setIsOpen(false)}
+        isVisible={isOpen && cartItemsIds[0] !== undefined}
+        className={styles.overlay}
+      />
+      <div className={cn(styles.modalContainer, className)} {...props}>
+        <button
+          onClick={() => setIsOpen(isCartOpen => !isCartOpen)}
+          className={styles.iconButton}
         >
-          {'View bag'}
-        </Button>
-        {/* because onclick already on button */}
-        <div onClick={() => { setIsVisible(false) }}>
-          <Order
-            className={styles.button}
-          >
-            {'Check out'}
-          </Order>
-        </div>
+          <CartIcon />
+          {isOpen
+            ? <span className={styles.notificationBadge}><OverallCartQuantity /></span>
+            : <></>
+          }
+        </button>
+        {isOpen && cartItemsIds[0] !== undefined
+          ? <>
+
+            <SideModal className={styles.sideModal} {...props}>
+              <p className={styles.heading}>
+                <b className={styles.bold}>{'My bag'}</b>{', '}
+                <OverallCartQuantity />
+                {' items'}
+              </p>
+              <div className={styles.scrollContainer}>
+                {cartItemsIds.map(id => <CartControlItem key={id} cartItemId={id} />)}
+              </div>
+              <div className={styles.total}>
+                <span className={styles.totalName}>{'Total'}</span>
+                <span className={styles.totalValue}>
+                  <CartTotal />
+                </span>
+              </div>
+              <div className={styles.buttonContainer}>
+                <Button
+                  onClick={() => { navigate(Routes.CART_ROUTE); setIsOpen(false) }}
+                  className={styles.button}
+                  buttonStyle={'ghost'}
+                >
+                  {'View bag'}
+                </Button>
+                {/* because onclick already on button */}
+                <div onClick={() => { setIsOpen(false) }}>
+                  <Order
+                    className={styles.button}
+                  >
+                    {'Check out'}
+                  </Order>
+                </div>
+              </div>
+            </SideModal>
+          </>
+          : <></>
+        }
       </div>
-    </SideModal>
+    </>
   )
 }
 

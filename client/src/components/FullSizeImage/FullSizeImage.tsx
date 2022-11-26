@@ -3,7 +3,7 @@ import styles from './FullSizeImage.module.css'
 import cn from 'classnames'
 import { IFullSizeImage } from './FullSizeImage.types'
 
-const Product = ({ src, className, ...props }: IFullSizeImage) => {
+const FullSizeImage = ({ src, className, ...props }: IFullSizeImage) => {
   return (
     <div className={cn(styles.imageContainer, className)} {...props}>
       <img
@@ -15,4 +15,4 @@ const Product = ({ src, className, ...props }: IFullSizeImage) => {
   )
 }
 
-export default Product
+export default FullSizeImage

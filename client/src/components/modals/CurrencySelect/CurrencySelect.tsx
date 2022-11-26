@@ -37,7 +37,7 @@ const CurrencySelect = ({ isOpen, setIsOpen, className, ...props }: ICurrencySel
 
       {isOpen &&
         <>
-          <Overlay onClick={() => setIsOpen(false)} />
+          <Overlay onClick={() => setIsOpen(false)} className={styles.overlay} />
           <div className={styles.dropListContainer}>
             <ul className={styles.ul}>
               {options.map(currency =>
