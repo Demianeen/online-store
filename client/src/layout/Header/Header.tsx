@@ -16,10 +16,14 @@ import HeaderGenderSelect from '../../components/HeaderGenderSelect/HeaderGender
 import HeaderModals from '../../components/HeaderModals/HeaderModals'
 
 const Header = ({ className, ...props }: HeaderProps) => {
-  useCheckQuery(undefined)
+  useCheckQuery(undefined, {
+    selectFromResult: () => ({})
+  })
 
   const cartId = useAppSelector(selectUserCartId)
-  useGetCartItemsQuery(cartId ?? skipToken)
+  useGetCartItemsQuery(cartId ?? skipToken, {
+    selectFromResult: () => ({})
+  })
 
   const [isBurgerOpen, setIsBurgerOpen] = useState(false)
 

@@ -6,12 +6,9 @@ import Product from '../Product/Product'
 import { nextPage } from '../../store/reducers/productParamsSlice/productParamsSliceActions'
 import { useAppSelector, useAppDispatch } from '../../hooks/redux'
 import { selectIsValuesEnded } from '../../store/reducers/productParamsSlice/productParamsSliceSelectors'
-import { useInitializeGetProductsQuery } from '../../hooks/useInitializeGetProductsQuery'
 import { selectProductsIds } from '../../store/reducers/productSlice/productSliceSelectors'
 
 const ProductsFeed = ({ className, ...props }: IProductFeed) => {
-  useInitializeGetProductsQuery()
-
   const productsIds = useAppSelector(selectProductsIds)
 
   const childRef = useRef<HTMLDivElement>(null)

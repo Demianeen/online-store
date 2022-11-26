@@ -4,10 +4,15 @@ import styles from './ShopComponent.module.css'
 import ProductsFeed from '../../components/ProductsFeed/ProductsFeed'
 import { useGetBrandsQuery } from '../../http/brandApi/brandApi'
 import { useGetCategoriesQuery } from '../../http/categoryApi/categoryApi'
+import InitializeGetProductsQuery from '../../components/InitializeGetProductsQuery/OverallCartQuantity'
 
 const ShopComponent = ({ className, ...props }: ICurrencySelect) => {
-  useGetCategoriesQuery(undefined)
-  useGetBrandsQuery(undefined)
+  useGetCategoriesQuery(undefined, {
+    selectFromResult: () => ({})
+  })
+  useGetBrandsQuery(undefined, {
+    selectFromResult: () => ({})
+  })
 
   return (
     <section>
@@ -15,6 +20,7 @@ const ShopComponent = ({ className, ...props }: ICurrencySelect) => {
         {'Popular'}
       </h1>
       <ProductsFeed />
+      <InitializeGetProductsQuery />
     </section>
   )
 }

@@ -12,10 +12,16 @@ import { useGetBrandsQuery } from '../../http/brandApi/brandApi'
 import { useGetCategoriesQuery } from '../../http/categoryApi/categoryApi'
 import { selectProductById } from '../../store/reducers/productSlice/productSliceSelectors'
 import Price from '../../components/Price/Price'
+import { useInitializeGetProductsQuery } from '../../hooks/useInitializeGetProductsQuery'
 
 const ProductPageComponent = ({ className, ...props }: IProductPageComponent) => {
-  useGetCategoriesQuery(undefined)
-  useGetBrandsQuery(undefined)
+  useGetCategoriesQuery(undefined, {
+    selectFromResult: () => ({})
+  })
+  useGetBrandsQuery(undefined, {
+    selectFromResult: () => ({})
+  })
+  useInitializeGetProductsQuery()
 
   const { id } = useParams()
 

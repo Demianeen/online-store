@@ -11,16 +11,14 @@ import OverallCartQuantity from '../../components/OverallCartQuantity/OverallCar
 import CartTotal from '../../components/CartTotal/CartTotal'
 import CartTax from '../../components/CartTax/CartTax'
 import CenteredText from '../../components/Centered/Centered'
-import { useGetCartItemsQuery } from '../../http/cartApi/cartApi'
-import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { selectUserCartId } from '../../http/userApi/userApiSelectors'
 
 const CartComponent = ({ className, ...props }: IUserComponent) => {
-  useGetCategoriesQuery(undefined)
-  useGetBrandsQuery(undefined)
-
-  const cartId = useAppSelector(selectUserCartId)
-  useGetCartItemsQuery(cartId ?? skipToken)
+  useGetCategoriesQuery(undefined, {
+    selectFromResult: () => ({})
+  })
+  useGetBrandsQuery(undefined, {
+    selectFromResult: () => ({})
+  })
 
   const cartItemsIds = useAppSelector(selectCartItemsIds)
   const taxPercentage = useAppSelector(selectCartTaxPercentage)
