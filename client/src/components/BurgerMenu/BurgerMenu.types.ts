@@ -2,7 +2,6 @@ import { DetailedHTMLProps, Dispatch, HTMLAttributes, SetStateAction } from 'rea
 
 export interface IBurgerMenu
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  isMenuOpen: boolean
-  setIsMenuOpen: Dispatch<SetStateAction<boolean>>
-
+  isOpen: boolean
+  setIsOpen: Dispatch<SetStateAction<boolean>>
 }

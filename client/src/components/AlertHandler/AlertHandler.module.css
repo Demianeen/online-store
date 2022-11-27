@@ -1,6 +1,6 @@
 .alert {
-  position: absolute;
-  top: 30%;
+  position: fixed;
+  top: 45vh;
   left: 50%;
   z-index: 2;
   display: flex;

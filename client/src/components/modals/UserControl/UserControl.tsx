@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SideModal from '../SideModal/SideModal'
 import { IUserModal } from './UserControl.types'
 import styles from './UserControl.module.css'
@@ -9,16 +9,27 @@ import { useSignOut } from '../../../hooks/useSignOut'
 import { ReactComponent as UserIcon } from './User.svg'
 import cn from 'classnames'
 import Overlay from '../../Overlay/Overlay'
+import useLockScroll from '../../../hooks/useLockScroll'
 
 const UserControl = ({ setIsOpen, isOpen, className, ...props }: IUserModal) => {
   const { data: userData } = useCheckQuery(undefined)
   const navigate = useNavigate()
   const signOut = useSignOut()
 
+  const [disableScroll, allowScroll] = useLockScroll()
+
   const handleSignOut = () => {
     setIsOpen(false)
     signOut()
   }
+
+  useEffect(() => {
+    if (isOpen) {
+      disableScroll()
+    } else {
+      allowScroll()
+    }
+  }, [isOpen])
 
   return (
     <>

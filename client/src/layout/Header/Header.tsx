@@ -28,32 +28,31 @@ const Header = ({ className, ...props }: HeaderProps) => {
   const [isBurgerOpen, setIsBurgerOpen] = useState(false)
 
   return (
-    <>
+    <div className={styles.headerContainer}>
+      <header
+        className={cn(styles.header, className)}
+        // onClick={() => setIsUserOpen(false)}
+        id={'pageHeader'}
+        {...props}
+      >
+        <HeaderGenderSelect />
+        <button
+          onClick={() => setIsBurgerOpen(true)}
+          className={styles.openMenu}>
+          <MenuIcon />
+        </button>
+        <BurgerMenu isOpen={isBurgerOpen} setIsOpen={setIsBurgerOpen} />
 
-      <div className={styles.headerContainer}>
-        <header
-          className={cn(styles.header, className)}
-          // onClick={() => setIsUserOpen(false)}
-          {...props}
+        <Link
+          to={Routes.SHOP_ROUTE}
+          className={styles.shopIconContainer}
+          id={'brandIcon'}
         >
-          <HeaderGenderSelect />
-          <button
-            onClick={() => setIsBurgerOpen(true)}
-            className={styles.openMenu}>
-            <MenuIcon />
-          </button>
-          <BurgerMenu isMenuOpen={isBurgerOpen} setIsMenuOpen={setIsBurgerOpen} />
-
-          <Link
-            to={Routes.SHOP_ROUTE}
-            className={styles.shopIconContainer}
-          >
-            <BrandIcon />
-          </Link>
-          <HeaderModals />
-        </header >
-      </div>
-    </>
+          <BrandIcon/>
+        </Link>
+        <HeaderModals />
+      </header >
+    </div>
   )
 }
 

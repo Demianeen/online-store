@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './BurgerMenu.module.css'
 import cn from 'classnames'
 import { IBurgerMenu } from './BurgerMenu.types'
@@ -15,10 +15,13 @@ import { ReactComponent as CaretDownIcon } from './CaretDown.svg'
 import { ReactComponent as LoginIcon } from './Login.svg'
 import { selectGender } from '../../store/reducers/productParamsSlice/productParamsSliceActions'
 import { Gender } from '../../http/categoryApi/categoryApi.types'
+import useLockScroll from '../../hooks/useLockScroll'
 
-const BurgerMenu = ({ isMenuOpen, setIsMenuOpen, className, ...props }: IBurgerMenu) => {
+const BurgerMenu = ({ isOpen, setIsOpen, className, ...props }: IBurgerMenu) => {
   const dispatch = useAppDispatch()
   const [isShopSubmenuOpen, setIsShopSubmenuOpen] = useState(false)
+
+  const [disableScroll, allowScroll] = useLockScroll()
 
   const navigate = useNavigate()
   const { pathname } = useLocation()
@@ -30,24 +33,32 @@ const BurgerMenu = ({ isMenuOpen, setIsMenuOpen, className, ...props }: IBurgerM
 
   const handleGenderSelect = (value: Gender) => {
     dispatch(selectGender(value))
-    setIsMenuOpen(false)
+    setIsOpen(false)
   }
 
   const handleNavigation = (route: Routes) => {
     navigate(route)
-    setIsMenuOpen(false)
+    setIsOpen(false)
   }
+
+  useEffect(() => {
+    if (isOpen) {
+      disableScroll()
+    } else {
+      allowScroll()
+    }
+  }, [isOpen])
 
   return (
     <div
       className={cn(styles.burgerMenu, className, {
-        [styles.visible]: isMenuOpen
+        [styles.visible]: isOpen
       })}
       {...props}
     >
       <div className={styles.menuHeader}>
         <button
-          onClick={() => setIsMenuOpen(false)}
+          onClick={() => setIsOpen(false)}
           className={styles.closeMenu}
         >
           <CloseIcon />
@@ -113,7 +124,7 @@ const BurgerMenu = ({ isMenuOpen, setIsMenuOpen, className, ...props }: IBurgerM
               </li>
               <li>
                 <button
-                  onClick={async () => { await signOut(); setIsMenuOpen(false) }}
+                  onClick={async () => { await signOut(); setIsOpen(false) }}
                   className={cn(styles.categoryButton, styles.signOut)}
                 >
                   <SignOutIcon className={styles.categoryIconNotFilled} />{'Sign out'}

@@ -15,9 +15,12 @@ import OverallCartQuantity from '../../OverallCartQuantity/OverallCartQuantity'
 import CartTotal from '../../CartTotal/CartTotal'
 import cn from 'classnames'
 import Overlay from '../../Overlay/Overlay'
+import useLockScroll from '../../../hooks/useLockScroll'
 
 const CartControl = ({ isOpen, setIsOpen, className, ...props }: ICartControl) => {
   const dispatch = useAppDispatch()
+
+  const [disableScroll, allowScroll] = useLockScroll()
 
   const cartItemsIds = useAppSelector(selectCartItemsIds)
 
@@ -29,6 +32,14 @@ const CartControl = ({ isOpen, setIsOpen, className, ...props }: ICartControl) =
       dispatch(addNotification({ type: 'error', message: 'Add items to the cart first.' }))
     }
   }, [cartItemsIds[0], isOpen])
+
+  useEffect(() => {
+    if (isOpen) {
+      disableScroll()
+    } else {
+      allowScroll()
+    }
+  }, [isOpen])
 
   return (
     <>

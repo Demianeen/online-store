@@ -81,10 +81,12 @@
   }
 
   .downArrow {
+    padding-right: 0;
     padding-left: 8px;
   }
 
   .upArrow {
     padding-right: 8px;
+    padding-left: 0;
   }
 }

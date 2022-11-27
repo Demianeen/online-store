@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ICurrencySelect } from './CurrencySelect.types'
 import { ReactComponent as DownArrow } from './DownArrow.svg'
 import styles from './CurrencySelect.module.css'
@@ -8,6 +8,7 @@ import { changeCurrency } from '../../../store/reducers/currencySlice/currencySl
 import { selectCurrency, selectCurrencyOptions, selectCurrencySymbol } from '../../../store/reducers/currencySlice/currencySliceSelectors'
 import { getCurrencySymbol } from '../../../store/reducers/currencySlice/currencySlice'
 import Overlay from '../../Overlay/Overlay'
+import useLockScroll from '../../../hooks/useLockScroll'
 
 const CurrencySelect = ({ isOpen, setIsOpen, className, ...props }: ICurrencySelect) => {
   const dispatch = useAppDispatch()
@@ -15,10 +16,20 @@ const CurrencySelect = ({ isOpen, setIsOpen, className, ...props }: ICurrencySel
   const options = useAppSelector(selectCurrencyOptions)
   const selectedCurrency = useAppSelector(selectCurrency)
 
+  const [disableScroll, allowScroll] = useLockScroll()
+
   const handleChangeCurrency = (currency: string) => {
     setIsOpen(false)
     dispatch(changeCurrency(currency))
   }
+
+  useEffect(() => {
+    if (isOpen) {
+      disableScroll()
+    } else {
+      allowScroll()
+    }
+  }, [isOpen])
 
   return (
     <div

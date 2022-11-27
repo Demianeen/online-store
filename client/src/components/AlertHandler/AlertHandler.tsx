@@ -10,6 +10,8 @@ import { selectAlert } from '../../store/reducers/notificationSlice/notification
 import { useDispatch } from 'react-redux'
 import { setAlertResult } from '../../store/reducers/notificationSlice/notificationSliceActions'
 import { AlertsWithReturn, AlertResult } from '../../store/reducers/notificationSlice/notificationSlice.types'
+import useLockScroll from '../../hooks/useLockScroll'
+
 const AlertHandler = ({
   className,
   ...props
@@ -17,6 +19,7 @@ const AlertHandler = ({
   const dispatch = useDispatch()
   const alert = useAppSelector(selectAlert)
   const cancelButtonRef = useRef<HTMLButtonElement>(null)
+  const [blockScroll, allowScroll] = useLockScroll()
 
   useEffect(() => {
     if (cancelButtonRef.current !== null) {
@@ -24,8 +27,17 @@ const AlertHandler = ({
     }
   }, [alert?.type])
 
-  const setValue = <T extends AlertsWithReturn>(value: AlertResult<T>) =>
+  useEffect(() => {
+    if (alert !== undefined) {
+      blockScroll()
+    } else {
+      allowScroll()
+    }
+  }, [alert])
+
+  const setValue = <T extends AlertsWithReturn>(value: AlertResult<T>) => {
     dispatch(setAlertResult(value))
+  }
 
   if (alert !== undefined) {
     const {

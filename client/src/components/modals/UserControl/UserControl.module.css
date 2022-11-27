@@ -42,7 +42,7 @@
   cursor: pointer;
 }
 
-.button:hover {
+.listButton:hover {
   background: #EEE;
 }
 
