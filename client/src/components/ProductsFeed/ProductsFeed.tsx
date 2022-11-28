@@ -50,7 +50,7 @@ const ProductsFeed = ({ className, ...props }: IProductFeed) => {
       {productsIds?.map((id) =>
         <Product key={id} productId={id}/>
       )}
-      {productsIds !== undefined && <div className={styles.scrollEnd} ref={childRef} />}
+      {productsIds[0] !== undefined && <div className={styles.scrollEnd} ref={childRef} />}
     </div>
   )
 }
