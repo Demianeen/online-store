@@ -27,12 +27,12 @@ export const selectCartItemProductById = createSelector(
   (item) => item?.Product
 )
 
-export const selectProductSizesById = createSelector(
+export const selectCartItemProductSizesById = createSelector(
   selectCartItemProductById,
   (product) => product?.sizes
 )
 
-export const selectProductImagesById = createSelector(
+export const selectCartItemProductImagesById = createSelector(
   selectCartItemProductById,
   (product) => product?.images
 )

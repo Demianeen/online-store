@@ -3,7 +3,7 @@ import styles from './Button.module.css'
 import cn from 'classnames'
 import { IButton } from './Button.types'
 
-const AddToCart = forwardRef<HTMLButtonElement, IButton>(({
+const Button = forwardRef<HTMLButtonElement, IButton>(({
   buttonStyle = 'primary', children, className, ...props
 }, ref) => {
   return (
@@ -20,6 +20,6 @@ const AddToCart = forwardRef<HTMLButtonElement, IButton>(({
   )
 })
 
-AddToCart.displayName = 'AddToCart'
+Button.displayName = 'AddToCart'
 
-export default AddToCart
+export default Button

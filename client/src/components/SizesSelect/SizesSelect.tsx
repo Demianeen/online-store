@@ -12,6 +12,7 @@ const SizesSelect = ({ sizesSize, defaultSize, sizes, className, onSizeSelect, o
   }, [defaultSize])
 
   const sizeSelect = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, newSize: parsedSize) => {
+    setSelectedSize(newSize)
     if (onSizeSelect !== undefined) onSizeSelect(newSize)
     if (onClick !== undefined) onClick(e)
   }

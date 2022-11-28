@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styles from './CartComponentItemSlider.module.css'
 import { ICartComponentItem } from './CartComponentItemSlider.types'
-import { selectProductImagesById } from '../../http/cartApi/cartApiSelectors'
+import { selectCartItemProductImagesById } from '../../http/cartApi/cartApiSelectors'
 import FullSizeImage from '../FullSizeImage/FullSizeImage'
 import { ReactComponent as ArrowRightIcon } from './ArrowRight.svg'
 import { useAppSelector } from '../../hooks/redux'
@@ -9,7 +9,7 @@ import { useAppSelector } from '../../hooks/redux'
 const CartComponentItemSlider = ({ cartItemId, className, ...props }: ICartComponentItem) => {
   const [imageIndex, setImageIndex] = useState(0)
 
-  const images = useAppSelector(state => selectProductImagesById(state, cartItemId))
+  const images = useAppSelector(state => selectCartItemProductImagesById(state, cartItemId))
   const parsedImages: string[] = JSON.parse(images ?? '')
 
   const previousImage = () => {

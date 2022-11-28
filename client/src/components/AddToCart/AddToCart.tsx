@@ -12,6 +12,7 @@ import { isErrorWithMessage, isFetchBaseQueryError } from '../../http/error'
 import { useCheckQuery } from '../../http/userApi/userApi'
 import { addNotification, unhandledErrorNotification } from '../../store/reducers/notificationSlice/notificationSliceActions'
 import { useAppDispatch } from '../../hooks/redux'
+import { EntityId } from '@reduxjs/toolkit'
 
 const AddToCart = ({ productId, size, isInStock, buttonSize, className, ...props }: IAddToCart) => {
   const dispatch = useAppDispatch()
@@ -24,7 +25,7 @@ const AddToCart = ({ productId, size, isInStock, buttonSize, className, ...props
   const navigate = useNavigate()
 
   const addToCart =
-    async (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>, ProductId: number) => {
+    async (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>, ProductId: EntityId) => {
       e.stopPropagation()
       if (!isUserLogged) {
         navigate(Routes.LOGIN_ROUTE)
@@ -40,7 +41,8 @@ const AddToCart = ({ productId, size, isInStock, buttonSize, className, ...props
       if (isLoading) return
 
       try {
-        await addItem({ CartId: userData.user.CartId, ProductId, size }).unwrap()
+        const ParsedProductId = typeof ProductId === 'number' ? ProductId : parseInt(ProductId)
+        await addItem({ CartId: userData.user.CartId, ProductId: ParsedProductId, size }).unwrap()
 
         setIsButtonPressed(true)
         setTimeout(() => setIsButtonPressed(false), 3000)

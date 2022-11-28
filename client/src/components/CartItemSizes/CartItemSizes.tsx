@@ -3,12 +3,12 @@ import { parsedSize } from '../../store/reducers/types'
 import { ICartItemSizes } from './CartItemSizes.types'
 import { useChangeItemSizeMutation } from '../../http/cartApi/cartApi'
 import SizesSelect from '../SizesSelect/SizesSelect'
-import { selectCartItemSizeById, selectProductSizesById } from '../../http/cartApi/cartApiSelectors'
+import { selectCartItemSizeById, selectCartItemProductSizesById } from '../../http/cartApi/cartApiSelectors'
 import { useAppSelector } from '../../hooks/redux'
 
 const CartItemSizes = ({ sizesSize, cartItemId, className, ...props }: ICartItemSizes) => {
   const selectedSize = useAppSelector(state => selectCartItemSizeById(state, cartItemId))
-  const sizes = useAppSelector(state => selectProductSizesById(state, cartItemId))
+  const sizes = useAppSelector(state => selectCartItemProductSizesById(state, cartItemId))
 
   const parsedSizes: parsedSize[] = JSON.parse(sizes ?? '["XL"]')
 
