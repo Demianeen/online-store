@@ -34,9 +34,8 @@ const UserControl = ({ setIsOpen, isOpen, className, ...props }: IUserModal) => 
   return (
     <>
       <Overlay
-        onClick={() => setIsOpen(false)}
         isVisible={isOpen}
-        className={styles.overlay}
+        className={styles.overlayView}
       />
       <div
         className={cn(styles.modalContainer, className)}
@@ -50,28 +49,33 @@ const UserControl = ({ setIsOpen, isOpen, className, ...props }: IUserModal) => 
           <UserIcon />
         </button>
         {isOpen
-          ? <SideModal className={styles.sideModal}>
-            <ul className={styles.container}>
-              {userData?.user?.role === 'ADMIN'
-                ? <li className={styles.li}>
+          ? <>
+            <Overlay
+              onClick={() => setIsOpen(false)}
+            />
+            <SideModal className={styles.sideModal}>
+              <ul className={styles.container}>
+                {userData?.user?.role === 'ADMIN'
+                  ? <li className={styles.li}>
+                    <button
+                      className={styles.button}
+                      onClick={() => { navigate(Routes.ADMIN_ROUTE); setIsOpen(false) }}
+                    >
+                      {'Admin'}
+                    </button>
+                  </li>
+                  : <></>}
+                <li className={styles.li}>
                   <button
-                    className={styles.button}
-                    onClick={() => { navigate(Routes.ADMIN_ROUTE); setIsOpen(false) }}
+                    className={styles.listButton}
+                    onClick={() => handleSignOut()}
                   >
-                    {'Admin'}
+                    {'Sign out'}
                   </button>
                 </li>
-                : <></>}
-              <li className={styles.li}>
-                <button
-                  className={styles.listButton}
-                  onClick={() => handleSignOut()}
-                >
-                  {'Sign out'}
-                </button>
-              </li>
-            </ul>
-          </SideModal>
+              </ul>
+            </SideModal>
+          </>
           : <></>
         }
 

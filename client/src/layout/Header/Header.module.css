@@ -21,9 +21,8 @@
 
 .shopIconContainer {
   position: absolute;
-  left: calc(50% - 16px);
-  z-index: 2;
-  width: 29px;
+  left: calc(50% - 15.5px);
+  width: 31px;
 }
 
 .shopIconContainer svg {

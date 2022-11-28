@@ -1,12 +1,10 @@
-.overlay {
-  /* because we already have z-index set in the overlay component; */
+.overlayView {
   z-index: -1 !important;
   background: rgb(57 55 72 / 22%);
 }
 
 .modalContainer {
   position: relative;
-  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,6 +12,8 @@
 
 .iconButton {
   all: unset;
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,6 +41,7 @@
 
 .sideModal {
   left: -34vh;
+  z-index: 2;
   padding: 32px 16px;
 }
 

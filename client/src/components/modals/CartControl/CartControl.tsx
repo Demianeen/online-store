@@ -44,9 +44,8 @@ const CartControl = ({ isOpen, setIsOpen, className, ...props }: ICartControl) =
   return (
     <>
       <Overlay
-        onClick={() => setIsOpen(false)}
         isVisible={isOpen && cartItemsIds[0] !== undefined}
-        className={styles.overlay}
+        className={styles.overlayView}
       />
       <div className={cn(styles.modalContainer, className)} {...props}>
         <button
@@ -61,7 +60,9 @@ const CartControl = ({ isOpen, setIsOpen, className, ...props }: ICartControl) =
         </button>
         {isOpen && cartItemsIds[0] !== undefined
           ? <>
-
+            <Overlay
+              onClick={() => setIsOpen(false)}
+            />
             <SideModal className={styles.sideModal} {...props}>
               <p className={styles.heading}>
                 <b className={styles.bold}>{'My bag'}</b>{', '}
