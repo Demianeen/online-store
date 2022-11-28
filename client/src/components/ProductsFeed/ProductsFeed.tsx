@@ -23,10 +23,10 @@ const ProductsFeed = ({ className, ...props }: IProductFeed) => {
 
   const observer = useMemo(() =>
     new IntersectionObserver(([target]) => {
-      if (target.isIntersecting) {
+      if (target.isIntersecting && productsIds.length !== 0) {
         dispatch(nextPage())
       }
-    }, options), [])
+    }, options), [productsIds.length])
 
   useEffect(() => {
     if (!isValuesEnded) {
@@ -50,7 +50,7 @@ const ProductsFeed = ({ className, ...props }: IProductFeed) => {
       {productsIds?.map((id) =>
         <Product key={id} productId={id}/>
       )}
-      {productsIds[0] !== undefined && <div className={styles.scrollEnd} ref={childRef} />}
+      <div className={styles.scrollEnd} ref={childRef} />
     </div>
   )
 }
