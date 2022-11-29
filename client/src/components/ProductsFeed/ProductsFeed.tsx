@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { IProductFeed } from './ProductsFeed.types'
 import styles from './ProductsFeed.module.css'
 import cn from 'classnames'
@@ -16,19 +16,20 @@ const ProductsFeed = ({ className, ...props }: IProductFeed) => {
   const isValuesEnded = useAppSelector(selectIsValuesEnded)
   const dispatch = useAppDispatch()
 
-  const options = {
-    rootMargin: '0px',
-    thresholds: 0
-  }
-
-  const observer = useMemo(() =>
-    new IntersectionObserver(([target]) => {
-      if (target.isIntersecting && productsIds.length !== 0) {
-        dispatch(nextPage())
-      }
-    }, options), [productsIds.length])
-
   useEffect(() => {
+    const options: IntersectionObserverInit = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0
+    }
+
+    const observer =
+      new IntersectionObserver(([target]) => {
+        if (target.isIntersecting) {
+          dispatch(nextPage())
+        }
+      }, options)
+
     if (!isValuesEnded) {
       if (childRef.current !== null) {
         observer.observe(childRef.current)
@@ -40,7 +41,7 @@ const ProductsFeed = ({ className, ...props }: IProductFeed) => {
         }
       }
     }
-  }, [isValuesEnded, childRef.current])
+  }, [isValuesEnded, childRef, productsIds.length !== 0])
 
   return (
     <div
@@ -50,7 +51,7 @@ const ProductsFeed = ({ className, ...props }: IProductFeed) => {
       {productsIds?.map((id) =>
         <Product key={id} productId={id}/>
       )}
-      <div className={styles.scrollEnd} ref={childRef} />
+      {productsIds.length !== 0 && <div className={styles.scrollEnd} ref={childRef} />}
     </div>
   )
 }

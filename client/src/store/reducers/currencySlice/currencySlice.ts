@@ -11,7 +11,7 @@ export const currencySymbols = {
 }
 
 const isSupportedCurrency = (currency: string): currency is CurrencySymbols => {
-  const symbolsArray = Object.keys(currencySymbols)
+  const symbolsArray = Object.keys(currencySymbols ?? {})
   const result = symbolsArray.find((el) => el === currency)
   return result !== undefined
 }
@@ -53,7 +53,7 @@ export const currencySlice = createSlice({
         const { rates } = action.payload
 
         state.rates = rates
-        state.options = Object.keys(rates)
+        state.options = Object.keys(rates ?? {})
         state.exchangeRate = rates[defaultCurrency]
       })
       .addCase(changeCurrency, (state, action) => {
