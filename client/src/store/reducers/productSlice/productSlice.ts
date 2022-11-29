@@ -1,5 +1,6 @@
 import { IProduct } from './../../../http/productApi/productApi.types'
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
+import { selectGender } from '../productParamsSlice/productParamsSliceActions'
 
 export const productAdapter = createEntityAdapter<IProduct>({
   sortComparer: (a, b) => Number(b.isInStock) - Number(a.isInStock)
@@ -11,11 +12,15 @@ const productSlice = createSlice({
   name: 'product',
   initialState: productAdapterInitialState,
   reducers: {
-    addProducts: productAdapter.addMany,
-    setProducts: productAdapter.setAll
+    addProducts: productAdapter.addMany
+  },
+  extraReducers: (builder) => {
+    builder.addCase(selectGender, (state) => {
+      productAdapter.removeAll(state)
+    })
   }
 })
 
-export const { addProducts, setProducts } = productSlice.actions
+export const { addProducts } = productSlice.actions
 
 export default productSlice

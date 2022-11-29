@@ -12,5 +12,4 @@ export interface IProductParams {
 export interface IProductState {
   params: IProductParams
   isValuesEnded: boolean
-  isNeedToResetState: boolean
 }

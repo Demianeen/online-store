@@ -37,8 +37,3 @@ export const selectIsValuesEnded = createSelector(
   selectProductParamsState,
   (state) => state.isValuesEnded
 )
-
-export const selectIsNeedToResetProductState = createSelector(
-  selectProductParamsState,
-  (state) => state.isNeedToResetState
-)

@@ -3,10 +3,8 @@ import { IProductState } from './productParamsSlice.types'
 import {
   endValues,
   nextPage,
-  setPage,
   selectGender,
-  setLimit,
-  toggleIsNeedToResetState
+  setLimit
 } from './productParamsSliceActions'
 
 const initialState: IProductState = {
@@ -15,8 +13,7 @@ const initialState: IProductState = {
     page: 1,
     selectedGender: 'WOMEN'
   },
-  isValuesEnded: false,
-  isNeedToResetState: false
+  isValuesEnded: false
 }
 
 const productParamsSlice = createSlice({
@@ -40,7 +37,6 @@ const productParamsSlice = createSlice({
       .addCase(selectGender, (state, action) => {
         state.params.page = 1
         state.isValuesEnded = false
-        state.isNeedToResetState = true
 
         state.params.selectedGender = action.payload
       })
@@ -50,14 +46,8 @@ const productParamsSlice = createSlice({
       .addCase(nextPage, (state) => {
         state.params.page++
       })
-      .addCase(setPage, (state, action) => {
-        state.params.page = action.payload
-      })
       .addCase(endValues, (state) => {
         state.isValuesEnded = true
-      })
-      .addCase(toggleIsNeedToResetState, (state) => {
-        state.isNeedToResetState = !state.isNeedToResetState
       })
   }
 })

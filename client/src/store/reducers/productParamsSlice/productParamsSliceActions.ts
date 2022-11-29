@@ -11,5 +11,3 @@ export const nextPage = createAction('productParams/nextPage')
 export const setPage = createAction<number>('productParams/setPage')
 
 export const endValues = createAction('productParams/endValues')
-
-export const toggleIsNeedToResetState = createAction('productParams/toggleIsNeedToResetState')
