@@ -21,6 +21,8 @@ const AlertHandler = ({
   const cancelButtonRef = useRef<HTMLButtonElement>(null)
   const [blockScroll, allowScroll] = useLockScroll()
 
+  const isEscClicked = useRef(false)
+
   useEffect(() => {
     if (cancelButtonRef.current !== null) {
       cancelButtonRef.current.focus()
@@ -28,11 +30,27 @@ const AlertHandler = ({
   }, [alert?.type])
 
   useEffect(() => {
+    const listener = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && !isEscClicked.current) {
+        isEscClicked.current = true
+        setValue(false)
+      }
+    }
+
+    const removeListener = () => {
+      document.body.removeEventListener('keyup', listener)
+      isEscClicked.current = false
+    }
+
     if (alert !== undefined) {
       blockScroll()
+      document.body.addEventListener('keyup', listener)
     } else {
       allowScroll()
+      removeListener()
     }
+
+    return () => removeListener()
   }, [alert])
 
   const setValue = <T extends AlertsWithReturn>(value: AlertResult<T>) => {

@@ -21,7 +21,7 @@
   background: var(--c-primary);
 }
 
-.primaryButton:focus {
+.primaryButton:focus-visible {
   outline: auto;
 }
 

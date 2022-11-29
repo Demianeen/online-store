@@ -32,6 +32,10 @@
   cursor: pointer;
 }
 
+.close:focus-visible svg {
+  outline: auto;
+}
+
 .closeIcon {
   display: block;
 }
