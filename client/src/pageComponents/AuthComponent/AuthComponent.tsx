@@ -8,7 +8,7 @@ import { useLoginMutation, useRegistrationMutation } from '../../http/userApi/us
 import { isFetchBaseQueryError, isErrorWithMessage } from '../../http/error'
 import { useAppDispatch } from '../../hooks/redux'
 import { addNotification, unhandledErrorNotification } from '../../store/reducers/notificationSlice/notificationSliceActions'
-import useInput from '../../hooks/useInput'
+import FormInput from '../../components/FormInput/FormInput'
 
 export interface IApiError {
   message: string
@@ -27,9 +27,6 @@ const AuthComponent = () => {
 
   const [isAuthMethodChanging, setIsAuthMethodChanging] = useState(true)
 
-  const { isEmpty: isEmailEmpty, ...email } = useInput()
-  const { isEmpty: isPasswordEmpty, ...password } = useInput()
-
   const goTo = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, route: Routes) => {
     e.preventDefault()
 
@@ -41,17 +38,25 @@ const AuthComponent = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault()
+      const formData = new FormData(e.currentTarget)
 
-      const value = {
-        email: email.value,
-        password: password.value
-      }
       if (isLogin) {
         if (isLoginLoading) return
-        await login(value).unwrap()
+        const fieldValues = Object.fromEntries(formData.entries())
+        // FIXME: Fix problem with types
+        // @ts-expect-error
+        await login(fieldValues).unwrap()
       } else {
         if (isRegisterLoading) return
-        await registration(value).unwrap()
+        const fieldValues = Object.fromEntries(formData.entries())
+        if (fieldValues.password !== fieldValues.confirmPassword) {
+          dispatch(addNotification({
+            type: 'error', message: "Passwords don't match"
+          }))
+          return
+        }
+        // @ts-expect-error
+        await registration(fieldValues).unwrap()
       }
 
       navigate(Routes.SHOP_ROUTE)
@@ -95,38 +100,60 @@ const AuthComponent = () => {
           [styles.animation]: isAuthMethodChanging
         })}>{isLogin ? 'Welcome back' : 'Sign up'}</h2>
 
-        <form onSubmit={handleSubmit}>
-          <div className={styles.fieldContainer}>
-            <label className={cn(styles.label, {
-              [styles.active]: !isEmailEmpty
-            })}>
-              {'Email Address'}<span className={styles.req}>{'*'}</span>
-            </label>
-            <input
-              className={styles.input}
+        {isLogin
+          ? <form onSubmit={handleSubmit}>
+            <FormInput
+              labelText={'Your email'}
+              className={styles.field}
               type={'email'}
-              {...email}
+              name={'email'}
+              id={'loginEmail'}
               required
             />
-          </div>
-
-          <div className={styles.fieldContainer}>
-            <label className={cn(styles.label, {
-              [styles.active]: !isPasswordEmpty
-            })}>
-              {'Your password'}<span className={styles.req}>{'*'}</span>
-            </label>
-            <input
-              className={styles.input}
+            <FormInput
+              labelText={'Your password'}
+              className={styles.field}
               type={'password'}
-              onFocus={(e) => e.target.select()}
-              {...password}
+              name={'password'}
+              id={'loginPassword'}
               required
             />
-          </div>
 
-          <Button type={'submit'} className={styles.submit}>{isLogin ? 'Log in' : 'Get started'}</Button>
-        </form>
+            <Button type={'submit'} className={styles.submit}>{'Log in'}</Button>
+          </form>
+          : <form onSubmit={handleSubmit}>
+            <FormInput
+              labelText={'Email Address'}
+              className={styles.field}
+              type={'email'}
+              name={'email'}
+              id={'registrationEmail'}
+              requiredStar
+              required
+            />
+            <FormInput
+              labelText={'Password'}
+              className={styles.field}
+              type={'password'}
+              name={'password'}
+              id={'registrationPassword'}
+              requiredStar
+              required
+            />
+            <FormInput
+              labelText={'Confirm Password'}
+              className={styles.field}
+              type={'password'}
+              name={'confirmPassword'}
+              id={'registrationConfirmPassword'}
+              requiredStar
+              required
+            />
+
+            <Button type={'submit'} className={styles.submit}>{isLogin ? 'Log in' : 'Get started'}</Button>
+          </form>
+        }
+
       </div>
     </div>
   )
