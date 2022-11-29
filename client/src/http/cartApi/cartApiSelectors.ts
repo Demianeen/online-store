@@ -22,6 +22,11 @@ export const {
   state => selectCartItemsData(state) ?? cartItemsAdapterInitialState
 )
 
+export const selectIsCartItemsLoading = createSelector(
+  getCartItemsResult,
+  (cartItemsResult) => cartItemsResult.isLoading
+)
+
 export const selectCartItemProductById = createSelector(
   selectCartItemById,
   (item) => item?.Product
@@ -81,13 +86,3 @@ export const selectCartTotal = createSelector(
   selectCartTax,
   (subTotal, tax) => subTotal + tax
 )
-
-// export const selectCartItemsStatus = createSelector(
-//   selectCartItemsResult,
-//   (cartItemsResult) => ({
-//     isSuccess: cartItemsResult.isSuccess,
-//     isLoading: cartItemsResult.isLoading,
-//     isError: cartItemsResult.isError,
-//     error: cartItemsResult.error
-//   })
-// )

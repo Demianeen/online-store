@@ -3,7 +3,7 @@ import { IUserComponent } from './CartComponent.types'
 import styles from './CartComponent.module.css'
 import Order from '../../components/Order/Order'
 import { useAppSelector } from '../../hooks/redux'
-import { selectCartItemsIds, selectCartTaxPercentage } from '../../http/cartApi/cartApiSelectors'
+import { selectCartItemsIds, selectIsCartItemsLoading, selectCartTaxPercentage } from '../../http/cartApi/cartApiSelectors'
 import CartComponentItem from '../../components/CartComponentItem/CartComponentItem'
 import { useGetBrandsQuery } from '../../http/brandApi/brandApi'
 import { useGetCategoriesQuery } from '../../http/categoryApi/categoryApi'
@@ -22,6 +22,11 @@ const CartComponent = ({ className, ...props }: IUserComponent) => {
 
   const cartItemsIds = useAppSelector(selectCartItemsIds)
   const taxPercentage = useAppSelector(selectCartTaxPercentage)
+  const isLoading = useAppSelector(selectIsCartItemsLoading)
+
+  if (isLoading) {
+    return <Centered>{'Loading...'}</Centered>
+  }
 
   if (cartItemsIds.length === 0) {
     return <Centered>{'Add items to the cart first'}</Centered>

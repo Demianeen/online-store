@@ -1,9 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { RootState } from '../../store/store'
 import { userApiSlice } from './userApi'
 
-export const selectUserResult = (state: RootState) =>
-  userApiSlice.endpoints.check.select(undefined)(state)
+const selectUserResult = userApiSlice.endpoints.check.select(undefined)
+
+// export const getUserResult = (state: RootState) =>
+//   userApiSlice.endpoints.check.select(undefined)(state)
 
 export const selectIsUserLogged = createSelector(
   selectUserResult,
