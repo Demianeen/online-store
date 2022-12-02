@@ -3,7 +3,7 @@ import { IUserComponent } from './Admin.types'
 // import CreateBrand from '../../components/modals/CreateBrand/CreateBrand'
 // import CreateCategory from '../../components/modals/CreateCategory/CreateCategory'
 
-const UserComponent = ({ className, ...props }: IUserComponent) => {
+const AdminComponent = () => {
   // const [isTypeVisible, setIsTypeVisible] = useState(false)
   // const [isBrandVisible, setIsBrandVisible] = useState(false)
 
@@ -47,4 +47,4 @@ const UserComponent = ({ className, ...props }: IUserComponent) => {
   )
 }
 
-export default UserComponent
+export default AdminComponent

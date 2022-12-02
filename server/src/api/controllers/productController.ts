@@ -15,15 +15,15 @@ class ProductController {
   async create (req: productCreateRequest, res: Response, next: NextFunction): Promise<void> {
     try {
       const { CategoryId, BrandId, description, price, gender, isInStock, Colors } = req.body
-      if (!description) return next(ApiError.internal('Description is required'))
-      if (!price) return next(ApiError.internal('Price is required'))
-      if (!CategoryId) return next(ApiError.internal('CategoryId is required'))
-      if (!BrandId) return next(ApiError.internal('BrandId is required'))
-      if (!gender) return next(ApiError.internal('Gender is required'))
+      if (!description) return next(ApiError.badRequest('Description is required'))
+      if (!price) return next(ApiError.badRequest('Price is required'))
+      if (!CategoryId) return next(ApiError.badRequest('CategoryId is required'))
+      if (!BrandId) return next(ApiError.badRequest('BrandId is required'))
+      if (!gender) return next(ApiError.badRequest('Gender is required'))
 
       if (!isGenderCorrect(gender)) return next(ApiError.badRequest('Invalid gender value'))
 
-      if (!req.files) return next(ApiError.internal('Images are not uploaded'))
+      if (!req.files) return next(ApiError.badRequest('Images are not uploaded'))
       const { images } = req.files
 
       const fileNames: string[] = []
