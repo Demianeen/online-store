@@ -4,7 +4,7 @@ import cn from 'classnames'
 import { IBurgerMenu } from './BurgerMenu.types'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Routes } from '../../utils/consts'
-import { useAppDispatch } from '../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { useSignOut } from '../../hooks/useSignOut'
 import { useCheckQuery } from '../../http/userApi/userApi'
 import { ReactComponent as CloseIcon } from './Close.svg'
@@ -16,8 +16,10 @@ import { ReactComponent as LoginIcon } from './Login.svg'
 import { selectGender } from '../../store/reducers/productParamsSlice/productParamsSliceActions'
 import { Gender } from '../../http/categoryApi/categoryApi.types'
 import useLockScroll from '../../hooks/useLockScroll'
+import { selectProductGender } from '../../store/reducers/productParamsSlice/productParamsSliceSelectors'
 
 const BurgerMenu = ({ isOpen, setIsOpen, className, ...props }: IBurgerMenu) => {
+  const selectedGender = useAppSelector(selectProductGender)
   const dispatch = useAppDispatch()
   const [isShopSubmenuOpen, setIsShopSubmenuOpen] = useState(false)
 
@@ -32,8 +34,8 @@ const BurgerMenu = ({ isOpen, setIsOpen, className, ...props }: IBurgerMenu) => 
   const signOut = useSignOut()
 
   const handleGenderSelect = (value: Gender) => {
-    dispatch(selectGender(value))
-    setIsOpen(false)
+    if (value !== selectedGender) dispatch(selectGender(value))
+    navigate(Routes.SHOP_ROUTE)
   }
 
   const handleNavigation = (route: Routes) => {
