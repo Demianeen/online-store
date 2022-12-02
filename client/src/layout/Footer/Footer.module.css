@@ -1,0 +1,55 @@
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 40px 0;
+  color: black;
+  background-color: var(--c-primary);
+  stroke: black;
+}
+
+.aboutText {
+  padding-bottom: 10px;
+}
+
+.br {
+  display: none;
+}
+
+.linksContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.ul {
+  display: flex;
+  flex-direction: row;
+  padding: 0 0 0 10px;
+  list-style-type: none;
+}
+
+.link {
+  display: inline-block;
+}
+
+.span {
+  display: inline-block;
+}
+
+.icon {
+  width: 30px;
+  padding-right: 10px;
+}
+
+@media only screen and (max-width: 750px) {
+  .br {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .footer {
+    display: block;
+  }
+}

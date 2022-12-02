@@ -1,5 +1,4 @@
 .container {
-  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 40px;
@@ -13,6 +12,12 @@
   height: 1100px;
   inset: auto 0 0 0;
   pointer-events: none;
+}
+
+.loadingFooterBlocker {
+  position: absolute;
+  background: white;
+  inset: 0;
 }
 
 @media only screen and (max-width: 1200px) {

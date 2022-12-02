@@ -7,6 +7,7 @@ import { nextPage } from '../../store/reducers/productParamsSlice/productParamsS
 import { useAppSelector, useAppDispatch } from '../../hooks/redux'
 import { selectIsValuesEnded } from '../../store/reducers/productParamsSlice/productParamsSliceSelectors'
 import { selectProductsIds } from '../../store/reducers/productSlice/productSliceSelectors'
+import Centered from '../Centered/Centered'
 
 const ProductsFeed = ({ className, ...props }: IProductFeed) => {
   const productsIds = useAppSelector(selectProductsIds)
@@ -51,7 +52,11 @@ const ProductsFeed = ({ className, ...props }: IProductFeed) => {
       {productsIds?.map((id) =>
         <Product key={id} productId={id}/>
       )}
-      {productsIds.length !== 0 && <div className={styles.scrollEnd} ref={childRef} />}
+      {productsIds.length !== 0
+        ? <div className={styles.scrollEnd} ref={childRef} />
+        // We can see footer while page is loading for a short period of time if we don't set this
+        : <Centered>{'Loading...'}</Centered>
+      }
     </div>
   )
 }
