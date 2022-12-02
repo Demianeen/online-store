@@ -7,6 +7,10 @@
   padding: 40px 6px 0;
 }
 
+.link {
+  all: unset;
+}
+
 .button {
   display: flex;
   align-items: center;

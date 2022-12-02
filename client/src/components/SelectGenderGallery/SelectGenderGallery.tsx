@@ -20,7 +20,11 @@ const SelectGenderGallery = () => {
 
   return (
     <section className={styles.gallery}>
-      <Link to={Routes.SHOP_ROUTE} onClick={() => handleGenderSelect('WOMEN')}>
+      <Link
+        to={Routes.SHOP_ROUTE}
+        onClick={() => handleGenderSelect('WOMEN')}
+        className={styles.link}
+      >
         <span
           className={cn(styles.button, styles.women)}
           role={'button'}
@@ -30,7 +34,11 @@ const SelectGenderGallery = () => {
           </span>
         </span>
       </Link>
-      <Link to={Routes.SHOP_ROUTE} onClick={() => handleGenderSelect('MEN')}>
+      <Link
+        to={Routes.SHOP_ROUTE}
+        onClick={() => handleGenderSelect('MEN')}
+        className={styles.link}
+      >
         <span
           className={cn(styles.button, styles.men)}
           role={'button'}
@@ -40,7 +48,11 @@ const SelectGenderGallery = () => {
           </span>
         </span>
       </Link>
-      <Link to={Routes.SHOP_ROUTE} onClick={() => handleGenderSelect('KIDS')}>
+      <Link
+        to={Routes.SHOP_ROUTE}
+        onClick={() => handleGenderSelect('KIDS')}
+        className={styles.link}
+      >
         <span
           className={cn(styles.button, styles.kids)}
           role={'button'}
