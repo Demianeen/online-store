@@ -1,5 +1,4 @@
 import React from 'react'
-import { IProductPageComponent } from './ProductPageComponent.types'
 import styles from './ProductPageComponent.module.css'
 import { useParams } from 'react-router-dom'
 import { useGetBrandsQuery } from '../../http/brandApi/brandApi'
@@ -10,7 +9,7 @@ import Centered from '../../components/Centered/Centered'
 import ProductPageImageGallery from '../../components/ProductPageImageGallery/ProductPageImageGallery'
 import ProductPageDescription from '../../components/ProductPageDescription/ProductPageDescription'
 
-const ProductPageComponent = ({ className, ...props }: IProductPageComponent) => {
+const ProductPageComponent = () => {
   useGetCategoriesQuery(undefined, {
     selectFromResult: () => ({})
   })
@@ -34,7 +33,6 @@ const ProductPageComponent = ({ className, ...props }: IProductPageComponent) =>
     <div>
       <div
         className={styles.gridContainer}
-        {...props}
       >
         <ProductPageImageGallery productId={id} />
         <ProductPageDescription productId={id} />

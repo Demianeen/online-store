@@ -2,11 +2,9 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from '../../hooks/redux'
 import { Routes } from '../../utils/consts'
-import { HeaderProps } from './Header.props'
 import { ReactComponent as BrandIcon } from './Brand.svg'
 import { ReactComponent as MenuIcon } from './Menu.svg'
 import styles from './Header.module.css'
-import cn from 'classnames'
 import { useCheckQuery } from '../../http/userApi/userApi'
 import BurgerMenu from '../../components/BurgerMenu/BurgerMenu'
 import { useGetCartItemsQuery } from '../../http/cartApi/cartApi'
@@ -15,7 +13,7 @@ import { selectUserCartId } from '../../http/userApi/userApiSelectors'
 import HeaderGenderSelect from '../../components/HeaderGenderSelect/HeaderGenderSelect'
 import HeaderModals from '../../components/HeaderModals/HeaderModals'
 
-const Header = ({ className, ...props }: HeaderProps) => {
+const Header = () => {
   useCheckQuery(undefined, {
     selectFromResult: () => ({})
   })
@@ -30,10 +28,9 @@ const Header = ({ className, ...props }: HeaderProps) => {
   return (
     <div className={styles.headerContainer}>
       <header
-        className={cn(styles.header, className)}
+        className={styles.header}
         // onClick={() => setIsUserOpen(false)}
         id={'pageHeader'}
-        {...props}
       >
         <HeaderGenderSelect />
         <button
@@ -44,7 +41,7 @@ const Header = ({ className, ...props }: HeaderProps) => {
         <BurgerMenu isOpen={isBurgerOpen} setIsOpen={setIsBurgerOpen} />
 
         <Link
-          to={Routes.SHOP_ROUTE}
+          to={Routes.HOME_ROUTE}
           className={styles.shopIconContainer}
           id={'brandIcon'}
         >

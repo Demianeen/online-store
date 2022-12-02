@@ -1,0 +1,14 @@
+.hr {
+  display: block;
+  box-sizing: border-box;
+  width: 900px;
+  margin: 30px auto;
+  border: 0;
+  border-top: 2px solid #E9E7E7;
+}
+
+@media screen and (max-width: 1010px) {
+  .hr {
+    width: 90%;
+  }
+}

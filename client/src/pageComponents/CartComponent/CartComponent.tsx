@@ -1,5 +1,4 @@
 import React from 'react'
-import { IUserComponent } from './CartComponent.types'
 import styles from './CartComponent.module.css'
 import Order from '../../components/Order/Order'
 import { useAppSelector } from '../../hooks/redux'
@@ -12,7 +11,7 @@ import CartTotal from '../../components/CartTotal/CartTotal'
 import CartTax from '../../components/CartTax/CartTax'
 import Centered from '../../components/Centered/Centered'
 
-const CartComponent = ({ className, ...props }: IUserComponent) => {
+const CartComponent = () => {
   useGetCategoriesQuery(undefined, {
     selectFromResult: () => ({})
   })

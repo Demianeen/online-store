@@ -1,5 +1,4 @@
 import React from 'react'
-import { IUserComponent } from './Admin.types'
 // import CreateBrand from '../../components/modals/CreateBrand/CreateBrand'
 // import CreateCategory from '../../components/modals/CreateCategory/CreateCategory'
 

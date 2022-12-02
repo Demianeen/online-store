@@ -1,5 +1,4 @@
 import React from 'react'
-import { ICurrencySelect } from './ShopComponent.types'
 import styles from './ShopComponent.module.css'
 import ProductsFeed from '../../components/ProductsFeed/ProductsFeed'
 import { useGetBrandsQuery } from '../../http/brandApi/brandApi'
@@ -9,7 +8,7 @@ import { useGetProductsQuery } from '../../http/productApi/productApi'
 import Centered from '../../components/Centered/Centered'
 import { store } from '../../store/store'
 
-const ShopComponent = ({ className, ...props }: ICurrencySelect) => {
+const ShopComponent = () => {
   useGetCategoriesQuery(undefined, {
     selectFromResult: () => ({})
   })
