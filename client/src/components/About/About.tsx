@@ -10,7 +10,7 @@ const About = () => {
         {/* here is h1 with */}
         <h1 className={styles.heading}>{'🦚About project'}</h1>
         {/* <hr className={styles.hr} /> */}
-        <p className={styles.p}>{'This is '}<b>{'my pet-project'}</b>{'. I entirely made this project myself. I had some knowledge at the beginning of the project, and I acquired others while creating the project. '}</p>
+        <p className={styles.p}>{'This is '}<b>{'my pet project'}</b>{'. I entirely made it myself. I had some knowledge initially and acquired others while creating the project.'}</p>
         <p className={styles.p}>{'This '}<b>{'clothing store'}</b>{' has almost all it takes to be called a store. It has a home page, shop page, cart page, and sign-in/up pages. It also has a back-end part. All necessary data fetch from there. '}</p>
         <h2 className={styles.heading}>{'🦚The Purpose of the Project'}</h2>
         <p className={styles.p}>{'The purpose of the project was to gain more experience in writing real websites as a part of my education and to show my knowledge. Also, I am looking for my first job.'}</p>

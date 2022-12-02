@@ -1,7 +1,10 @@
 
 # Clothing online store
 
-This is my pet-project. I entirely made this project myself. I had some knowledge at the beginning of the project, and I acquired others while creating the project.
+Project's site: <http://mybrandview.co.uk/>
+
+This is my pet project. I entirely made it myself. I had some knowledge initially and acquired others while creating the project.
+
 This clothing store has almost all it takes to be called a store. It has a home page, shop page, cart page, and sign-in/up pages. It also has a back-end part. All necessary data fetch from there.
 
 ## The Purpose of the Project
@@ -13,8 +16,6 @@ The purpose of the project was to gain more experience in writing real websites 
 This is a full-stack project that was written using the PERN stack.
 
 For routing, I use React-routing-dom. As a state manager, I used Redux with Redux toolkit. For data fetching and caching, I used RTK Query. And as ORM, I used Sequelize.
-
-Project's site: <http://mybrandview.co.uk/>
 
 ## What did I learn
 
