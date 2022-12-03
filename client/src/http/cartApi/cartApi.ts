@@ -12,6 +12,11 @@ export const cartItemsAdapter = createEntityAdapter<ICartItem>({
 
 export const cartItemsAdapterInitialState = cartItemsAdapter.getInitialState()
 
+export const invalidateCartOnError: InvalidateCartOnError = (_result, error) =>
+  error !== undefined
+    ? ['cart']
+    : []
+
 export const cartApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCartItems: builder.query<EntityState<ICartItem>, number>({
@@ -60,7 +65,7 @@ export const cartApiSlice = apiSlice.injectEndpoints({
           quantity
         }
       }),
-      async onQueryStarted ({ cartItemId, quantity }, { dispatch, queryFulfilled, getState }) {
+      invalidatesTags: invalidateCartOnError,
         const user = selectUser(getState() as RootState)
         if (user === undefined) {
           dispatch(unhandledErrorNotification())
@@ -96,6 +101,7 @@ export const cartApiSlice = apiSlice.injectEndpoints({
           size
         }
       }),
+      invalidatesTags: invalidateCartOnError,
       async onQueryStarted ({ cartItemId, size }, { dispatch, queryFulfilled, getState }) {
         const user = selectUser(getState() as RootState)
         if (user === undefined) {

@@ -30,3 +30,5 @@ export interface ICartItem extends ICartItemWithoutMeta, IParsedMeta {
 }
 
 export type CartItemCreate = CreationAttributes<ICartItem, 'quantity' | 'Product'>
+
+export type InvalidateCartOnError = ResultDescription<'cart', unknown, unknown, unknown, unknown | undefined> | undefined
