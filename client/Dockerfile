@@ -9,7 +9,6 @@ RUN npm install
 COPY . .
 
 ENV NODE_ENV=production
-ENV REACT_APP_API_URL=http://mybrandview.co.uk:8080/
 
 RUN npm run build 
 RUN npm prune --omit dev
