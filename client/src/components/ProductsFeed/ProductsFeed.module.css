@@ -1,4 +1,5 @@
 .container {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 40px;
@@ -9,13 +10,13 @@
 
 .scrollEnd {
   position: absolute;
-  height: 1100px;
   inset: auto 0 0 0;
+  height: 1100px;
   pointer-events: none;
 }
 
 .loadingFooterBlocker {
-  position: absolute;
+  position: fixed;
   background: white;
   inset: 0;
 }

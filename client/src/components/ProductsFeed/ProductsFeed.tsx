@@ -55,7 +55,7 @@ const ProductsFeed = ({ className, ...props }: IProductFeed) => {
       {productsIds.length !== 0
         ? <div className={styles.scrollEnd} ref={childRef} />
         // We can see footer while page is loading for a short period of time if we don't set this
-        : <Centered>{'Loading...'}</Centered>
+        : <Centered className={styles.loadingFooterBlocker}>{'Loading...'}</Centered>
       }
     </div>
   )
