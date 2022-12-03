@@ -18,7 +18,11 @@ export type RemoveCartOptions = DestroyOptions<InferAttributes<CartItem, {
   omit: never
 }>> & ICartItemWhere
 
+export interface AdditionalOptions {
+  difference: number
+}
+
 export type CartBodyRequest = Request<{}, {}, ICartBody, {}>
 export type GetCartBodyRequest = Request<{}, {}, {}, ICartBody>
 export type CreateCartBodyRequest = Request<{}, {}, CartItemBody, {}>
-export type CartItemBodyRequest = Request<{}, {}, InferAttributes<CartItem>, {}>
+export type CartItemBodyRequest = Request<{}, {}, InferAttributes<CartItem> & AdditionalOptions, {}>

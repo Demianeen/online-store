@@ -62,27 +62,27 @@ class CartController {
     res.json(removedItemsQuantity)
   }
 
-  async changeItemQuantity (req: CartItemBodyRequest, res: Response, next: NextFunction): Promise<void> {
-    const { id, quantity } = req.body
+  async changeItemQuantityBy (req: CartItemBodyRequest, res: Response, next: NextFunction): Promise<void> {
+    const { id, difference } = req.body
     if (!id) return next(ApiError.badRequest('Id is required'))
-    if (quantity === undefined) return next(ApiError.badRequest('Quantity is required'))
+    if (difference === undefined) return next(ApiError.badRequest('Difference is required'))
 
-    if (!await CartItem.findByPk(id)) return next(ApiError.badRequest("The cartItem with this id isn't created."))
+    const item = await CartItem.findByPk(id)
+    if (!item) return next(ApiError.badRequest("The cart item with this id isn't created."))
 
-    if (quantity < 1) {
+    const updatedQuantity = item.quantity + difference
+
+    if (updatedQuantity === 0) {
       await CartItem.destroy({ where: { id } })
       res.json(0)
       return
     }
 
-    const changedQuantity = await CartItem.update({ quantity }, {
-      where: { id },
-      returning: true
+    await CartItem.update({ quantity: updatedQuantity }, {
+      where: { id }
     })
 
-    // if returning: true update return array in which
-    // first is amount of rows affected and second the affected row array
-    res.json(changedQuantity[1][0].quantity)
+    res.json(updatedQuantity)
   }
 
   async changeItemSize (req: CartItemBodyRequest, res: Response, next: NextFunction): Promise<void> {
@@ -91,7 +91,7 @@ class CartController {
     if (size === undefined) return next(ApiError.badRequest('Size is required'))
     if (!isSizeValid(size)) return next(ApiError.badRequest('Invalid size value'))
 
-    if (!await CartItem.findByPk(id)) return next(ApiError.badRequest("The cartItem with this id isn't created."))
+    if (!await CartItem.findByPk(id)) return next(ApiError.badRequest("The cart item with this id isn't created."))
 
     const changedQuantity = await CartItem.update({ size }, {
       where: { id },
