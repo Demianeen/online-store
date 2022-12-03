@@ -21,17 +21,9 @@
   background: var(--c-primary);
 }
 
-.primaryButton:focus-visible {
-  outline: auto;
-}
-
 .ghostButton {
   background: #FFF;
   border: 1px solid var(--black);
-}
-
-.ghostButton:focus {
-  outline: auto;
 }
 
 .buttonText {
@@ -50,4 +42,14 @@
 
 .ghostButton .buttonText {
   color: var(--black);
+}
+
+@media only screen and (min-width: 600px) {
+  .primaryButton:focus-visible {
+    outline: auto;
+  }
+
+  .ghostButton:focus {
+    outline: auto;
+  }
 }

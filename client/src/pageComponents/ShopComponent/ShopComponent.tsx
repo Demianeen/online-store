@@ -7,6 +7,8 @@ import InitializeGetProductsQuery from '../../components/InitializeGetProductsQu
 import { useGetProductsQuery } from '../../http/productApi/productApi'
 import Centered from '../../components/Centered/Centered'
 import { store } from '../../store/store'
+import { useAppSelector } from '../../hooks/redux'
+import { selectProductGender } from '../../store/reducers/productParamsSlice/productParamsSliceSelectors'
 
 const ShopComponent = () => {
   useGetCategoriesQuery(undefined, {
@@ -23,6 +25,7 @@ const ShopComponent = () => {
       isLoading: data.isLoading
     })
   })
+  const gender = useAppSelector(selectProductGender)
 
   if (isLoading) {
     return <Centered>{'Loading...'}</Centered>
@@ -31,7 +34,7 @@ const ShopComponent = () => {
   return (
     <section>
       <h1 className={styles.heading}>
-        {'Popular'}
+        {gender}
       </h1>
       <ProductsFeed />
       <InitializeGetProductsQuery />
