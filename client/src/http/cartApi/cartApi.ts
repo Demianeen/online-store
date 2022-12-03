@@ -75,7 +75,7 @@ export const cartApiSlice = apiSlice.injectEndpoints({
               if (quantity !== 0) {
                 entity.quantity = quantity
               } else {
-                cartItemsAdapter.removeOne(cartItemsAdapterInitialState, cartItemId)
+                cartItemsAdapter.removeOne(draft, cartItemId)
               }
             })
         )
