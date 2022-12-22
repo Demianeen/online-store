@@ -56,7 +56,7 @@ export const cartApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['cart']
     }),
-    changeItemQuantityBy: builder.mutation<ICartItem, IChangeCartItemQuantity>({
+    changeItemQuantityBy: builder.mutation<number, IChangeCartItemQuantity>({
       query: ({ cartItemId, difference }) => ({
         url: '/cart/item/quantity',
         method: 'POST',

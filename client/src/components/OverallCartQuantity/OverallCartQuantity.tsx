@@ -1,13 +1,19 @@
 import React from 'react'
 import { selectCartOverallQuantity } from '../../http/cartApi/cartApiSelectors'
-import { useAppSelector } from '../../hooks/redux'
+import { RootState } from '../../store/store'
+import { connect, ConnectedProps } from 'react-redux'
 
-const OverallCartQuantity = () => {
-  const quantity = useAppSelector(selectCartOverallQuantity)
+const mapStateToProps = (state: RootState) => ({
+  quantity: selectCartOverallQuantity(state)
+})
 
-  return (
-    <>{quantity}</>
-  )
+const connector = connect(mapStateToProps)
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+class OverallCartQuantity extends React.Component<PropsFromRedux> {
+  render (): React.ReactNode {
+    return <>{this.props.quantity}</>
+  }
 }
 
-export default OverallCartQuantity
+export default connector(OverallCartQuantity)

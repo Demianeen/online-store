@@ -1,3 +1,4 @@
-import { DetailedHTMLProps, HTMLAttributes } from 'react'
-export interface IProductFeed extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+import { HTMLAttributes } from 'react'
+
+export interface IProductsFeed extends HTMLAttributes<HTMLDivElement> {
 }
