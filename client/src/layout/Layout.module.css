@@ -11,6 +11,9 @@
 }
 
 .wrapper {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
   font-family: var(--primary-font-family);
   font-style: normal;
   line-height: 160%;
