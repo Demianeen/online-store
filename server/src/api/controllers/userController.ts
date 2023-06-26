@@ -42,10 +42,14 @@ class UserController {
     if (!email || !password) return next(ApiError.badRequest('Email and password is required'))
 
     const user = await User.findOne({ where: { email } })
-    if (!user) return next(ApiError.badRequest('Email or password is incorrect'))
+    if (!user) {
+      console.log('User with', email, 'not found')
+      return next(ApiError.badRequest('Email or password is incorrect'))
+    }
 
     const comparePassword = bcrypt.compareSync(password, user.password)
     if (!comparePassword) {
+      console.log('Password mismatch, password:', password, 'comparePassword', comparePassword)
       return next(ApiError.badRequest('Email or password is incorrect'))
     }
 

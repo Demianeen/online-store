@@ -14,43 +14,49 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   nginx:
-    image: demianeen/online-store-nginx
-    build: ./nginx
+    image: nginx:latest
+    # build: ./nginx
     depends_on:
       - api
       - client
+      - certbot
     restart: unless-stopped
     volumes:
-      - ./data/certbot/conf:/etc/letsencrypt:ro
-      - ./data/certbot/www:/var/www/certbot
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./data/certbot/conf:/etc/letsencrypt/:ro
+      - ./data/certbot/www:/var/www/certbot/:ro
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
     ports:
-      - 80:80
-      - 443:443
+      - "81:80"
+      - "444:443"
 
   certbot:
-    image: certbot/certbot
+    image: certbot/certbot:latest
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+      - ./data/certbot/conf:/etc/letsencrypt:rw
+      - ./data/certbot/www:/var/www/certbot:rw
+    command: renew
       
   # our server
   api: 
     container_name: api
-    image: demianeen/online-store-api
     build: ./server
     depends_on: 
       - postgres
     volumes:
       - /app/node_modules
       - ./server:/app
+      - /etc/letsencrypt/live/store.mybrandview.co.uk:/etc/letsencrypt/live/store.mybrandview.co.uk
+      - /etc/letsencrypt/archive/store.mybrandview.co.uk:/etc/letsencrypt/archive/store.mybrandview.co.uk
     ports:
-      - 8080:4000
+      - "8080:4000"
+      - "8081:4443"
     env_file: ./server/.env
     restart: unless-stopped
   
   client: 
-    image: demianeen/online-store-client
     build: ./client
     depends_on: 
       - api
@@ -64,4 +70,5 @@ services:
       
 volumes:
   pgdata:
+  # certbot_challenges: 
      
