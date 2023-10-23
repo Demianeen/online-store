@@ -1,5 +1,5 @@
-import { apiSlice } from '..'
-import { ICurrencyApiResponse } from './currencyApi.types'
+import { apiSlice } from "..";
+import { ICurrencyApiResponse } from "./currencyApi.types";
 
 export const currencyApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -7,12 +7,15 @@ export const currencyApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${process.env.REACT_APP_CURRENCY_API_URL}/latest`,
         params: {
-          base: 'USD',
-          symbols: 'USD,EUR,UAH'
-        }
-      })
-    })
-  })
-})
+          base: "USD",
+          symbols: "USD,EUR,UAH",
+        },
+        headers: {
+          apiKey: process.env.REACT_APP_CURRENCY_APIKEY,
+        },
+      }),
+    }),
+  }),
+});
 
-export const { useFetchCurrencyRatesQuery } = currencyApiSlice
+export const { useFetchCurrencyRatesQuery } = currencyApiSlice;
